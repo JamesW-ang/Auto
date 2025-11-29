@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using COTUI.通用功能类;
 using COTUI.通用功能类.Hardware;
 
-namespace COTUI.Form
+namespace COTUI.TestForms
 {
     /// <summary>
     /// 硬件设备测试窗体
@@ -14,7 +14,6 @@ namespace COTUI.Form
     {
         private ModbusTcpDevice modbusDevice;
         private GenericTcpDevice genericDevice;
-        private Logger logger = Logger.GetInstance();
 
         public HardwareTestForm()
         {
