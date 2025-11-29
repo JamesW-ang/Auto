@@ -52,18 +52,18 @@ namespace COTUI.数据库
                 databasePath = Path.Combine(dataDirectory, "COTUI.db");
                 connectionString = $"Data Source={databasePath};Version=3;";
 
-                Console.WriteLine($"[DatabaseHelper] 数据库路径: {databasePath}");
-                Console.WriteLine($"[DatabaseHelper] 文件存在: {File.Exists(databasePath)}");
+                Logger.GetInstance().Info(LogLevel.Debug, $"[数据库] 数据库路径: {databasePath}");
+                Logger.GetInstance().Info(LogLevel.Debug, $"[数据库] 文件存在: {File.Exists(databasePath)}");
 
                 // 确保表结构存在
                 EnsureTablesExist();
                 
-                Console.WriteLine("[DatabaseHelper] 数据库初始化成功");
+                Logger.GetInstance().Info(LogLevel.Debug, "[数据库] 数据库初始化成功");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[DatabaseHelper] 初始化失败: {ex.Message}");
-                Console.WriteLine($"[DatabaseHelper] 堆栈: {ex.StackTrace}");
+                Logger.GetInstance().Error(LogLevel.Error, $"[数据库] 初始化失败: {ex.Message}");
+                Logger.GetInstance().Error(LogLevel.Debug, $"[数据库] 堆栈: {ex.StackTrace}");
                 throw;
             }
         }
@@ -86,14 +86,14 @@ namespace COTUI.数据库
                 // 如果数据库文件不存在，先创建
                 if (!File.Exists(databasePath))
                 {
-                    Console.WriteLine("[DatabaseHelper] 正在创建数据库文件");
+                    Logger.GetInstance().Info(LogLevel.Debug, "[数据库] 正在创建数据库文件");
                     SQLiteConnection.CreateFile(databasePath);
                 }
 
                 using (var conn = GetConnection())
                 {
                     conn.Open();
-                    Console.WriteLine("[DatabaseHelper] 数据库连接成功");
+                    Logger.GetInstance().Info(LogLevel.Debug, "[数据库] 数据库连接成功");
 
                     // 创建所有表
                     CreateTables(conn);
@@ -102,12 +102,12 @@ namespace COTUI.数据库
                     InsertDefaultUsers(conn);
                     InsertDefaultConfig(conn);
                     
-                    Console.WriteLine("[DatabaseHelper] 表结构验证完成");
+                    Logger.GetInstance().Info(LogLevel.Debug, "[数据库] 表结构验证完成");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[DatabaseHelper] 确保表结构失败: {ex.Message}");
+                Logger.GetInstance().Error(LogLevel.Error, $"[数据库] 确保表结构失败: {ex.Message}");
                 throw;
             }
         }
@@ -197,21 +197,21 @@ namespace COTUI.数据库
                 UNIQUE(ConfigGroup, ConfigKey)
             );";
 
-            Console.WriteLine("[DatabaseHelper] 初始化表结构...");
+            Logger.GetInstance().Info(LogLevel.Trace, "[数据库] 初始化表结构...");
             ExecuteNonQuery(conn, createUsersTable);
-            Console.WriteLine("[DatabaseHelper] Users 表已创建");
+            Logger.GetInstance().Info(LogLevel.Trace, "[数据库] Users 表已创建");
             
             ExecuteNonQuery(conn, createLogsTable);
-            Console.WriteLine("[DatabaseHelper] Logs 表已创建");
+            Logger.GetInstance().Info(LogLevel.Trace, "[数据库] Logs 表已创建");
             
             ExecuteNonQuery(conn, createAlarmsTable);
-            Console.WriteLine("[DatabaseHelper] Alarms 表已创建");
+            Logger.GetInstance().Info(LogLevel.Trace, "[数据库] Alarms 表已创建");
             
             ExecuteNonQuery(conn, createProductionTable);
-            Console.WriteLine("[DatabaseHelper] ProductionData 表已创建");
+            Logger.GetInstance().Info(LogLevel.Trace, "[数据库] ProductionData 表已创建");
             
             ExecuteNonQuery(conn, createConfigTable);
-            Console.WriteLine("[DatabaseHelper] SystemConfig 表已创建");
+            Logger.GetInstance().Info(LogLevel.Trace, "[数据库] SystemConfig 表已创建");
         }
 
         /// <summary>
@@ -232,12 +232,12 @@ namespace COTUI.数据库
                 {
                     cmd.Parameters.AddWithValue("@time", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                     int affected = cmd.ExecuteNonQuery();
-                    Console.WriteLine($"[DatabaseHelper] 插入默认用户: {affected} 条");
+                    Logger.GetInstance().Info(LogLevel.Trace, $"[数据库] 插入默认用户: {affected} 条");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[DatabaseHelper] 插入默认用户ʧ条: {ex.Message}");
+                Logger.GetInstance().Error(LogLevel.Error, $"[数据库] 插入默认用户失败: {ex.Message}");
             }
         }
 
@@ -261,12 +261,12 @@ namespace COTUI.数据库
                 {
                     cmd.Parameters.AddWithValue("@time", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                     int affected = cmd.ExecuteNonQuery();
-                    Console.WriteLine($"[DatabaseHelper] 插入默认配置: {affected} 条");
+                    Logger.GetInstance().Info(LogLevel.Trace, $"[数据库] 插入默认配置: {affected} 条");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[DatabaseHelper] 插入默认配置ʧ条: {ex.Message}");
+                Logger.GetInstance().Error(LogLevel.Error, $"[数据库] 插入默认配置失败: {ex.Message}");
             }
         }
 
@@ -366,7 +366,7 @@ namespace COTUI.数据库
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"创建告警表־ʧ条: {ex.Message}");
+                Logger.GetInstance().Error(LogLevel.Error, $"[数据库] 清理旧日志失败: {ex.Message}");
             }
         }
 
@@ -392,7 +392,7 @@ namespace COTUI.数据库
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"备份数据库ʧ条: {ex.Message}");
+                Logger.GetInstance().Error(LogLevel.Error, $"[数据库] 备份数据库失败: {ex.Message}");
                 return false;
             }
         }

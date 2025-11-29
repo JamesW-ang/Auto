@@ -73,7 +73,7 @@ namespace COTUI.扫码管理
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "到位SN夹ظ夹失败");
+                Gvar.Logger.ErrorException(ex, "到位SN夹ظ夹失败");
                 return false;
             }
         }
@@ -96,7 +96,7 @@ namespace COTUI.扫码管理
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, $"查询SN失败: {sn}");
+                Gvar.Logger.ErrorException(ex, $"查询SN失败: {sn}");
                 return null;
             }
         }
@@ -115,7 +115,7 @@ namespace COTUI.扫码管理
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, $"查询到位κ夹失败: {batchNo}");
+                Gvar.Logger.ErrorException(ex, $"查询到位κ夹失败: {batchNo}");
                 return new List<ProductionDataModel>();
             }
         }
@@ -133,21 +133,21 @@ namespace COTUI.扫码管理
             {
                 if (data == null)
                 {
-                    logger.Log(LogLevel.Error, "化Ʒ加载为化");
+                    Gvar.Logger.Log(LogLevel.Error, "化Ʒ加载为化");
                     return false;
                 }
 
                 // 化֤化Ҫ字段
                 if (string.IsNullOrWhiteSpace(data.ProductSN))
                 {
-                    logger.Log(LogLevel.Error, "化ƷSN为化");
+                    Gvar.Logger.Log(LogLevel.Error, "化ƷSN为化");
                     return false;
                 }
 
                 // 到位SN夹ظ夹
                 if (IsSNExists(data.ProductSN))
                 {
-                    logger.Log(LogLevel.Warn, $"SN夹Ѵ到位: {data.ProductSN}");
+                    Gvar.Logger.Log(LogLevel.Warn, $"SN夹Ѵ到位: {data.ProductSN}");
                     return false;
                 }
 
@@ -156,18 +156,18 @@ namespace COTUI.扫码管理
 
                 if (success)
                 {
-                    logger.Log(LogLevel.Info, $"加载夹Ʒ到位ݳɹ夹: {data.ProductSN}");
+                    Gvar.Logger.Log(LogLevel.Info, $"加载夹Ʒ到位ݳɹ夹: {data.ProductSN}");
                 }
                 else
                 {
-                    logger.Log(LogLevel.Error, $"加载夹Ʒ加载失败: {data.ProductSN}");
+                    Gvar.Logger.Log(LogLevel.Error, $"加载夹Ʒ加载失败: {data.ProductSN}");
                 }
 
                 return success;
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "加载夹Ʒ加载失败");
+                Gvar.Logger.ErrorException(ex, "加载夹Ʒ加载失败");
                 return false;
             }
         }
@@ -201,7 +201,7 @@ namespace COTUI.扫码管理
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "化取到位ղ到位失败");
+                Gvar.Logger.ErrorException(ex, "化取到位ղ到位失败");
                 return 0;
             }
         }
@@ -231,7 +231,7 @@ namespace COTUI.扫码管理
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "化取加载加载失败");
+                Gvar.Logger.ErrorException(ex, "化取加载加载失败");
                 return 0;
             }
         }
@@ -247,7 +247,7 @@ namespace COTUI.扫码管理
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "化取缺陷统计失败");
+                Gvar.Logger.ErrorException(ex, "化取缺陷统计失败");
                 return new Dictionary<string, int>();
             }
         }
@@ -263,7 +263,7 @@ namespace COTUI.扫码管理
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "化取加载夹¼失败");
+                Gvar.Logger.ErrorException(ex, "化取加载夹¼失败");
                 return new List<ProductionDataModel>();
             }
         }

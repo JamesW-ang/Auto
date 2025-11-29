@@ -37,7 +37,7 @@ namespace COTUI.统计分析
         {
             InitializeComponent();
             InitializeObjectListView();  // ✅ 初始化 ObjectListView
-            logger.Log(LogLevel.Info, "产品追溯查询页面创建");
+            Gvar.Logger.Log(LogLevel.Info, "产品追溯查询页面创建");
         }
 
         #endregion
@@ -49,11 +49,11 @@ namespace COTUI.统计分析
             try
             {
                 txtSN.Focus();
-                logger.Log(LogLevel.Info, "产品追溯查询页面加载完成");
+                Gvar.Logger.Log(LogLevel.Info, "产品追溯查询页面加载完成");
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "产品追溯查询页面加载失败");
+                Gvar.Logger.ErrorException(ex, "产品追溯查询页面加载失败");
                 MessageBox.Show($"页面加载失败：{ex.Message}", "错误", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -115,11 +115,11 @@ namespace COTUI.统计分析
                 currentRecord = record;
                 DisplayRecord(record);
 
-                logger.Log(LogLevel.Info, $"查询产品追溯: {sn}");
+                Gvar.Logger.Log(LogLevel.Info, $"查询产品追溯: {sn}");
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "查询失败");
+                Gvar.Logger.ErrorException(ex, "查询失败");
                 MessageBox.Show($"查询失败：{ex.Message}", "错误", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -240,7 +240,7 @@ namespace COTUI.统计分析
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "生成测试数据失败");
+                Gvar.Logger.ErrorException(ex, "生成测试数据失败");
                 MessageBox.Show($"生成失败：{ex.Message}", "错误", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -251,7 +251,7 @@ namespace COTUI.统计分析
             try
             {
                 Cursor = Cursors.WaitCursor;
-                logger.Log(LogLevel.Info, "开始生成测试数据...");
+                Gvar.Logger.Log(LogLevel.Info, "开始生成测试数据...");
 
                 Random rand = new Random();
                 List<ProductionDataModel> testDataList = new List<ProductionDataModel>();
@@ -355,7 +355,7 @@ namespace COTUI.统计分析
                 int okCount = testDataList.Count(d => d.OverallResult == "OK");
                 int ngCount = testDataList.Count(d => d.OverallResult == "NG");
                 
-                logger.Log(LogLevel.Info, $"测试数据生成完成: 共{testDataList.Count}条, OK:{okCount}条, NG:{ngCount}条");
+                Gvar.Logger.Log(LogLevel.Info, $"测试数据生成完成: 共{testDataList.Count}条, OK:{okCount}条, NG:{ngCount}条");
                 
                 MessageBox.Show(
                     $"✅ 测试数据生成完成！\n\n" +
@@ -375,7 +375,7 @@ namespace COTUI.统计分析
             catch (Exception ex)
             {
                 Cursor = Cursors.Default;
-                logger.ErrorException(ex, "生成测试数据异常");
+                Gvar.Logger.ErrorException(ex, "生成测试数据异常");
                 
                 MessageBox.Show(
                     $"❌ 生成测试数据时发生异常！\n\n" +

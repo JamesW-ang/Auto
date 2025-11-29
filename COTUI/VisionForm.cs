@@ -264,7 +264,7 @@ namespace COTUI
             }
             catch (Exception ex)
             {
-                Logger.GetInstance().ErrorException(ex, "图片拖拽开始时发生错误");
+                Gvar.Logger.ErrorException(ex, "图片拖拽开始时发生错误");
                 isDragging = false;
                 imagePictureBox.Cursor = Cursors.Default;
             }
@@ -344,7 +344,7 @@ namespace COTUI
             }
             catch (Exception ex)
             {
-                Logger.GetInstance().ErrorException(ex, "图片拖拽结束时发生错误");
+                Gvar.Logger.ErrorException(ex, "图片拖拽结束时发生错误");
                 // 确保状态被重置
                 isDragging = false;
                 if (imagePictureBox != null)

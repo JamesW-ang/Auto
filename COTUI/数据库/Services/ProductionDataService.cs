@@ -12,7 +12,7 @@ namespace COTUI.数据库.Services
     /// </summary>
     public class ProductionDataService
     {
-        private readonly DatabaseHelper db = DatabaseHelper.Instance;
+        // 使用全局变量 Gvar.DB 访问数据库
 
         #region 加载加载
 
@@ -47,7 +47,7 @@ namespace COTUI.数据库.Services
                     @productInfo, @result, @defectType, @imagePath, @batchNo
                 )";
 
-                db.ExecuteNonQuery(sql,
+                Gvar.DB.ExecuteNonQuery(sql,
                     new SQLiteParameter("@productionTime", data.ProductionTime.ToString("yyyy-MM-dd HH:mm:ss.fff")),
                     new SQLiteParameter("@station", data.Station ?? ""),
                     new SQLiteParameter("@operator", data.Operator ?? ""),
@@ -108,7 +108,7 @@ namespace COTUI.数据库.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"加载加载加载失败: {ex.Message}");
+                Logger.GetInstance().Error(LogLevel.Error, $"[生产数据] 加载数据失败: {ex.Message}");
                 return false;
             }
         }
@@ -129,7 +129,7 @@ namespace COTUI.数据库.Services
 
                 string sql = "SELECT * FROM ProductionData WHERE ProductSN = @sn LIMIT 1";
                 
-                DataTable dt = db.ExecuteQuery(sql, new SQLiteParameter("@sn", sn.Trim().ToUpper()));
+                DataTable dt = Gvar.DB.ExecuteQuery(sql, new SQLiteParameter("@sn", sn.Trim().ToUpper()));
 
                 if (dt.Rows.Count > 0)
                 {
@@ -140,7 +140,7 @@ namespace COTUI.数据库.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"查询SN失败: {ex.Message}");
+                Logger.GetInstance().Error(LogLevel.Error, $"[生产数据] 查询SN失败: {ex.Message}");
                 return null;
             }
         }
@@ -157,7 +157,7 @@ namespace COTUI.数据库.Services
 
                 string sql = "SELECT * FROM ProductionData WHERE MaterialBatchNo = @batchNo ORDER BY ProductionTime DESC";
                 
-                DataTable dt = db.ExecuteQuery(sql, new SQLiteParameter("@batchNo", batchNo));
+                DataTable dt = Gvar.DB.ExecuteQuery(sql, new SQLiteParameter("@batchNo", batchNo));
 
                 List<ProductionDataModel> records = new List<ProductionDataModel>();
                 foreach (DataRow row in dt.Rows)
@@ -169,7 +169,7 @@ namespace COTUI.数据库.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"查询到位κ夹失败: {ex.Message}");
+                Logger.GetInstance().Error(LogLevel.Error, $"[生产数据] 查询最后记录失败: {ex.Message}");
                 return new List<ProductionDataModel>();
             }
         }
@@ -183,7 +183,7 @@ namespace COTUI.数据库.Services
             {
                 string sql = $"SELECT * FROM ProductionData ORDER BY ProductionTime DESC LIMIT {count}";
                 
-                DataTable dt = db.ExecuteQuery(sql);
+                DataTable dt = Gvar.DB.ExecuteQuery(sql);
 
                 List<ProductionDataModel> records = new List<ProductionDataModel>();
                 foreach (DataRow row in dt.Rows)
@@ -195,7 +195,7 @@ namespace COTUI.数据库.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"化取加载夹¼失败: {ex.Message}");
+                Logger.GetInstance().Error(LogLevel.Error, $"[生产数据] 获取最后记录失败: {ex.Message}");
                 return new List<ProductionDataModel>();
             }
         }
@@ -212,7 +212,7 @@ namespace COTUI.数据库.Services
                               AND datetime(ProductionTime) < datetime(@endDate)
                               ORDER BY ProductionTime DESC";
                 
-                DataTable dt = db.ExecuteQuery(sql,
+                DataTable dt = Gvar.DB.ExecuteQuery(sql,
                     new SQLiteParameter("@startDate", startDate.ToString("yyyy-MM-dd HH:mm:ss")),
                     new SQLiteParameter("@endDate", endDate.ToString("yyyy-MM-dd HH:mm:ss")));
 
@@ -226,7 +226,7 @@ namespace COTUI.数据库.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"查询一批时夹䷶Χ失败: {ex.Message}");
+                Logger.GetInstance().Error(LogLevel.Error, $"[生产数据] 查询批次数据失败: {ex.Message}");
                 return new List<ProductionDataModel>();
             }
         }
@@ -277,7 +277,7 @@ namespace COTUI.数据库.Services
             string whereClause = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
             string sql = $"SELECT * FROM ProductionData {whereClause} ORDER BY datetime(ProductionTime) DESC LIMIT {maxRecords}";
 
-            DataTable dt = db.ExecuteQuery(sql, parameters.ToArray());
+            DataTable dt = Gvar.DB.ExecuteQuery(sql, parameters.ToArray());
 
             List<ProductionDataModel> dataList = new List<ProductionDataModel>();
             foreach (DataRow row in dt.Rows)
@@ -302,7 +302,7 @@ namespace COTUI.数据库.Services
                           GROUP BY DATE(ProductionTime) 
                           ORDER BY ProductionDate DESC";
 
-            DataTable dt = db.ExecuteQuery(sql,
+            DataTable dt = Gvar.DB.ExecuteQuery(sql,
                 new SQLiteParameter("@startDate", startDate.ToString("yyyy-MM-dd")),
                 new SQLiteParameter("@endDate", endDate.AddDays(1).ToString("yyyy-MM-dd")));
 
@@ -350,7 +350,7 @@ namespace COTUI.数据库.Services
                            GROUP BY COALESCE(DefectCode, DefectType) 
                            ORDER BY Count DESC";
 
-            DataTable dt = db.ExecuteQuery(sql, parameters.ToArray());
+            DataTable dt = Gvar.DB.ExecuteQuery(sql, parameters.ToArray());
 
             Dictionary<string, int> stats = new Dictionary<string, int>();
             foreach (DataRow row in dt.Rows)

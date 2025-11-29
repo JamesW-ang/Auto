@@ -22,7 +22,7 @@ namespace COTUI
 {
     public partial class Form1 : CCSkinMain
     {
-        private Logger logger = Logger.GetInstance();
+        // 使用全局变量 Gvar.Logger 访问日志服务
         
         public Form1()
         {
@@ -76,7 +76,7 @@ namespace COTUI
             }
             catch (Exception ex)
             {
-                logger.Log(LogLevel.Warn, $"初始化性能计数器失败: {ex.Message}");
+                Gvar.Logger.Log(LogLevel.Warn, $"初始化性能计数器失败: {ex.Message}");
             }
         }
 
@@ -104,7 +104,7 @@ namespace COTUI
                 }
                 catch (Exception ex)
                 {
-                    logger.ErrorException(ex, "状态栏更新异常");
+                    Gvar.Logger.ErrorException(ex, "状态栏更新异常");
                 }
             }, statusUpdateCts.Token);
         }
@@ -142,7 +142,7 @@ namespace COTUI
             catch (Exception ex)
             {
                 // 静默处理性能计数器异常
-                logger.Log(LogLevel.Debug, $"更新状态信息失败: {ex.Message}");
+                Gvar.Logger.Log(LogLevel.Debug, $"更新状态信息失败: {ex.Message}");
             }
         }
 
@@ -166,7 +166,7 @@ namespace COTUI
             }
             catch (Exception ex)
             {
-                logger.Log(LogLevel.Debug, $"更新状态栏显示失败: {ex.Message}");
+                Gvar.Logger.Log(LogLevel.Debug, $"更新状态栏显示失败: {ex.Message}");
             }
         }
         /// <summary>
@@ -256,7 +256,7 @@ namespace COTUI
             render.SetlabelColor("statusLabel", Color.Green);
             
             // 记录到运行日志
-            logger.Log(LogLevel.Info, "▶ 系统开始运行");
+            Gvar.Logger.Log(LogLevel.Info, "▶ 系统开始运行");
         }
 
         private async void toolStrip_pauseButton_Click(object sender, EventArgs e)
@@ -266,7 +266,7 @@ namespace COTUI
             render.SetlabelColor("statusLabel", Color.Orange);
             
             // 记录到运行日志
-            logger.Log(LogLevel.Warn, "⏸ 系统暂停，等待上料");
+            Gvar.Logger.Log(LogLevel.Warn, "⏸ 系统暂停，等待上料");
         }
 
         private async void toolStrip_stopButton_Click(object sender, EventArgs e)
@@ -276,7 +276,7 @@ namespace COTUI
             render.SetlabelColor("statusLabel", Color.Red);
             
             // 记录到运行日志
-            logger.Log(LogLevel.Error, "⏹ 系统停止运行");
+            Gvar.Logger.Log(LogLevel.Error, "⏹ 系统停止运行");
         }
 
         private void toolStrip_Admin_Click(object sender, EventArgs e)
@@ -465,7 +465,7 @@ namespace COTUI
             // 创建新的日志窗体实例
             logPage = new LogPage();
             // 设置当前工站（从全局变量获取）
-            logPage.SetStation(Gvar._CurrentStation);
+            logPage.SetStation(Gvar.CurrentStation);
             ShowFormInPanel(logPage);
         }
 
@@ -487,7 +487,7 @@ namespace COTUI
             }
 
             ShowFormInPanel(motionControlPage);
-            logger.Log(LogLevel.Info, "打开运动控制页面");
+            Gvar.Logger.Log(LogLevel.Info, "打开运动控制页面");
         }
 
         /// <summary>
@@ -508,7 +508,7 @@ namespace COTUI
             }
 
             ShowFormInPanel(statisticsPage);
-            logger.Log(LogLevel.Info, "打开统计分析页面");
+            Gvar.Logger.Log(LogLevel.Info, "打开统计分析页面");
         }
 
     }

@@ -15,7 +15,7 @@ namespace COTUI.日志页面
 {
     public partial class LogPage : Form
     {
-        private Logger logger = Logger.GetInstance();
+        // 使用全局变量 Gvar.Logger 访问日志服务
         private LogService logService;
         private System.Windows.Forms.Timer autoRefreshTimer;
         private string currentStation = "全部工站";
@@ -33,7 +33,7 @@ namespace COTUI.日志页面
             {
                 MessageBox.Show($"初始化日志服务失败：{ex.Message}\n\n程序将继续运行，但日志查询功能可能不可用。", 
                     "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                logger.ErrorException(ex, "初始化LogService失败");
+                Gvar.Logger.ErrorException(ex, "初始化LogService失败");
             }
         }
 
@@ -50,7 +50,7 @@ namespace COTUI.日志页面
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "设置工站失败");
+                Gvar.Logger.ErrorException(ex, "设置工站失败");
             }
         }
 
@@ -72,7 +72,7 @@ namespace COTUI.日志页面
             {
                 MessageBox.Show($"日志页面加载失败：{ex.Message}\n\n{ex.StackTrace}", 
                     "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                logger.ErrorException(ex, "LogPage加载失败");
+                Gvar.Logger.ErrorException(ex, "LogPage加载失败");
             }
         }
 
@@ -159,7 +159,7 @@ namespace COTUI.日志页面
                         }
                         catch (Exception ex)
                         {
-                            logger.ErrorException(ex, $"查询日志级别 {level} 失败");
+                            Gvar.Logger.ErrorException(ex, $"查询日志级别 {level} 失败");
                         }
                     }
                     
@@ -176,7 +176,7 @@ namespace COTUI.日志页面
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "加载日志失败");
+                Gvar.Logger.ErrorException(ex, "加载日志失败");
                 
                 if (InvokeRequired)
                 {
@@ -238,7 +238,7 @@ namespace COTUI.日志页面
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "UpdateLogDisplay 异常");
+                Gvar.Logger.ErrorException(ex, "UpdateLogDisplay 异常");
             }
         }
 
@@ -257,7 +257,7 @@ namespace COTUI.日志页面
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "获取日志级别失败");
+                Gvar.Logger.ErrorException(ex, "获取日志级别失败");
             }
             
             return levels;
@@ -299,7 +299,7 @@ namespace COTUI.日志页面
                     }
                     catch (Exception ex)
                     {
-                        logger.ErrorException(ex, "刷新日志队列失败");
+                        Gvar.Logger.ErrorException(ex, "刷新日志队列失败");
                     }
                 });
                 
@@ -307,7 +307,7 @@ namespace COTUI.日志页面
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "查询日志失败");
+                Gvar.Logger.ErrorException(ex, "查询日志失败");
                 MessageBox.Show($"查询日志失败：{ex.Message}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 lblTotalLogs.Text = "0 (查询失败)";
             }
@@ -331,7 +331,7 @@ namespace COTUI.日志页面
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "清空日志显示失败");
+                Gvar.Logger.ErrorException(ex, "清空日志显示失败");
                 MessageBox.Show($"清空失败：{ex.Message}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -375,7 +375,7 @@ namespace COTUI.日志页面
             catch (Exception ex)
             {
                 MessageBox.Show($"导出失败：{ex.Message}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                logger.ErrorException(ex, "导出日志失败");
+                Gvar.Logger.ErrorException(ex, "导出日志失败");
             }
         }
 
@@ -502,7 +502,7 @@ namespace COTUI.日志页面
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "InitializeObjectListView 失败");
+                Gvar.Logger.ErrorException(ex, "InitializeObjectListView 失败");
                 throw;
             }
         }

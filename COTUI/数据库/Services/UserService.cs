@@ -11,7 +11,7 @@ namespace COTUI.数据库.Services
     /// </summary>
     public class UserService
     {
-        private readonly DatabaseHelper db = DatabaseHelper.Instance;
+        // 使用全局变量 Gvar.DB 访问数据库
 
         /// <summary>
         /// 化֤夹û到位¼
@@ -24,7 +24,7 @@ namespace COTUI.数据库.Services
             }
 
             string sql = "SELECT COUNT(*) FROM Users WHERE Username = @username AND Password = @password AND IsEnabled = 1";
-            object result = db.ExecuteScalar(sql,
+            object result = Gvar.DB.ExecuteScalar(sql,
                 new SQLiteParameter("@username", username),
                 new SQLiteParameter("@password", password));
 
@@ -45,7 +45,7 @@ namespace COTUI.数据库.Services
         public UserModel GetUser(string username)
         {
             string sql = "SELECT * FROM Users WHERE Username = @username";
-            DataTable dt = db.ExecuteQuery(sql, new SQLiteParameter("@username", username));
+            DataTable dt = Gvar.DB.ExecuteQuery(sql, new SQLiteParameter("@username", username));
 
             if (dt.Rows.Count > 0)
             {
@@ -60,7 +60,7 @@ namespace COTUI.数据库.Services
         public List<UserModel> GetAllUsers()
         {
             string sql = "SELECT * FROM Users ORDER BY CreateTime DESC";
-            DataTable dt = db.ExecuteQuery(sql);
+            DataTable dt = Gvar.DB.ExecuteQuery(sql);
 
             List<UserModel> users = new List<UserModel>();
             foreach (DataRow row in dt.Rows)
@@ -80,7 +80,7 @@ namespace COTUI.数据库.Services
                 string sql = @"INSERT INTO Users (Username, Password, RealName, Role, IsEnabled, CreateTime, Remark) 
                               VALUES (@username, @password, @realName, @role, @isEnabled, @createTime, @remark)";
 
-                db.ExecuteNonQuery(sql,
+                Gvar.DB.ExecuteNonQuery(sql,
                     new SQLiteParameter("@username", user.Username),
                     new SQLiteParameter("@password", user.Password),
                     new SQLiteParameter("@realName", user.RealName ?? ""),
@@ -108,7 +108,7 @@ namespace COTUI.数据库.Services
                               Role = @role, IsEnabled = @isEnabled, Remark = @remark 
                               WHERE Username = @username";
 
-                db.ExecuteNonQuery(sql,
+                Gvar.DB.ExecuteNonQuery(sql,
                     new SQLiteParameter("@password", user.Password),
                     new SQLiteParameter("@realName", user.RealName ?? ""),
                     new SQLiteParameter("@role", user.Role),
@@ -138,7 +138,7 @@ namespace COTUI.数据库.Services
                 }
 
                 string sql = "DELETE FROM Users WHERE Username = @username";
-                db.ExecuteNonQuery(sql, new SQLiteParameter("@username", username));
+                Gvar.DB.ExecuteNonQuery(sql, new SQLiteParameter("@username", username));
                 return true;
             }
             catch
@@ -153,7 +153,7 @@ namespace COTUI.数据库.Services
         private void UpdateLastLoginTime(string username)
         {
             string sql = "UPDATE Users SET LastLoginTime = @time WHERE Username = @username";
-            db.ExecuteNonQuery(sql,
+            Gvar.DB.ExecuteNonQuery(sql,
                 new SQLiteParameter("@time", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")),
                 new SQLiteParameter("@username", username));
         }
@@ -170,7 +170,7 @@ namespace COTUI.数据库.Services
             }
 
             string sql = "UPDATE Users SET Password = @newPassword WHERE Username = @username";
-            db.ExecuteNonQuery(sql,
+            Gvar.DB.ExecuteNonQuery(sql,
                 new SQLiteParameter("@newPassword", newPassword),
                 new SQLiteParameter("@username", username));
 

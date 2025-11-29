@@ -417,7 +417,7 @@ namespace COTUI.通用功能类
                             o_productSN = data.ProductSN,
                             o_productModel = data.ProductModel ?? "",
                             o_result = data.OverallResult ?? "OK",
-                            o_operator = data.Operator ?? Gvar._User ?? "System",
+                            o_operator = data.Operator ?? Gvar.User ?? "System",
                             o_testTime = data.TestTime,
                             o_cycleTime = data.CycleTime ?? 0,
                             o_batchNo = data.MaterialBatchNo ?? "",

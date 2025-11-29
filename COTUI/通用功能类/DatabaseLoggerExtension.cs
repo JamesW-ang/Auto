@@ -259,7 +259,7 @@ namespace COTUI.通用功能类
                     Level = parts[1],
                     Message = parts[2],
                     Source = parts.Length > 3 ? parts[3] : "",
-                    Station = Gvar._CurrentStation ?? "未知化վ",
+                    Station = Gvar.CurrentStation ?? "未知工站",
                     ThreadId = Thread.CurrentThread.ManagedThreadId
                 };
             }

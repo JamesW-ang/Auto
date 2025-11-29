@@ -40,7 +40,7 @@ namespace COTUI.统计分析
         public StatisticsAnalysisPage()
         {
             InitializeComponent();
-            logger.Log(LogLevel.Info, "统计分析页面创建");
+            Gvar.Logger.Log(LogLevel.Info, "统计分析页面创建");
             
             // ✅ 不再在构造函数中创建所有子窗体
             // 改为在标签页切换时按需加载
@@ -57,11 +57,11 @@ namespace COTUI.统计分析
                 // ✅ 只加载当前显示的标签页（默认是第一个）
                 LoadCurrentTabPage();
                 
-                logger.Log(LogLevel.Info, "统计分析页面加载完成");
+                Gvar.Logger.Log(LogLevel.Info, "统计分析页面加载完成");
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "统计分析页面加载失败");
+                Gvar.Logger.ErrorException(ex, "统计分析页面加载失败");
                 MessageBox.Show($"页面加载失败：{ex.Message}", "错误", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -79,14 +79,14 @@ namespace COTUI.统计分析
             try
             {
                 int selectedIndex = tabControl1.SelectedIndex;
-                logger.Log(LogLevel.Debug, $"切换到标签页: {selectedIndex}");
+                Gvar.Logger.Log(LogLevel.Debug, $"切换到标签页: {selectedIndex}");
                 
                 // ✅ 只加载当前选中的标签页
                 LoadCurrentTabPage();
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "切换标签页失败");
+                Gvar.Logger.ErrorException(ex, "切换标签页失败");
             }
         }
 
@@ -120,23 +120,23 @@ namespace COTUI.统计分析
         {
             if (isDashboardLoaded)
             {
-                logger.Log(LogLevel.Debug, "实时数据看板已加载，跳过");
+                Gvar.Logger.Log(LogLevel.Debug, "实时数据看板已加载，跳过");
                 return; // 已经加载过，直接返回
             }
             
             try
             {
-                logger.Log(LogLevel.Info, "开始加载实时数据看板...");
+                Gvar.Logger.Log(LogLevel.Info, "开始加载实时数据看板...");
                 
                 dashboardPage = new DashboardPage();
                 LoadFormIntoPanel(dashboardPage, panel_Dashboard);
                 
                 isDashboardLoaded = true;
-                logger.Log(LogLevel.Info, " 实时数据看板加载完成");
+                Gvar.Logger.Log(LogLevel.Info, " 实时数据看板加载完成");
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "加载实时数据看板失败");
+                Gvar.Logger.ErrorException(ex, "加载实时数据看板失败");
                 MessageBox.Show($"加载实时数据看板失败：{ex.Message}", "错误", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -149,23 +149,23 @@ namespace COTUI.统计分析
         {
             if (isSPCLoaded)
             {
-                logger.Log(LogLevel.Debug, "SPC过程监控已加载，跳过");
+                Gvar.Logger.Log(LogLevel.Debug, "SPC过程监控已加载，跳过");
                 return; // 已经加载过，直接返回
             }
             
             try
             {
-                logger.Log(LogLevel.Info, "开始加载SPC过程监控...");
+                Gvar.Logger.Log(LogLevel.Info, "开始加载SPC过程监控...");
                 
                 spcMonitorPage = new SPCMonitorPage();
                 LoadFormIntoPanel(spcMonitorPage, panel_SPC);
                 
                 isSPCLoaded = true;
-                logger.Log(LogLevel.Info, "SPC过程监控加载完成");
+                Gvar.Logger.Log(LogLevel.Info, "SPC过程监控加载完成");
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "加载SPC过程监控失败");
+                Gvar.Logger.ErrorException(ex, "加载SPC过程监控失败");
                 MessageBox.Show($"加载SPC过程监控失败：{ex.Message}", "错误", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -178,23 +178,23 @@ namespace COTUI.统计分析
         {
             if (isTraceabilityLoaded)
             {
-                logger.Log(LogLevel.Debug, "产品追溯查询已加载，跳过");
+                Gvar.Logger.Log(LogLevel.Debug, "产品追溯查询已加载，跳过");
                 return; // 已经加载过，直接返回
             }
             
             try
             {
-                logger.Log(LogLevel.Info, "开始加载产品追溯查询...");
+                Gvar.Logger.Log(LogLevel.Info, "开始加载产品追溯查询...");
                 
                 traceabilityPage = new TraceabilityPage();
                 LoadFormIntoPanel(traceabilityPage, panel_Traceability);
                 
                 isTraceabilityLoaded = true;
-                logger.Log(LogLevel.Info, " 产品追溯查询加载完成");
+                Gvar.Logger.Log(LogLevel.Info, " 产品追溯查询加载完成");
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "加载产品追溯查询失败");
+                Gvar.Logger.ErrorException(ex, "加载产品追溯查询失败");
                 MessageBox.Show($"加载产品追溯查询失败：{ex.Message}", "错误", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -225,26 +225,26 @@ namespace COTUI.统计分析
                 if (isDashboardLoaded && dashboardPage != null)
                 {
                     dashboardPage.Close();
-                    logger.Log(LogLevel.Debug, "实时数据看板已关闭");
+                    Gvar.Logger.Log(LogLevel.Debug, "实时数据看板已关闭");
                 }
                 
                 if (isSPCLoaded && spcMonitorPage != null)
                 {
                     spcMonitorPage.Close();
-                    logger.Log(LogLevel.Debug, "SPC过程监控已关闭");
+                    Gvar.Logger.Log(LogLevel.Debug, "SPC过程监控已关闭");
                 }
                 
                 if (isTraceabilityLoaded && traceabilityPage != null)
                 {
                     traceabilityPage.Close();
-                    logger.Log(LogLevel.Debug, "产品追溯查询已关闭");
+                    Gvar.Logger.Log(LogLevel.Debug, "产品追溯查询已关闭");
                 }
 
-                logger.Log(LogLevel.Info, "统计分析页面关闭");
+                Gvar.Logger.Log(LogLevel.Info, "统计分析页面关闭");
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "关闭统计分析页面失败");
+                Gvar.Logger.ErrorException(ex, "关闭统计分析页面失败");
             }
 
             base.OnFormClosing(e);

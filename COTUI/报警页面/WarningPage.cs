@@ -15,7 +15,7 @@ namespace COTUI.报警页面
 {
     public partial class WarningPage : Form
     {
-        private Logger logger = Logger.GetInstance();
+        // 使用全局变量 Gvar.Logger 访问日志服务
         private const double PRODUCTION_HOURS_PER_DAY = 24.0; // 每天生产时长（小时），可根据实际调整
 
         public WarningPage()
@@ -118,7 +118,7 @@ namespace COTUI.报警页面
             {
                 Cursor = Cursors.Default;
                 MessageBox.Show($"查询报警日志失败：{ex.Message}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                logger.ErrorException(ex, "查询报警日志失败");
+                Gvar.Logger.ErrorException(ex, "查询报警日志失败");
             }
         }
 
@@ -159,7 +159,7 @@ namespace COTUI.报警页面
                 }
                 catch (Exception ex)
                 {
-                    logger.ErrorException(ex, $"读取日志文件失败：{logFile}");
+                    Gvar.Logger.ErrorException(ex, $"读取日志文件失败：{logFile}");
                 }
             }
 
@@ -338,7 +338,7 @@ namespace COTUI.报警页面
             {
                 Cursor = Cursors.Default;
                 MessageBox.Show($"查询每日统计失败：{ex.Message}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                logger.ErrorException(ex, "查询每日统计失败");
+                Gvar.Logger.ErrorException(ex, "查询每日统计失败");
             }
         }
 
@@ -392,7 +392,7 @@ namespace COTUI.报警页面
                 }
                 catch (Exception ex)
                 {
-                    logger.ErrorException(ex, $"读取日志文件失败：{logFile}");
+                    Gvar.Logger.ErrorException(ex, $"读取日志文件失败：{logFile}");
                 }
             }
 

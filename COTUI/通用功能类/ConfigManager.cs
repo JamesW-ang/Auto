@@ -57,8 +57,8 @@ namespace COTUI.通用功能类
             // 检查配置文件是否存在
             if (!File.Exists(configFilePath))
             {
-                logger.Log(LogLevel.Error, $"? 配置文件不存在: {configFilePath}");
-                logger.Log(LogLevel.Error, "请在解决方案根目录手动创建 Config.ini 文件！");
+                Gvar.Logger.Log(LogLevel.Error, $"? 配置文件不存在: {configFilePath}");
+                Gvar.Logger.Log(LogLevel.Error, "请在解决方案根目录手动创建 Config.ini 文件！");
                 
                 // 不自动创建，而是提示用户手动创建
                 throw new FileNotFoundException(
@@ -73,8 +73,8 @@ namespace COTUI.通用功能类
             // 加载配置
             LoadConfig();
             
-            logger.Log(LogLevel.Info, $"? 配置文件已加载: {configFilePath}");
-            logger.Log(LogLevel.Info, $"   分组数量: {configData.Count}");
+            Gvar.Logger.Log(LogLevel.Info, $"? 配置文件已加载: {configFilePath}");
+            Gvar.Logger.Log(LogLevel.Info, $"   分组数量: {configData.Count}");
             
             // 控制台输出（方便调试）
             System.Diagnostics.Debug.WriteLine($"配置文件路径: {configFilePath}");
@@ -127,19 +127,19 @@ namespace COTUI.通用功能类
                         
                         configData[currentSection][key] = value;
                         
-                        logger.Log(LogLevel.Debug, $"[{currentSection}] {key} = {value}");
+                        Gvar.Logger.Log(LogLevel.Debug, $"[{currentSection}] {key} = {value}");
                     }
                     else if (equalIndex < 0 && !string.IsNullOrEmpty(trimmedLine))
                     {
-                        logger.Log(LogLevel.Warn, $"配置文件第{lineNumber}行格式错误: {trimmedLine}");
+                        Gvar.Logger.Log(LogLevel.Warn, $"配置文件第{lineNumber}行格式错误: {trimmedLine}");
                     }
                 }
 
-                logger.Log(LogLevel.Debug, $"配置文件加载成功，共{configData.Count}个分组");
+                Gvar.Logger.Log(LogLevel.Debug, $"配置文件加载成功，共{configData.Count}个分组");
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "加载配置文件失败");
+                Gvar.Logger.ErrorException(ex, "加载配置文件失败");
                 throw;
             }
         }
@@ -153,7 +153,7 @@ namespace COTUI.通用功能类
                 {
                     string backupPath = configFilePath + ".bak";
                     File.Copy(configFilePath, backupPath, true);
-                    logger.Log(LogLevel.Debug, $"配置文件已备份: {backupPath}");
+                    Gvar.Logger.Log(LogLevel.Debug, $"配置文件已备份: {backupPath}");
                 }
 
                 using (StreamWriter writer = new StreamWriter(configFilePath, false, System.Text.Encoding.UTF8))
@@ -173,11 +173,11 @@ namespace COTUI.通用功能类
                     }
                 }
 
-                logger.Log(LogLevel.Info, "配置文件已保存");
+                Gvar.Logger.Log(LogLevel.Info, "配置文件已保存");
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "保存配置文件失败");
+                Gvar.Logger.ErrorException(ex, "保存配置文件失败");
                 throw;
             }
         }
@@ -185,7 +185,7 @@ namespace COTUI.通用功能类
         public void ReloadConfig()
         {
             LoadConfig();
-            logger.Log(LogLevel.Info, "配置文件已重新加载");
+            Gvar.Logger.Log(LogLevel.Info, "配置文件已重新加载");
         }
 
         public string GetValue(string section, string key, string defaultValue = "")
@@ -198,12 +198,12 @@ namespace COTUI.通用功能类
                 }
                 else
                 {
-                    logger.Log(LogLevel.Warn, $"配置项不存在: [{section}] {key}，使用默认值: {defaultValue}");
+                    Gvar.Logger.Log(LogLevel.Warn, $"配置项不存在: [{section}] {key}，使用默认值: {defaultValue}");
                 }
             }
             catch (Exception ex)
             {
-                logger.Log(LogLevel.Error, $"读取配置失败: [{section}] {key}, {ex.Message}");
+                Gvar.Logger.Log(LogLevel.Error, $"读取配置失败: [{section}] {key}, {ex.Message}");
             }
 
             return defaultValue;
@@ -217,7 +217,7 @@ namespace COTUI.通用功能类
                 return result;
             }
             
-            logger.Log(LogLevel.Warn, $"配置值无法转换为整数: [{section}] {key} = {value}，使用默认值: {defaultValue}");
+            Gvar.Logger.Log(LogLevel.Warn, $"配置值无法转换为整数: [{section}] {key} = {value}，使用默认值: {defaultValue}");
             return defaultValue;
         }
 
@@ -233,7 +233,7 @@ namespace COTUI.通用功能类
                 return false;
             }
             
-            logger.Log(LogLevel.Warn, $"配置值无法转换为布尔值: [{section}] {key} = {value}，使用默认值: {defaultValue}");
+            Gvar.Logger.Log(LogLevel.Warn, $"配置值无法转换为布尔值: [{section}] {key} = {value}，使用默认值: {defaultValue}");
             return defaultValue;
         }
 
@@ -245,7 +245,7 @@ namespace COTUI.通用功能类
                 return result;
             }
             
-            logger.Log(LogLevel.Warn, $"配置值无法转换为浮点数: [{section}] {key} = {value}，使用默认值: {defaultValue}");
+            Gvar.Logger.Log(LogLevel.Warn, $"配置值无法转换为浮点数: [{section}] {key} = {value}，使用默认值: {defaultValue}");
             return defaultValue;
         }
 
@@ -256,15 +256,15 @@ namespace COTUI.通用功能类
                 if (!configData.ContainsKey(section))
                 {
                     configData[section] = new Dictionary<string, string>();
-                    logger.Log(LogLevel.Info, $"创建新的配置分组: [{section}]");
+                    Gvar.Logger.Log(LogLevel.Info, $"创建新的配置分组: [{section}]");
                 }
 
                 configData[section][key] = value;
-                logger.Log(LogLevel.Debug, $"配置已更新: [{section}] {key} = {value}");
+                Gvar.Logger.Log(LogLevel.Debug, $"配置已更新: [{section}] {key} = {value}");
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, $"设置配置值失败: [{section}] {key}={value}");
+                Gvar.Logger.ErrorException(ex, $"设置配置值失败: [{section}] {key}={value}");
             }
         }
 

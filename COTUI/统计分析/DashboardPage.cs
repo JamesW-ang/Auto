@@ -40,7 +40,7 @@ namespace COTUI.统计分析
         public DashboardPage()
         {
             InitializeComponent();
-            logger.Log(LogLevel.Info, "实时数据看板创建");
+            Gvar.Logger.Log(LogLevel.Info, "实时数据看板创建");
         }
 
         #endregion
@@ -51,13 +51,13 @@ namespace COTUI.统计分析
         {
             try
             {
-                logger.Log(LogLevel.Info, "实时数据看板加载");
+                Gvar.Logger.Log(LogLevel.Info, "实时数据看板加载");
                 LoadDashboardData();
-                logger.Log(LogLevel.Info, "实时数据看板加载请求");
+                Gvar.Logger.Log(LogLevel.Info, "实时数据看板加载请求");
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "实时数据看板加载失败");
+                Gvar.Logger.ErrorException(ex, "实时数据看板加载失败");
                 MessageBox.Show($"页面加载失败：{ex.Message}", "错误", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -75,11 +75,11 @@ namespace COTUI.统计分析
             try
             {
                 UpdateStatistics();
-                logger.Log(LogLevel.Info, "看板数据加载成功");
+                Gvar.Logger.Log(LogLevel.Info, "看板数据加载成功");
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "加载看板数据失败");
+                Gvar.Logger.ErrorException(ex, "加载看板数据失败");
                 MessageBox.Show($"数据加载失败：{ex.Message}", "错误", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -112,11 +112,11 @@ namespace COTUI.统计分析
                 // 更新最近记录
                 UpdateRecentRecords(records);
 
-                logger.Log(LogLevel.Debug, $"看板数据更新: 总产量：{totalCount}, 总产量：{okCount}, 不良：{ngCount}, 秒Ʒ总产量：{yieldRate:F2}%");
+                Gvar.Logger.Log(LogLevel.Debug, $"看板数据更新: 总产量：{totalCount}, 总产量：{okCount}, 不良：{ngCount}, 秒Ʒ总产量：{yieldRate:F2}%");
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "更新统计数据失败");
+                Gvar.Logger.ErrorException(ex, "更新统计数据失败");
             }
         }
 

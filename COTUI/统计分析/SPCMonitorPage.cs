@@ -34,7 +34,7 @@ namespace COTUI.统计分析
         public SPCMonitorPage()
         {
             InitializeComponent();
-            logger.Log(LogLevel.Info, "SPC监控页面创建");
+            Gvar.Logger.Log(LogLevel.Info, "SPC监控页面创建");
             
             // 设置默认选中项
             if (cmbMeasureType.Items.Count > 0)
@@ -51,12 +51,12 @@ namespace COTUI.统计分析
         {
             try
             {
-                logger.Log(LogLevel.Info, "SPC监控页面加载");
-                logger.Log(LogLevel.Info, "SPC监控页面加载完成");
+                Gvar.Logger.Log(LogLevel.Info, "SPC监控页面加载");
+                Gvar.Logger.Log(LogLevel.Info, "SPC监控页面加载完成");
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "SPC监控页面加载失败");
+                Gvar.Logger.ErrorException(ex, "SPC监控页面加载失败");
                 MessageBox.Show($"页面加载失败：{ex.Message}", "错误", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -167,11 +167,11 @@ namespace COTUI.统计分析
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error
                     );
-                    logger.Log(LogLevel.Error, $"规格限配置错误: {fieldName}, USL={usl}, LSL={lsl}");
+                    Gvar.Logger.Log(LogLevel.Error, $"规格限配置错误: {fieldName}, USL={usl}, LSL={lsl}");
                     return;
                 }
 
-                logger.Log(LogLevel.Info, $"从配置读取规格限: {fieldName}, USL={usl}, LSL={lsl}");
+                Gvar.Logger.Log(LogLevel.Info, $"从配置读取规格限: {fieldName}, USL={usl}, LSL={lsl}");
 
                 // 计算Cp和Cpk
                 double cp = (usl - lsl) / (6 * stdDev);
@@ -184,11 +184,11 @@ namespace COTUI.统计分析
                 UpdateDataGrid(records, fieldName, mean);
                 ShowControlChart(values);
 
-                logger.Log(LogLevel.Info, $"Cpk计算完成: {cpk:F3} (基于{values.Count}条数据)");
+                Gvar.Logger.Log(LogLevel.Info, $"Cpk计算完成: {cpk:F3} (基于{values.Count}条数据)");
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "计算Cpk失败");
+                Gvar.Logger.ErrorException(ex, "计算Cpk失败");
                 MessageBox.Show($"计算失败：{ex.Message}", "错误", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -455,11 +455,11 @@ namespace COTUI.统计分析
                 // 添加到panel
                 panelChart.Controls.Add(formsPlot);
                 
-                logger.Log(LogLevel.Info, string.Format("ScottPlot控制图绘制成功，数据点数：{0}", values.Count));
+                Gvar.Logger.Log(LogLevel.Info, string.Format("ScottPlot控制图绘制成功，数据点数：{0}", values.Count));
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "绘制ScottPlot图表失败");
+                Gvar.Logger.ErrorException(ex, "绘制ScottPlot图表失败");
                 ShowPlaceholder(values.Count, "图表加载失败：" + ex.Message);
             }
         }

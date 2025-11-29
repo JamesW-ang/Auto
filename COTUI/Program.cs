@@ -31,25 +31,25 @@ namespace COTUI
             try
             {
                 // 1. 初始化数据库（通过访问单例自动初始化）
-                var db = DatabaseHelper.Instance;
+                var db = Gvar.DB;
                 
                 // 2. 初始化 Logger（文件日志）
-                var logger = Logger.GetInstance();
+                var logger = Gvar.Logger;
                 
                 // 3. 初始化并注册数据库日志扩展
                 var dbLogger = DatabaseLoggerExtension.Instance;
                 dbLogger.Initialize();
                 
-                Console.WriteLine("[Program] 数据库日志系统已启动");
-                logger.Log(LogLevel.Info, "程序启动");
+                Gvar.Logger.Info(LogLevel.Debug, "[Program] 数据库日志系统已启动");
+                Gvar.Logger.Log(LogLevel.Info, "程序启动");
                 
-                // 4. 运行主窗体
-                Application.Run(new Form1());
+                // 4. 运行主窗体（设置全局引用）
+                Application.Run(Gvar.UI.MainForm = new Form1());
                 
                 // 5. 程序退出时清理
-                logger.Log(LogLevel.Info, "程序退出");
+                Gvar.Logger.Log(LogLevel.Info, "程序退出");
                 dbLogger.Shutdown();
-                logger.Shutdown();
+                Gvar.Logger.Shutdown();
             }
             catch (Exception ex)
             {

@@ -420,13 +420,13 @@ namespace COTUI.通用功能类
         /// var logger = Logger.GetInstance();
         /// 
         /// // 注册数据库日志
-        /// logger.RegisterListener(DatabaseLoggerExtension.Instance);
+        /// Gvar.Logger.RegisterListener(DatabaseLoggerExtension.Instance);
         /// 
         /// // 注册MES日志
-        /// logger.RegisterListener(new MESLoggerExtension());
+        /// Gvar.Logger.RegisterListener(new MESLoggerExtension());
         /// 
         /// // 查看已注册的监听器
-        /// var listeners = logger.GetListeners();
+        /// var listeners = Gvar.Logger.GetListeners();
         /// Console.WriteLine($"已注册 {listeners.Count} 个监听器");
         /// </code>
         /// </summary>

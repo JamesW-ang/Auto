@@ -92,7 +92,7 @@ namespace COTUI.通用功能类.Hardware
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, $"[{DeviceName}] TCP连接失败");
+                Gvar.Logger.ErrorException(ex, $"[{DeviceName}] TCP连接失败");
                 return false;
             }
         }
@@ -127,12 +127,12 @@ namespace COTUI.通用功能类.Hardware
             try
             {
                 await stream.WriteAsync(data, 0, data.Length);
-                logger.Log(LogLevel.Debug, $"[{DeviceName}] 发送 {data.Length} 字节");
+                Gvar.Logger.Log(LogLevel.Debug, $"[{DeviceName}] 发送 {data.Length} 字节");
                 return true;
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, $"[{DeviceName}] 发送数据失败");
+                Gvar.Logger.ErrorException(ex, $"[{DeviceName}] 发送数据失败");
                 OnConnectionLost();
                 return false;
             }
@@ -208,7 +208,7 @@ namespace COTUI.通用功能类.Hardware
                             string text = Encoding.ASCII.GetString(data);
                             TextReceived?.Invoke(this, text);
                             
-                            logger.Log(LogLevel.Debug, $"[{DeviceName}] 接收 {bytesRead} 字节");
+                            Gvar.Logger.Log(LogLevel.Debug, $"[{DeviceName}] 接收 {bytesRead} 字节");
                         }
                     }
                     
@@ -216,7 +216,7 @@ namespace COTUI.通用功能类.Hardware
                 }
                 catch (Exception ex)
                 {
-                    logger.ErrorException(ex, $"[{DeviceName}] 接收数据异常");
+                    Gvar.Logger.ErrorException(ex, $"[{DeviceName}] 接收数据异常");
                     OnConnectionLost();
                     break;
                 }

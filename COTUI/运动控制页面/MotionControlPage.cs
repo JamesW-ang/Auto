@@ -35,7 +35,7 @@ namespace COTUI.运动控制页面
     {
         #region 字段
 
-        private Logger logger = Logger.GetInstance();
+        // 使用全局变量 Gvar.Logger 访问日志服务
         
         // ===== ? 延迟加载标志 =====
         private bool isInitialized = false;
@@ -87,7 +87,7 @@ namespace COTUI.运动控制页面
             // 开始化状态ָʾ加载化
             axisStatusIndicators = new Dictionary<string, Dictionary<string, StatusIndicatorControl>>();
             
-            logger.Log(LogLevel.Debug, "夹˶加载夹ҳ夹洴加载到位ٹ化죩");
+            Gvar.Logger.Log(LogLevel.Debug, "夹˶加载夹ҳ夹洴加载到位ٹ化죩");
         }
 
         #endregion
@@ -99,11 +99,11 @@ namespace COTUI.运动控制页面
             // ===== ? 到位ٷ化أ加载到位UI =====
             if (isInitialized)
             {
-                logger.Log(LogLevel.Debug, "夹˶加载夹ҳ到位ѳ夹ʼ加载加载");
+                Gvar.Logger.Log(LogLevel.Debug, "夹˶加载夹ҳ到位ѳ夹ʼ加载加载");
                 return;
             }
             
-            logger.Log(LogLevel.Debug, "夹˶加载夹ҳ加载ʾ到位ӳټ到位ģ式化");
+            Gvar.Logger.Log(LogLevel.Debug, "夹˶加载夹ҳ加载ʾ到位ӳټ到位ģ式化");
             
             // 提示加载提示加载ѡ化
             ShowLoadingIndicator();
@@ -125,7 +125,7 @@ namespace COTUI.运动控制页面
                         {
                             try
                             {
-                                logger.Log(LogLevel.Debug, "开始夹첽开始到位ؼ夹...");
+                                Gvar.Logger.Log(LogLevel.Debug, "开始夹첽开始到位ؼ夹...");
                                 
                                 // 1. 夹˶夹ģ式ѡ加载加载夹٣夹
                                 InitializeMotionModeSelector();
@@ -157,15 +157,15 @@ namespace COTUI.运动控制页面
                                 HideLoadingIndicator();
                                 
                                 isInitialized = true;
-                                logger.Log(LogLevel.Info, "夹˶加载夹ҳ夹开始加载ɣ化첽化");
+                                Gvar.Logger.Log(LogLevel.Info, "夹˶加载夹ҳ夹开始加载ɣ化첽化");
                             }
                             catch (OperationCanceledException)
                             {
-                                logger.Log(LogLevel.Debug, "夹˶加载夹ҳ夹开始加载取化");
+                                Gvar.Logger.Log(LogLevel.Debug, "夹˶加载夹ҳ夹开始加载取化");
                             }
                             catch (Exception ex)
                             {
-                                logger.ErrorException(ex, "夹˶加载夹ҳ夹开始化失败");
+                                Gvar.Logger.ErrorException(ex, "夹˶加载夹ҳ夹开始化失败");
                                 MessageBox.Show($"ҳ夹开始化ʧ夹ܣ夹{ex.Message}", "加载", 
                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
@@ -178,7 +178,7 @@ namespace COTUI.运动控制页面
                 }
                 catch (Exception ex)
                 {
-                    logger.ErrorException(ex, "夹첽开始加载到位쳣");
+                    Gvar.Logger.ErrorException(ex, "夹첽开始加载到位쳣");
                 }
             }, initCts.Token);
         }
@@ -263,7 +263,7 @@ namespace COTUI.运动控制页面
                 {
                     currentMode = MotionMode.Absolute;
                     UpdateModeDescription();
-                    logger.Log(LogLevel.Debug, "夹л加载到位ģ式");
+                    Gvar.Logger.Log(LogLevel.Debug, "夹л加载到位ģ式");
                 }
             };
 
@@ -274,7 +274,7 @@ namespace COTUI.运动控制页面
                 {
                     currentMode = MotionMode.Relative;
                     UpdateModeDescription();
-                    logger.Log(LogLevel.Debug, "夹л加载化ģ式");
+                    Gvar.Logger.Log(LogLevel.Debug, "夹л加载化ģ式");
                 }
             };
 
@@ -285,7 +285,7 @@ namespace COTUI.运动控制页面
                 {
                     currentMode = MotionMode.JOG;
                     UpdateModeDescription();
-                    logger.Log(LogLevel.Debug, "夹л到位JOGģ式");
+                    Gvar.Logger.Log(LogLevel.Debug, "夹л到位JOGģ式");
                 }
             };
 
@@ -396,7 +396,7 @@ namespace COTUI.运动控制页面
             currentJogDirection = direction;
             jogCts = new CancellationTokenSource();
             
-            logger.Log(LogLevel.Debug, $"开始JOG夹˶夹: {direction}");
+            Gvar.Logger.Log(LogLevel.Debug, $"开始JOG夹˶夹: {direction}");
 
             // 加载夹첽JOG加载
             Task.Run(async () =>
@@ -424,7 +424,7 @@ namespace COTUI.运动控制页面
                 }
                 catch (Exception ex)
                 {
-                    logger.ErrorException(ex, "JOG夹˶化쳣");
+                    Gvar.Logger.ErrorException(ex, "JOG夹˶化쳣");
                 }
             }, jogCts.Token);
         }
@@ -443,7 +443,7 @@ namespace COTUI.运动控制页面
 
             if (!string.IsNullOrEmpty(currentJogDirection))
             {
-                logger.Log(LogLevel.Debug, "ֹͣJOG夹˶夹");
+                Gvar.Logger.Log(LogLevel.Debug, "ֹͣJOG夹˶夹");
                 currentJogDirection = "";
             }
         }
@@ -461,7 +461,7 @@ namespace COTUI.运动控制页面
                 {
                     // 到位ģ式到位入夹前λ到位ƶ夹
                     UpdatePositionByDirection(direction, stepDistance);
-                    logger.Log(LogLevel.Debug, $"加载ƶ夹 {direction}: {stepDistance}mm");
+                    Gvar.Logger.Log(LogLevel.Debug, $"加载ƶ夹 {direction}: {stepDistance}mm");
                 }
                 else if (currentMode == MotionMode.Absolute)
                 {
@@ -475,7 +475,7 @@ namespace COTUI.运动控制页面
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "加载夹ƶ夹失败");
+                Gvar.Logger.ErrorException(ex, "加载夹ƶ夹失败");
             }
         }
 
@@ -584,7 +584,7 @@ namespace COTUI.运动控制页面
                 }
                 catch (Exception ex)
                 {
-                    logger.ErrorException(ex, "状态加载异常");
+                    Gvar.Logger.ErrorException(ex, "状态加载异常");
                 }
             }, statusUpdateCts.Token);
         }
@@ -642,7 +642,7 @@ namespace COTUI.运动控制页面
             catch (Exception ex)
             {
                 // 化错加载加载加载加载到位
-                logger.Log(LogLevel.Debug, $"加载状态ָʾ化失败: {axisName}.{statusName} - {ex.Message}");
+                Gvar.Logger.Log(LogLevel.Debug, $"加载状态ָʾ化失败: {axisName}.{statusName} - {ex.Message}");
             }
         }
 
@@ -705,7 +705,7 @@ namespace COTUI.运动控制页面
 
                 if (double.TryParse(targetTextBox.Text, out double targetPos))
                 {
-                    logger.Log(LogLevel.Info, 
+                    Gvar.Logger.Log(LogLevel.Info, 
                         $"{axisNames[axisIndex]} 夹ƶ夹: {currentPositions[axisIndex]:F3} -> {targetPos:F3}");
 
                     // TODO: 实到位ƶ化߼夹
@@ -724,7 +724,7 @@ namespace COTUI.运动控制页面
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, $"{axisNames[axisIndex]} 夹ƶ夹失败");
+                Gvar.Logger.ErrorException(ex, $"{axisNames[axisIndex]} 夹ƶ夹失败");
             }
         }
 
@@ -735,7 +735,7 @@ namespace COTUI.运动控制页面
         {
             try
             {
-                logger.Log(LogLevel.Info, $"{axisNames[axisIndex]} 开始化ԭ化");
+                Gvar.Logger.Log(LogLevel.Info, $"{axisNames[axisIndex]} 开始化ԭ化");
                 
                 // TODO: 实夹ʻ夹ԭ到位߼夹
                 // ģ夹⣺ֱ加载化为0
@@ -747,7 +747,7 @@ namespace COTUI.运动控制页面
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, $"{axisNames[axisIndex]} 化ԭ化失败");
+                Gvar.Logger.ErrorException(ex, $"{axisNames[axisIndex]} 化ԭ化失败");
             }
         }
 
@@ -757,7 +757,7 @@ namespace COTUI.运动控制页面
         private void ClearError(int axisIndex)
         {
             // TODO: 实加载加载化߼夹
-            logger.Log(LogLevel.Info, $"{axisNames[axisIndex]} 加载到位");
+            Gvar.Logger.Log(LogLevel.Info, $"{axisNames[axisIndex]} 加载到位");
             MessageBox.Show($"{axisNames[axisIndex]} 加载加载夹", "成功", 
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -900,7 +900,7 @@ namespace COTUI.运动控制页面
                         savedPoints.Add(newPoint);
                         RefreshPointsGrid();
                         
-                        logger.Log(LogLevel.Info, 
+                        Gvar.Logger.Log(LogLevel.Info, 
                             $"到位入夹λ: {pointName} ({newPoint.X:F3}, {newPoint.Y:F3}, {newPoint.Z:F3})");
                     }
                 }
@@ -928,7 +928,7 @@ namespace COTUI.运动控制页面
                     {
                         savedPoints.RemoveAt(index);
                         RefreshPointsGrid();
-                        logger.Log(LogLevel.Info, $"ɾ加载λ: {point.Name}");
+                        Gvar.Logger.Log(LogLevel.Info, $"ɾ加载λ: {point.Name}");
                     }
                 }
             }
@@ -946,7 +946,7 @@ namespace COTUI.运动控制页面
         {
             try
             {
-                logger.Log(LogLevel.Info, 
+                Gvar.Logger.Log(LogLevel.Info, 
                     $"夹ƶ加载夹λ: {point.Name} ({point.X:F3}, {point.Y:F3}, {point.Z:F3})");
 
                 // TODO: 实到位ƶ化߼夹
@@ -962,7 +962,7 @@ namespace COTUI.运动控制页面
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, $"夹ƶ加载夹λ {point.Name} 失败");
+                Gvar.Logger.ErrorException(ex, $"夹ƶ加载夹λ {point.Name} 失败");
             }
         }
 
@@ -977,7 +977,7 @@ namespace COTUI.运动控制页面
             
             RefreshPointsGrid();
             
-            logger.Log(LogLevel.Info, 
+            Gvar.Logger.Log(LogLevel.Info, 
                 $"到位µ夹λ: {point.Name} ({point.X:F3}, {point.Y:F3}, {point.Z:F3})");
             
             MessageBox.Show($"化λ '{point.Name}' 夹Ѹ到位", "成功", 
@@ -1010,13 +1010,13 @@ namespace COTUI.运动控制页面
             try
             {
                 // TODO: 实夹时间浽加载夹ļ加载化ݿ夹
-                logger.Log(LogLevel.Info, $"加载 {savedPoints.Count} 加载λ");
+                Gvar.Logger.Log(LogLevel.Info, $"加载 {savedPoints.Count} 加载λ");
                 MessageBox.Show($"夹ɹ加载夹 {savedPoints.Count} 加载λ", "成功", 
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "加载夹λ失败");
+                Gvar.Logger.ErrorException(ex, "加载夹λ失败");
             }
         }
 
@@ -1037,11 +1037,11 @@ namespace COTUI.运动控制页面
                 }
                 
                 RefreshPointsGrid();
-                logger.Log(LogLevel.Debug, $"加载 {savedPoints.Count} 加载λ");
+                Gvar.Logger.Log(LogLevel.Debug, $"加载 {savedPoints.Count} 加载λ");
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "到位ص夹λ失败");
+                Gvar.Logger.ErrorException(ex, "到位ص夹λ失败");
             }
         }
 
@@ -1106,7 +1106,7 @@ namespace COTUI.运动控制页面
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "加载加载异常");
+                Gvar.Logger.ErrorException(ex, "加载加载异常");
             }
         }
 
@@ -1119,7 +1119,7 @@ namespace COTUI.运动控制页面
         /// </summary>
         private void MotionToLoadingPosition()
         {
-            logger.Log(LogLevel.Debug, "开始夹ƶ加载到位λ...");
+            Gvar.Logger.Log(LogLevel.Debug, "开始夹ƶ加载到位λ...");
             
             // TODO: 实夹实现˶加载ƴ到位
             // motionController.MoveAbsolute(0, 100, 0);  // X=100
@@ -1136,7 +1136,7 @@ namespace COTUI.运动控制页面
         /// </summary>
         private void MotionToInspectionPosition()
         {
-            logger.Log(LogLevel.Debug, "开始夹ƶ加载化λ...");
+            Gvar.Logger.Log(LogLevel.Debug, "开始夹ƶ加载化λ...");
             
             // TODO: 实夹实现˶加载ƴ到位
             currentPositions[0] = 200;  // X
@@ -1149,7 +1149,7 @@ namespace COTUI.运动控制页面
         /// </summary>
         private void MotionToUnloadingPosition()
         {
-            logger.Log(LogLevel.Debug, "开始夹ƶ加载到位λ...");
+            Gvar.Logger.Log(LogLevel.Debug, "开始夹ƶ加载到位λ...");
             
             // TODO: 实夹实现˶加载ƴ到位
             currentPositions[0] = 300;  // X
@@ -1194,11 +1194,11 @@ namespace COTUI.运动控制页面
                 jogCts?.Dispose();
                 jogCts = null;
                 
-                logger.Log(LogLevel.Info, "运动控制页面ر夹");
+                Gvar.Logger.Log(LogLevel.Info, "运动控制页面ر夹");
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "夹ر化˶加载夹ҳ化失败");
+                Gvar.Logger.ErrorException(ex, "夹ر化˶加载夹ҳ化失败");
             }
             
             base.OnFormClosing(e);

@@ -218,7 +218,7 @@ namespace COTUI.通用功能类
                 // 关闭旧连接
                 DisconnectClient();
 
-                Logger.GetInstance().Info(LogLevel.Info, $"正在连接到 TCP 服务器 {host}:{port}...");
+                Gvar.Logger.Info(LogLevel.Info, $"正在连接到 TCP 服务器 {host}:{port}...");
 
                 // 创建TCP客户端
                 tcpClient = new TcpClient();
@@ -228,7 +228,7 @@ namespace COTUI.通用功能类
                 isConnected = true;
                 reconnectAttempts = 0;
 
-                Logger.GetInstance().Info(LogLevel.Info, $"✅ TCP 连接成功: {host}:{port}");
+                Gvar.Logger.Info(LogLevel.Info, $"✅ TCP 连接成功: {host}:{port}");
                 ConnectionStatusChanged?.Invoke(this, true);
 
                 // 启动接收数据
@@ -243,7 +243,7 @@ namespace COTUI.通用功能类
             catch (Exception ex)
             {
                 isConnected = false;
-                Logger.GetInstance().ErrorException(ex, $"TCP 连接失败: {host}:{port}");
+                Gvar.Logger.ErrorException(ex, $"TCP 连接失败: {host}:{port}");
                 ErrorOccurred?.Invoke(this, $"连接失败: {ex.Message}");
 
                 // 启动自动重连
@@ -284,13 +284,13 @@ namespace COTUI.通用功能类
                     if (isConnected)
                     {
                         isConnected = false;
-                        Logger.GetInstance().Info(LogLevel.Info, $"TCP 连接已断开: {remoteHost}:{remotePort}");
+                        Gvar.Logger.Info(LogLevel.Info, $"TCP 连接已断开: {remoteHost}:{remotePort}");
                         ConnectionStatusChanged?.Invoke(this, false);
                     }
                 }
                 catch (Exception ex)
                 {
-                    Logger.GetInstance().ErrorException(ex, "断开 TCP 连接时发生错误");
+                    Gvar.Logger.ErrorException(ex, "断开 TCP 连接时发生错误");
                     ErrorOccurred?.Invoke(this, $"断开连接失败: {ex.Message}");
                 }
             }
@@ -320,7 +320,7 @@ namespace COTUI.通用功能类
                 // 停止旧监听
                 StopServer();
 
-                Logger.GetInstance().Info(LogLevel.Info, $"正在启动 TCP 服务端，端口: {port}...");
+                Gvar.Logger.Info(LogLevel.Info, $"正在启动 TCP 服务端，端口: {port}...");
 
                 // 创建监听器
                 IPAddress listenAddress = ipAddress ?? IPAddress.Any;
@@ -328,7 +328,7 @@ namespace COTUI.通用功能类
                 tcpListener.Start();
                 isListening = true;
 
-                Logger.GetInstance().Info(LogLevel.Info, $"✅ TCP 服务端已启动: {listenAddress}:{port}");
+                Gvar.Logger.Info(LogLevel.Info, $"✅ TCP 服务端已启动: {listenAddress}:{port}");
 
                 // 异步接受客户端连接
                 _ = Task.Run(AcceptClientsAsync);
@@ -336,7 +336,7 @@ namespace COTUI.通用功能类
             catch (Exception ex)
             {
                 isListening = false;
-                Logger.GetInstance().ErrorException(ex, $"启动 TCP 服务端失败: {port}");
+                Gvar.Logger.ErrorException(ex, $"启动 TCP 服务端失败: {port}");
                 ErrorOccurred?.Invoke(this, $"启动服务端失败: {ex.Message}");
                 throw;
             }
@@ -369,11 +369,11 @@ namespace COTUI.通用功能类
                     tcpListener = null;
                 }
 
-                Logger.GetInstance().Info(LogLevel.Info, $"TCP 服务端已停止: {localPort}");
+                Gvar.Logger.Info(LogLevel.Info, $"TCP 服务端已停止: {localPort}");
             }
             catch (Exception ex)
             {
-                Logger.GetInstance().ErrorException(ex, "停止 TCP 服务端时发生错误");
+                Gvar.Logger.ErrorException(ex, "停止 TCP 服务端时发生错误");
                 ErrorOccurred?.Invoke(this, $"停止服务端失败: {ex.Message}");
             }
         }
@@ -393,7 +393,7 @@ namespace COTUI.通用功能类
                     connectedClients[clientId] = client;
 
                     string clientEndpoint = client.Client.RemoteEndPoint?.ToString() ?? "Unknown";
-                    Logger.GetInstance().Info(LogLevel.Info, $"客户端已连接: {clientEndpoint} (ID: {clientId})");
+                    Gvar.Logger.Info(LogLevel.Debug, $"客户端已连接: {clientEndpoint} (ID: {clientId})");
                     ClientConnected?.Invoke(this, clientId);
 
                     // 异步处理客户端数据
@@ -403,7 +403,7 @@ namespace COTUI.通用功能类
                 {
                     if (isListening)
                     {
-                        Logger.GetInstance().ErrorException(ex, "接受客户端连接失败");
+                        Gvar.Logger.ErrorException(ex, "接受客户端连接失败");
                         ErrorOccurred?.Invoke(this, $"接受连接失败: {ex.Message}");
                     }
                 }
@@ -421,12 +421,12 @@ namespace COTUI.通用功能类
                 try
                 {
                     client.Close();
-                    Logger.GetInstance().Info(LogLevel.Info, $"客户端已断开: {clientId}");
+                    Gvar.Logger.Info(LogLevel.Debug, $"客户端已断开: {clientId}");
                     ClientDisconnected?.Invoke(this, clientId);
                 }
                 catch (Exception ex)
                 {
-                    Logger.GetInstance().ErrorException(ex, $"断开客户端失败: {clientId}");
+                    Gvar.Logger.ErrorException(ex, $"断开客户端失败: {clientId}");
                 }
             }
         }
@@ -458,11 +458,11 @@ namespace COTUI.通用功能类
             {
                 await networkStream.WriteAsync(data, 0, data.Length);
                 await networkStream.FlushAsync();
-                Logger.GetInstance().Debug(LogLevel.Debug, $"TCP 发送 ({data.Length} 字节)");
+                Gvar.Logger.Debug(LogLevel.Trace, $"TCP 发送 ({data.Length} 字节)");
             }
             catch (Exception ex)
             {
-                Logger.GetInstance().ErrorException(ex, "TCP 发送数据失败");
+                Gvar.Logger.ErrorException(ex, "TCP 发送数据失败");
                 ErrorOccurred?.Invoke(this, $"发送失败: {ex.Message}");
                 
                 // 发送失败可能是连接断开
@@ -503,11 +503,11 @@ namespace COTUI.通用功能类
                 NetworkStream stream = client.GetStream();
                 await stream.WriteAsync(data, 0, data.Length);
                 await stream.FlushAsync();
-                Logger.GetInstance().Debug(LogLevel.Debug, $"TCP 发送到客户端 {clientId} ({data.Length} 字节)");
+                Gvar.Logger.Debug(LogLevel.Trace, $"TCP 发送到客户端 {clientId} ({data.Length} 字节)");
             }
             catch (Exception ex)
             {
-                Logger.GetInstance().ErrorException(ex, $"发送数据到客户端失败: {clientId}");
+                Gvar.Logger.ErrorException(ex, $"发送数据到客户端失败: {clientId}");
                 ErrorOccurred?.Invoke(this, $"发送到客户端失败: {ex.Message}");
                 
                 // 移除失效客户端
@@ -573,7 +573,7 @@ namespace COTUI.通用功能类
                     if (bytesRead == 0)
                     {
                         // 连接已关闭
-                        Logger.GetInstance().Warn(LogLevel.Warn, "TCP 连接已被远程主机关闭");
+                        Gvar.Logger.Warn(LogLevel.Warn, "TCP 连接已被远程主机关闭");
                         HandleDisconnection();
                         break;
                     }
@@ -588,13 +588,13 @@ namespace COTUI.通用功能类
                     string text = Encoding.UTF8.GetString(data);
                     TextReceived?.Invoke(this, text);
 
-                    Logger.GetInstance().Debug(LogLevel.Debug, $"TCP 接收 ({bytesRead} 字节)");
+                    Gvar.Logger.Debug(LogLevel.Trace, $"TCP 接收 ({bytesRead} 字节)");
                 }
                 catch (Exception ex)
                 {
                     if (isConnected)
                     {
-                        Logger.GetInstance().ErrorException(ex, "TCP 接收数据失败");
+                        Gvar.Logger.ErrorException(ex, "TCP 接收数据失败");
                         ErrorOccurred?.Invoke(this, $"接收失败: {ex.Message}");
                         HandleDisconnection();
                     }

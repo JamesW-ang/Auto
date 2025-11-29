@@ -16,10 +16,10 @@ namespace COTUI
 {
     public partial class MainPage : Form
     {
-        private Logger logger = Logger.GetInstance();
+        // 使用全局变量 Gvar.Logger 访问日志服务
         private AlarmService alarmService = new AlarmService();
         private ProductionDataService productionService = new ProductionDataService();
-        private MqttService mqttService = MqttService.Instance; // ← 只用于监听状态
+        // 使用全局变量 Gvar.Mqtt 访问 MQTT 服务
         
         private const int MAX_LOG_LINES = 100;
         private Queue<string> logQueue = new Queue<string>();
@@ -46,10 +46,10 @@ namespace COTUI
             textBox1.ScrollBars = ScrollBars.Both;
 
             // 关键：订阅Logger的实时日志事件
-            logger.OnLogMessage += Logger_OnLogMessage;
+            Gvar.Logger.OnLogMessage += Logger_OnLogMessage;
             
             // 添加初始日志
-            logger.Log(LogLevel.Info, "主页面加载完成");
+            Gvar.Logger.Log(LogLevel.Info, "主页面加载完成");
         }
 
         /// <summary>
@@ -65,28 +65,28 @@ namespace COTUI
                 statusIndicatorControl1.IsActive = false;
                 statusIndicatorControl1.StatusChanged += (s, e) =>
                 {
-                    logger.Log(LogLevel.Info, $"生产模式: {(e.NewStatus ? "开启" : "关闭")}");
+                    Gvar.Logger.Log(LogLevel.Info, $"生产模式: {(e.NewStatus ? "开启" : "关闭")}");
                 };
 
                 // 2. 空跑模式
                 statusIndicatorControl2.IsActive = false;
                 statusIndicatorControl2.StatusChanged += (s, e) =>
                 {
-                    logger.Log(LogLevel.Info, $"空跑模式: {(e.NewStatus ? "开启" : "关闭")}");
+                    Gvar.Logger.Log(LogLevel.Info, $"空跑模式: {(e.NewStatus ? "开启" : "关闭")}");
                 };
 
                 // 3. 首件模式
                 statusIndicatorControl3.IsActive = false;
                 statusIndicatorControl3.StatusChanged += (s, e) =>
                 {
-                    logger.Log(LogLevel.Info, $"首件模式: {(e.NewStatus ? "开启" : "关闭")}");
+                    Gvar.Logger.Log(LogLevel.Info, $"首件模式: {(e.NewStatus ? "开启" : "关闭")}");
                 };
 
                 // 4. 返工模式
                 statusIndicatorControl4.IsActive = false;
                 statusIndicatorControl4.StatusChanged += (s, e) =>
                 {
-                    logger.Log(LogLevel.Info, $"返工模式: {(e.NewStatus ? "开启" : "关闭")}");
+                    Gvar.Logger.Log(LogLevel.Info, $"返工模式: {(e.NewStatus ? "开启" : "关闭")}");
                 };
 
                 // 5. 安全门闭合 - 默认激活（绿色表示正常）
@@ -95,12 +95,12 @@ namespace COTUI
                 {
                     if (!e.NewStatus)
                     {
-                        logger.Log(LogLevel.Warn, "警告: 安全门打开");
+                        Gvar.Logger.Log(LogLevel.Warn, "警告: 安全门打开");
                         AddAlarm("安全门打开", "警告", "ALARM_DOOR");
                     }
                     else
                     {
-                        logger.Log(LogLevel.Info, "安全门已闭合");
+                        Gvar.Logger.Log(LogLevel.Info, "安全门已闭合");
                     }
                 };
 
@@ -108,14 +108,14 @@ namespace COTUI
                 statusIndicatorControl6.IsActive = false;
                 statusIndicatorControl6.StatusChanged += (s, e) =>
                 {
-                    logger.Log(LogLevel.Info, $"机台照明: {(e.NewStatus ? "开启" : "关闭")}");
+                    Gvar.Logger.Log(LogLevel.Info, $"机台照明: {(e.NewStatus ? "开启" : "关闭")}");
                 };
 
                 // 7. MQTT在线
                 statusIndicatorControl7.IsActive = false;
                 statusIndicatorControl7.StatusChanged += (s, e) =>
                 {
-                    logger.Log(e.NewStatus ? LogLevel.Info : LogLevel.Error, 
+                    Gvar.Logger.Log(e.NewStatus ? LogLevel.Info : LogLevel.Error, 
                         $"MQTT连接: {(e.NewStatus ? "在线" : "离线")}");
                 };
 
@@ -127,12 +127,12 @@ namespace COTUI
                 {
                     if (e.NewStatus)
                     {
-                        logger.Log(LogLevel.Fatal, "紧急停止: 急停按钮被按下");
+                        Gvar.Logger.Log(LogLevel.Fatal, "紧急停止: 急停按钮被按下");
                         AddAlarm("急停按钮被按下", "严重", "ALARM_ESTOP");
                     }
                     else
                     {
-                        logger.Log(LogLevel.Info, "急停按钮已复位");
+                        Gvar.Logger.Log(LogLevel.Info, "急停按钮已复位");
                     }
                 };
 
@@ -142,12 +142,12 @@ namespace COTUI
                 {
                     if (!e.NewStatus)
                     {
-                        logger.Log(LogLevel.Error, "错误: 正压气源异常");
+                        Gvar.Logger.Log(LogLevel.Error, "错误: 正压气源异常");
                         AddAlarm("正压气源异常", "严重", "ALARM_AIR_POS");
                     }
                     else
                     {
-                        logger.Log(LogLevel.Info, "正压气源正常");
+                        Gvar.Logger.Log(LogLevel.Info, "正压气源正常");
                     }
                 };
 
@@ -157,12 +157,12 @@ namespace COTUI
                 {
                     if (!e.NewStatus)
                     {
-                        logger.Log(LogLevel.Error, "错误: 负压气源异常");
+                        Gvar.Logger.Log(LogLevel.Error, "错误: 负压气源异常");
                         AddAlarm("负压气源异常", "严重", "ALARM_AIR_NEG");
                     }
                     else
                     {
-                        logger.Log(LogLevel.Info, "负压气源正常");
+                        Gvar.Logger.Log(LogLevel.Info, "负压气源正常");
                     }
                 };
 
@@ -170,15 +170,15 @@ namespace COTUI
                 statusIndicatorControl11.IsActive = false;
                 statusIndicatorControl11.StatusChanged += (s, e) =>
                 {
-                    logger.Log(e.NewStatus ? LogLevel.Info : LogLevel.Warn, 
+                    Gvar.Logger.Log(e.NewStatus ? LogLevel.Info : LogLevel.Warn, 
                         $"MES连接: {(e.NewStatus ? "在线" : "离线")}");
                 };
 
-                logger.Log(LogLevel.Info, "状态指示器初始化完成");
+                Gvar.Logger.Log(LogLevel.Info, "状态指示器初始化完成");
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "初始化状态指示器失败");
+                Gvar.Logger.ErrorException(ex, "初始化状态指示器失败");
             }
         }
 
@@ -213,7 +213,7 @@ namespace COTUI
             }
             catch (Exception ex)
             {
-                logger.Log(LogLevel.Debug, $"显示日志失败: {ex.Message}");
+                Gvar.Logger.Log(LogLevel.Debug, $"显示日志失败: {ex.Message}");
             }
         }
 
@@ -265,18 +265,18 @@ namespace COTUI
                     }
                     catch (Exception ex)
                     {
-                        logger.ErrorException(ex, "保存报警到数据库失败");
+                        Gvar.Logger.ErrorException(ex, "保存报警到数据库失败");
                     }
                 });
 
                 // 使用Logger记录报警（自动触发事件显示）
                 LogLevel logLevel = level == "严重" ? LogLevel.Error : 
                                    level == "警告" ? LogLevel.Warn : LogLevel.Info;
-                logger.Log(logLevel, $"报警: {content}");
+                Gvar.Logger.Log(logLevel, $"报警: {content}");
             }
             catch (Exception ex)
             {
-                logger.Log(LogLevel.Debug, $"添加报警失败: {ex.Message}");
+                Gvar.Logger.Log(LogLevel.Debug, $"添加报警失败: {ex.Message}");
             }
         }
 
@@ -314,7 +314,7 @@ namespace COTUI
                     Result = result,
                     BatchNo = batchNo,
                     MaterialBatchNo = batchNo,
-                    Operator = Gvar._User ?? "System"
+                    Operator = Gvar.User ?? "System"
                 };
 
                 // 💾 保存到数据库
@@ -326,7 +326,7 @@ namespace COTUI
                     }
                     catch (Exception ex)
                     {
-                        logger.ErrorException(ex, "保存生产数据到数据库失败");
+                        Gvar.Logger.ErrorException(ex, "保存生产数据到数据库失败");
                     }
                 });
 
@@ -335,19 +335,19 @@ namespace COTUI
                 {
                     try
                     {
-                        await mqttService.PublishWorkReportAsync(production);
+                        await Gvar.Mqtt.PublishWorkReportAsync(production);
                     }
                     catch (Exception ex)
                     {
-                        logger.ErrorException(ex, "MQTT报工失败");
+                        Gvar.Logger.ErrorException(ex, "MQTT报工失败");
                     }
                 });
 
-                logger.Log(LogLevel.Debug, $"生产数据: {ringInfo}, 耗时: {testTime:F2}ms, 结果: {result}");
+                Gvar.Logger.Log(LogLevel.Debug, $"生产数据: {ringInfo}, 耗时: {testTime:F2}ms, 结果: {result}");
             }
             catch (Exception ex)
             {
-                logger.Log(LogLevel.Debug, $"添加生产数据失败: {ex.Message}");
+                Gvar.Logger.Log(LogLevel.Debug, $"添加生产数据失败: {ex.Message}");
             }
         }
 
@@ -364,7 +364,7 @@ namespace COTUI
 
             logQueue.Clear();
             textBox1.Clear();
-            logger.Log(LogLevel.Info, "日志显示已清除");
+            Gvar.Logger.Log(LogLevel.Info, "日志显示已清除");
         }
 
         /// <summary>
@@ -378,14 +378,14 @@ namespace COTUI
                 dataGridView1.Rows.Clear();
                 
                 // 记录日志
-                logger.Log(LogLevel.Info, "报警信息已清除");
+                Gvar.Logger.Log(LogLevel.Info, "报警信息已清除");
                 
                 // 可选：显示提示
                 // MessageBox.Show("报警信息已清除", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "清除报警失败");
+                Gvar.Logger.ErrorException(ex, "清除报警失败");
                 MessageBox.Show($"清除报警失败: {ex.Message}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -497,16 +497,16 @@ namespace COTUI
             try
             {
                 // 只订阅状态变化事件
-                mqttService.ConnectionStatusChanged += MqttService_ConnectionStatusChanged;
+                Gvar.Mqtt.ConnectionStatusChanged += MqttService_ConnectionStatusChanged;
                 
                 // 初始化状态显示
                 SetMQTTStatus(mqttService.IsConnected);
                 
-                logger.Log(LogLevel.Debug, "已订阅MQTT状态监听");
+                Gvar.Logger.Log(LogLevel.Debug, "已订阅MQTT状态监听");
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "订阅MQTT状态失败");
+                Gvar.Logger.ErrorException(ex, "订阅MQTT状态失败");
             }
         }
         
@@ -520,11 +520,11 @@ namespace COTUI
             
             if (isConnected)
             {
-                logger.Log(LogLevel.Info, "✅ MQTT已连接");
+                Gvar.Logger.Log(LogLevel.Info, "✅ MQTT已连接");
             }
             else
             {
-                logger.Log(LogLevel.Error, "❌ MQTT已断开");
+                Gvar.Logger.Log(LogLevel.Error, "❌ MQTT已断开");
             }
         }
 
@@ -538,23 +538,23 @@ namespace COTUI
             Task.Run(async () =>
             {
                 await Task.Delay(1000);
-                logger.Log(LogLevel.Info, "初始化设备连接...");
+                Gvar.Logger.Log(LogLevel.Info, "初始化设备连接...");
                 
                 await Task.Delay(500);
                 SetAirPressureStatus(true, true);
-                logger.Log(LogLevel.Debug, "检查气源状态: 正常");
+                Gvar.Logger.Log(LogLevel.Debug, "检查气源状态: 正常");
                 
                 await Task.Delay(500);
                 SetSafetyDoorStatus(true);
-                logger.Log(LogLevel.Debug, "检查安全门状态: 闭合");
+                Gvar.Logger.Log(LogLevel.Debug, "检查安全门状态: 闭合");
                 
                 await Task.Delay(500);
                 SetMQTTStatus(true);
-                logger.Log(LogLevel.Info, "MQTT连接成功");
+                Gvar.Logger.Log(LogLevel.Info, "MQTT连接成功");
                 
                 await Task.Delay(500);
                 SetProductionMode(true);
-                logger.Log(LogLevel.Info, "系统就绪，进入生产模式");
+                Gvar.Logger.Log(LogLevel.Info, "系统就绪，进入生产模式");
             });
         }
 
@@ -588,7 +588,7 @@ namespace COTUI
                     }
                 }
                 
-                logger.Log(LogLevel.Info, "生产批次完成");
+                Gvar.Logger.Log(LogLevel.Info, "生产批次完成");
             });
         }
 
@@ -611,15 +611,15 @@ namespace COTUI
             try
             {
                 // 取消订阅Logger事件
-                logger.OnLogMessage -= Logger_OnLogMessage;
+                Gvar.Logger.OnLogMessage -= Logger_OnLogMessage;
                 
                 // 断开MQTT连接
-                mqttService.DisconnectAsync().Wait();
-                logger.Log(LogLevel.Info, "MQTT已断开");
+                Gvar.Mqtt.DisconnectAsync().Wait();
+                Gvar.Logger.Log(LogLevel.Info, "MQTT已断开");
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "关闭MQTT连接失败");
+                Gvar.Logger.ErrorException(ex, "关闭MQTT连接失败");
             }
             
             base.OnFormClosing(e);

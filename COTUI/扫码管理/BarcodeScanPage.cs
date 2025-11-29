@@ -37,7 +37,7 @@ namespace COTUI.扫码管理
             InitializeEvents();
             InitializeScanModes();
             
-            logger.Log(LogLevel.Info, "条码扫描页面创建完成");
+            Gvar.Logger.Log(LogLevel.Info, "条码扫描页面创建完成");
         }
 
         #endregion
@@ -92,11 +92,11 @@ namespace COTUI.扫码管理
                 AddLog("? 加载ɨ加载开始化成功");
                 AddLog("?? 提示加载到位Ϸ夹ѡ化ɨ化ģ式");
                 
-                logger.Log(LogLevel.Info, "加载ɨ化ҳ加载加载");
+                Gvar.Logger.Log(LogLevel.Info, "加载ɨ化ҳ加载加载");
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "加载ɨ化ҳ加载夹失败");
+                Gvar.Logger.ErrorException(ex, "加载ɨ化ҳ加载夹失败");
                 MessageBox.Show($"ҳ加载夹ʧ夹ܣ夹{ex.Message}", "加载", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -143,11 +143,11 @@ namespace COTUI.扫码管理
                 // 开始化ɨ加载
                 scanner.Initialize(mode);
                 
-                logger.Log(LogLevel.Info, $"ɨ化ģ式夹л夹: {mode}");
+                Gvar.Logger.Log(LogLevel.Info, $"ɨ化ģ式夹л夹: {mode}");
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "夹л夹ɨ化ģ式失败");
+                Gvar.Logger.ErrorException(ex, "夹л夹ɨ化ģ式失败");
                 MessageBox.Show($"夹л夹ʧ夹ܣ夹{ex.Message}", "加载", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -221,11 +221,11 @@ namespace COTUI.扫码管理
                     AddLog($"   ? SN夹Ѵ加载加载ݿ夹");
                 }
 
-                logger.Log(LogLevel.Info, $"ɨ夹成功: {barcode}, 化式={isValid}, 夹ظ夹={exists}");
+                Gvar.Logger.Log(LogLevel.Info, $"ɨ夹成功: {barcode}, 化式={isValid}, 夹ظ夹={exists}");
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "加载ɨ加载失败");
+                Gvar.Logger.ErrorException(ex, "加载ɨ加载失败");
             }
         }
 
@@ -243,7 +243,7 @@ namespace COTUI.扫码管理
                 }
 
                 AddLog($"? 加载: {error}");
-                logger.Log(LogLevel.Error, $"ɨ加载夹: {error}");
+                Gvar.Logger.Log(LogLevel.Error, $"ɨ加载夹: {error}");
             }
             catch { }
         }
@@ -264,7 +264,7 @@ namespace COTUI.扫码管理
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "加载加载加载失败");
+                Gvar.Logger.ErrorException(ex, "加载加载加载失败");
             }
         }
 
@@ -297,7 +297,7 @@ namespace COTUI.扫码管理
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "夹ֶ加载夹失败");
+                Gvar.Logger.ErrorException(ex, "夹ֶ加载夹失败");
                 MessageBox.Show($"加载ʧ夹ܣ夹{ex.Message}", "加载", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -319,11 +319,11 @@ namespace COTUI.扫码管理
                 txtManualInput.SelectAll();
 
                 AddLog($"?? 到位ɲ到位SN: {testSN}");
-                logger.Log(LogLevel.Debug, $"到位ɲ到位SN: {testSN}");
+                Gvar.Logger.Log(LogLevel.Debug, $"到位ɲ到位SN: {testSN}");
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "到位ɲ到位SN失败");
+                Gvar.Logger.ErrorException(ex, "到位ɲ到位SN失败");
             }
         }
 
@@ -408,11 +408,11 @@ namespace COTUI.扫码管理
                 scanner.OnBarcodeScanned -= Scanner_OnBarcodeScanned;
                 scanner.OnScanError -= Scanner_OnScanError;
 
-                logger.Log(LogLevel.Info, "加载ɨ化ҳ化ر夹");
+                Gvar.Logger.Log(LogLevel.Info, "加载ɨ化ҳ化ر夹");
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, "夹ر加载夹ɨ化ҳ化失败");
+                Gvar.Logger.ErrorException(ex, "夹ر加载夹ɨ化ҳ化失败");
             }
 
             base.OnFormClosing(e);

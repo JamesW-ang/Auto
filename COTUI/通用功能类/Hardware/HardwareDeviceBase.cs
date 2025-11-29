@@ -51,7 +51,7 @@ namespace COTUI.通用功能类.Hardware
         {
             try
             {
-                logger.Log(LogLevel.Info, $"[{DeviceName}] 正在连接...");
+                Gvar.Logger.Log(LogLevel.Info, $"[{DeviceName}] 正在连接...");
                 
                 bool success = await ConnectDeviceAsync();
                 
@@ -61,19 +61,19 @@ namespace COTUI.通用功能类.Hardware
                     reconnectAttempts = 0;
                     StopReconnectTimer();
                     
-                    logger.Log(LogLevel.Info, $"[{DeviceName}] 连接成功");
+                    Gvar.Logger.Log(LogLevel.Info, $"[{DeviceName}] 连接成功");
                     ConnectionStatusChanged?.Invoke(this, true);
                 }
                 else
                 {
-                    logger.Log(LogLevel.Error, $"[{DeviceName}] 连接失败");
+                    Gvar.Logger.Log(LogLevel.Error, $"[{DeviceName}] 连接失败");
                 }
                 
                 return success;
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, $"[{DeviceName}] 连接异常");
+                Gvar.Logger.ErrorException(ex, $"[{DeviceName}] 连接异常");
                 OnError($"连接异常: {ex.Message}");
                 return false;
             }
@@ -87,30 +87,30 @@ namespace COTUI.通用功能类.Hardware
                 
                 if (isConnected)
                 {
-                    logger.Log(LogLevel.Info, $"[{DeviceName}] 正在断开连接...");
+                    Gvar.Logger.Log(LogLevel.Info, $"[{DeviceName}] 正在断开连接...");
                     await DisconnectDeviceAsync();
                     
                     isConnected = false;
                     ConnectionStatusChanged?.Invoke(this, false);
-                    logger.Log(LogLevel.Info, $"[{DeviceName}] 已断开连接");
+                    Gvar.Logger.Log(LogLevel.Info, $"[{DeviceName}] 已断开连接");
                 }
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, $"[{DeviceName}] 断开连接异常");
+                Gvar.Logger.ErrorException(ex, $"[{DeviceName}] 断开连接异常");
                 OnError($"断开连接异常: {ex.Message}");
             }
         }
 
         public virtual async Task<bool> InitializeAsync()
         {
-            logger.Log(LogLevel.Info, $"[{DeviceName}] 初始化设备");
+            Gvar.Logger.Log(LogLevel.Info, $"[{DeviceName}] 初始化设备");
             return await Task.FromResult(true);
         }
 
         public virtual async Task ResetAsync()
         {
-            logger.Log(LogLevel.Info, $"[{DeviceName}] 重置设备");
+            Gvar.Logger.Log(LogLevel.Info, $"[{DeviceName}] 重置设备");
             await DisconnectAsync();
             await Task.Delay(1000);
             await ConnectAsync();
@@ -146,7 +146,7 @@ namespace COTUI.通用功能类.Hardware
                 ReconnectInterval,
                 Timeout.Infinite
             );
-            logger.Log(LogLevel.Info, $"[{DeviceName}] 将在 {ReconnectInterval / 1000} 秒后尝试重连");
+            Gvar.Logger.Log(LogLevel.Info, $"[{DeviceName}] 将在 {ReconnectInterval / 1000} 秒后尝试重连");
         }
 
         protected void StopReconnectTimer()
@@ -163,13 +163,13 @@ namespace COTUI.通用功能类.Hardware
 
             if (reconnectAttempts >= MaxReconnectAttempts)
             {
-                logger.Log(LogLevel.Error, $"[{DeviceName}] 已达到最大重连次数 ({MaxReconnectAttempts})");
+                Gvar.Logger.Log(LogLevel.Error, $"[{DeviceName}] 已达到最大重连次数 ({MaxReconnectAttempts})");
                 OnError($"重连失败，已尝试 {MaxReconnectAttempts} 次");
                 return;
             }
 
             reconnectAttempts++;
-            logger.Log(LogLevel.Info, $"[{DeviceName}] 尝试重连 (第 {reconnectAttempts}/{MaxReconnectAttempts} 次)");
+            Gvar.Logger.Log(LogLevel.Info, $"[{DeviceName}] 尝试重连 (第 {reconnectAttempts}/{MaxReconnectAttempts} 次)");
 
             bool success = await ConnectAsync();
             
@@ -184,7 +184,7 @@ namespace COTUI.通用功能类.Hardware
             if (isConnected)
             {
                 isConnected = false;
-                logger.Log(LogLevel.Warn, $"[{DeviceName}] 连接丢失");
+                Gvar.Logger.Log(LogLevel.Warn, $"[{DeviceName}] 连接丢失");
                 ConnectionStatusChanged?.Invoke(this, false);
                 
                 if (enableAutoReconnect)
@@ -200,7 +200,7 @@ namespace COTUI.通用功能类.Hardware
 
         protected void OnError(string message)
         {
-            logger.Log(LogLevel.Error, $"[{DeviceName}] {message}");
+            Gvar.Logger.Log(LogLevel.Error, $"[{DeviceName}] {message}");
             ErrorOccurred?.Invoke(this, message);
         }
 

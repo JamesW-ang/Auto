@@ -76,7 +76,7 @@ namespace COTUI.通用功能类.Hardware
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, $"[{DeviceName}] TCP连接失败");
+                Gvar.Logger.ErrorException(ex, $"[{DeviceName}] TCP连接失败");
                 return false;
             }
         }
@@ -306,7 +306,7 @@ namespace COTUI.通用功能类.Hardware
             }
             catch (Exception ex)
             {
-                logger.ErrorException(ex, $"[{DeviceName}] Modbus请求失败");
+                Gvar.Logger.ErrorException(ex, $"[{DeviceName}] Modbus请求失败");
                 OnConnectionLost();
                 return null;
             }

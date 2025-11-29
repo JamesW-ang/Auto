@@ -11,7 +11,7 @@ namespace COTUI.数据库.Services
     /// </summary>
     public class AlarmService
     {
-        private readonly DatabaseHelper db = DatabaseHelper.Instance;
+        // 使用全局变量 Gvar.DB 访问数据库
 
         /// <summary>
         /// 到位ӱ到位
@@ -23,7 +23,7 @@ namespace COTUI.数据库.Services
                 string sql = @"INSERT INTO Alarms (AlarmTime, Level, Content, Station, AlarmCode, IsHandled) 
                               VALUES (@alarmTime, @level, @content, @station, @alarmCode, @isHandled)";
 
-                db.ExecuteNonQuery(sql,
+                Gvar.DB.ExecuteNonQuery(sql,
                     new SQLiteParameter("@alarmTime", alarm.AlarmTime.ToString("yyyy-MM-dd HH:mm:ss.fff")),
                     new SQLiteParameter("@level", alarm.Level),
                     new SQLiteParameter("@content", alarm.Content),
@@ -81,7 +81,7 @@ namespace COTUI.数据库.Services
             string whereClause = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
             string sql = $"SELECT * FROM Alarms {whereClause} ORDER BY datetime(AlarmTime) DESC LIMIT {maxRecords}";
 
-            DataTable dt = db.ExecuteQuery(sql, parameters.ToArray());
+            DataTable dt = Gvar.DB.ExecuteQuery(sql, parameters.ToArray());
 
             List<AlarmModel> alarms = new List<AlarmModel>();
             foreach (DataRow row in dt.Rows)
@@ -101,7 +101,7 @@ namespace COTUI.数据库.Services
                 string sql = @"UPDATE Alarms SET IsHandled = 1, HandleTime = @handleTime, 
                               HandleUser = @handleUser, HandleRemark = @handleRemark WHERE Id = @id";
 
-                db.ExecuteNonQuery(sql,
+                Gvar.DB.ExecuteNonQuery(sql,
                     new SQLiteParameter("@handleTime", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")),
                     new SQLiteParameter("@handleUser", handleUser),
                     new SQLiteParameter("@handleRemark", handleRemark ?? ""),
@@ -126,7 +126,7 @@ namespace COTUI.数据库.Services
                           GROUP BY DATE(AlarmTime) 
                           ORDER BY AlarmDate DESC";
 
-            DataTable dt = db.ExecuteQuery(sql,
+            DataTable dt = Gvar.DB.ExecuteQuery(sql,
                 new SQLiteParameter("@startDate", startDate.ToString("yyyy-MM-dd")),
                 new SQLiteParameter("@endDate", endDate.AddDays(1).ToString("yyyy-MM-dd")));
 
@@ -161,7 +161,7 @@ namespace COTUI.数据库.Services
             string whereClause = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
             string sql = $"SELECT Level, COUNT(*) as Count FROM Alarms {whereClause} GROUP BY Level";
 
-            DataTable dt = db.ExecuteQuery(sql, parameters.ToArray());
+            DataTable dt = Gvar.DB.ExecuteQuery(sql, parameters.ToArray());
 
             Dictionary<string, int> stats = new Dictionary<string, int>();
             foreach (DataRow row in dt.Rows)

@@ -11,7 +11,7 @@ namespace COTUI.数据库.Services
     /// </summary>
     public class LogService
     {
-        private readonly DatabaseHelper db = DatabaseHelper.Instance;
+        // 使用全局变量 Gvar.DB 访问数据库
 
         /// <summary>
         /// 加载化志
@@ -23,7 +23,7 @@ namespace COTUI.数据库.Services
                 string sql = @"INSERT INTO Logs (LogTime, Level, Message, Source, Station, ThreadId, StackTrace) 
                               VALUES (@logTime, @level, @message, @source, @station, @threadId, @stackTrace)";
 
-                db.ExecuteNonQuery(sql,
+                Gvar.DB.ExecuteNonQuery(sql,
                     new SQLiteParameter("@logTime", log.LogTime.ToString("yyyy-MM-dd HH:mm:ss.fff")),
                     new SQLiteParameter("@level", log.Level),
                     new SQLiteParameter("@message", log.Message),
@@ -47,7 +47,7 @@ namespace COTUI.数据库.Services
         {
             try
             {
-                using (var conn = db.GetConnection())
+                using (var conn = Gvar.DB.GetConnection())
                 {
                     conn.Open();
                     using (var transaction = conn.BeginTransaction())
@@ -128,7 +128,7 @@ namespace COTUI.数据库.Services
             // ʹ化 datetime(LogTime) 加载加载加载加载化
             string sql = $"SELECT * FROM Logs {whereClause} ORDER BY datetime(LogTime) DESC LIMIT {maxRecords}";
 
-            DataTable dt = db.ExecuteQuery(sql, parameters.ToArray());
+            DataTable dt = Gvar.DB.ExecuteQuery(sql, parameters.ToArray());
 
             List<LogModel> logs = new List<LogModel>();
             foreach (DataRow row in dt.Rows)
@@ -161,7 +161,7 @@ namespace COTUI.数据库.Services
             string whereClause = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
             string sql = $"SELECT Level, COUNT(*) as Count FROM Logs {whereClause} GROUP BY Level";
 
-            DataTable dt = db.ExecuteQuery(sql, parameters.ToArray());
+            DataTable dt = Gvar.DB.ExecuteQuery(sql, parameters.ToArray());
 
             Dictionary<string, int> stats = new Dictionary<string, int>();
             foreach (DataRow row in dt.Rows)
@@ -179,7 +179,7 @@ namespace COTUI.数据库.Services
             try
             {
                 string sql = "DELETE FROM Logs WHERE datetime(LogTime) < datetime(@cutoffDate)";
-                db.ExecuteNonQuery(sql, new SQLiteParameter("@cutoffDate", cutoffDate.ToString("yyyy-MM-dd HH:mm:ss")));
+                Gvar.DB.ExecuteNonQuery(sql, new SQLiteParameter("@cutoffDate", cutoffDate.ToString("yyyy-MM-dd HH:mm:ss")));
                 return true;
             }
             catch
