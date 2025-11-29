@@ -35,7 +35,7 @@ namespace COTUI
         /// <summary>
         /// 日志服务（单例快捷访问）
         /// </summary>
-        public static Logger Logger => Logger.GetInstance();
+        public static Logger Logger => 通用功能类.Logger.GetInstance();
 
         /// <summary>
         /// 数据库服务（单例快捷访问）

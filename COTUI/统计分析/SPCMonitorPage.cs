@@ -24,7 +24,6 @@ namespace COTUI.统计分析
     {
         #region 字段
 
-        private Logger logger = Logger.GetInstance();
         private ProductionDataService productionService = new ProductionDataService();
 
         #endregion

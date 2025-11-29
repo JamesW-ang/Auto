@@ -13,7 +13,7 @@ namespace COTUI.通用功能类.Hardware
 
         protected bool isConnected = false;
         protected readonly object lockObject = new object();
-        protected Logger logger = Logger.GetInstance();
+
 
         // 自动重连
         protected System.Threading.Timer reconnectTimer;

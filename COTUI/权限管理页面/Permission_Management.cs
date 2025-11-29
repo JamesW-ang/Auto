@@ -18,7 +18,7 @@ namespace COTUI.权限管理
     public partial class Permission_Management : CCSkinMain
     {
         private UserService _userService = new UserService();
-        private Logger _logger = Gvar.Logger.GetInstance();
+
 
         public Permission_Management()
         {

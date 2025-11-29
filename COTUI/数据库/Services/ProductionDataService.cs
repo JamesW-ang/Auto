@@ -108,7 +108,7 @@ namespace COTUI.数据库.Services
             }
             catch (Exception ex)
             {
-                Logger.GetInstance().Error(LogLevel.Error, $"[生产数据] 加载数据失败: {ex.Message}");
+                Gvar.Logger.Error($"[生产数据] 加载数据失败: {ex.Message}");
                 return false;
             }
         }
@@ -140,7 +140,7 @@ namespace COTUI.数据库.Services
             }
             catch (Exception ex)
             {
-                Logger.GetInstance().Error(LogLevel.Error, $"[生产数据] 查询SN失败: {ex.Message}");
+                Gvar.Logger.Error($"[生产数据] 查询SN失败: {ex.Message}");
                 return null;
             }
         }
@@ -169,7 +169,7 @@ namespace COTUI.数据库.Services
             }
             catch (Exception ex)
             {
-                Logger.GetInstance().Error(LogLevel.Error, $"[生产数据] 查询最后记录失败: {ex.Message}");
+                Gvar.Logger.Error($"[生产数据] 查询最后记录失败: {ex.Message}");
                 return new List<ProductionDataModel>();
             }
         }
@@ -195,7 +195,7 @@ namespace COTUI.数据库.Services
             }
             catch (Exception ex)
             {
-                Logger.GetInstance().Error(LogLevel.Error, $"[生产数据] 获取最后记录失败: {ex.Message}");
+                Gvar.Logger.Error($"[生产数据] 获取最后记录失败: {ex.Message}");
                 return new List<ProductionDataModel>();
             }
         }
@@ -226,7 +226,7 @@ namespace COTUI.数据库.Services
             }
             catch (Exception ex)
             {
-                Logger.GetInstance().Error(LogLevel.Error, $"[生产数据] 查询批次数据失败: {ex.Message}");
+                Gvar.Logger.Error($"[生产数据] 查询批次数据失败: {ex.Message}");
                 return new List<ProductionDataModel>();
             }
         }
