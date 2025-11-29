@@ -18,7 +18,7 @@ namespace COTUI.权限管理
     public partial class Permission_Management : CCSkinMain
     {
         private UserService _userService = new UserService();
-        private Logger _logger = Logger.GetInstance();
+        private Logger _logger = Gvar.Logger.GetInstance();
 
         public Permission_Management()
         {
@@ -50,26 +50,26 @@ namespace COTUI.权限管理
                     if (user != null && user.IsEnabled)
                     {
                         Gvar.User = username;
-                        _Gvar.Logger.Log(LogLevel.Info, $"用户 {username} ({user.RealName}) 登录成功");
+                        Gvar.Logger.Log(LogLevel.Info, $"用户 {username} ({user.RealName}) 登录成功");
                         MessageBox.Show($"欢迎，{user.RealName ?? username}！", "登录成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.Close();
                     }
                     else
                     {
                         MessageBox.Show("用户已被禁用，请联系管理员！", "登录失败", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        _Gvar.Logger.Log(LogLevel.Warn, $"用户 {username} 尝试登录失败：账户已禁用");
+                        Gvar.Logger.Log(LogLevel.Warn, $"用户 {username} 尝试登录失败：账户已禁用");
                     }
                 }
                 else
                 {
                     MessageBox.Show("用户名或密码错误！", "登录失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    _Gvar.Logger.Log(LogLevel.Warn, $"用户 {username} 登录失败：密码错误");
+                    Gvar.Logger.Log(LogLevel.Warn, $"用户 {username} 登录失败：密码错误");
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"登录失败：{ex.Message}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                _Gvar.Logger.ErrorException(ex, "登录过程发生异常");
+                Gvar.Logger.ErrorException(ex, "登录过程发生异常");
             }
         }
 
