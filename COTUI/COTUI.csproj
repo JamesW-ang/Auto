@@ -93,6 +93,7 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
@@ -214,6 +215,13 @@
     <Compile Include="通用功能类\MqttService.cs" />
     <Compile Include="通用功能类\SerialPortService.cs" />
     <Compile Include="通用功能类\TcpSocketService.cs" />
+    <Compile Include="通用功能类\Hardware\IHardwareDevice.cs" />
+    <Compile Include="通用功能类\Hardware\HardwareDeviceBase.cs" />
+    <Compile Include="通用功能类\Hardware\ModbusTcpDevice.cs" />
+    <Compile Include="通用功能类\Hardware\GenericTcpDevice.cs" />
+    <Compile Include="Form\HardwareTestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
