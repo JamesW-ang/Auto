@@ -125,7 +125,7 @@ namespace COTUI.统计分析
             
             try
             {
-                Gvar.Logger.Log("开始加载实时数据看板...");
+                Gvar.Logger.Info("开始加载实时数据看板...");
                 
                 dashboardPage = new DashboardPage();
                 LoadFormIntoPanel(dashboardPage, panel_Dashboard);
@@ -154,7 +154,7 @@ namespace COTUI.统计分析
             
             try
             {
-                Gvar.Logger.Log("开始加载SPC过程监控...");
+                Gvar.Logger.Info("开始加载SPC过程监控...");
                 
                 spcMonitorPage = new SPCMonitorPage();
                 LoadFormIntoPanel(spcMonitorPage, panel_SPC);
@@ -183,7 +183,7 @@ namespace COTUI.统计分析
             
             try
             {
-                Gvar.Logger.Log("开始加载产品追溯查询...");
+                Gvar.Logger.Info("开始加载产品追溯查询...");
                 
                 traceabilityPage = new TraceabilityPage();
                 LoadFormIntoPanel(traceabilityPage, panel_Traceability);
@@ -230,16 +230,16 @@ namespace COTUI.统计分析
                 if (isSPCLoaded && spcMonitorPage != null)
                 {
                     spcMonitorPage.Close();
-                    Gvar.Logger.Log("SPC过程监控已关闭");
+                    Gvar.Logger.Info("SPC过程监控已关闭");
                 }
                 
                 if (isTraceabilityLoaded && traceabilityPage != null)
                 {
                     traceabilityPage.Close();
-                    Gvar.Logger.Log("产品追溯查询已关闭");
+                    Gvar.Logger.Info("产品追溯查询已关闭");
                 }
 
-                Gvar.Logger.Log("统计分析页面关闭");
+                Gvar.Logger.Info("统计分析页面关闭");
             }
             catch (Exception ex)
             {

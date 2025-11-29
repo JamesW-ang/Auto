@@ -138,14 +138,14 @@ namespace COTUI.扫码管理
                 // 化֤化Ҫ字段
                 if (string.IsNullOrWhiteSpace(data.ProductSN))
                 {
-                    Gvar.Logger.Log("化ƷSN为化");
+                    Gvar.Logger.Info("化ƷSN为化");
                     return false;
                 }
 
                 // 到位SN夹ظ夹
                 if (IsSNExists(data.ProductSN))
                 {
-                    Gvar.Logger.Log($"SN夹Ѵ到位: {data.ProductSN}");
+                    Gvar.Logger.Info($"SN夹Ѵ到位: {data.ProductSN}");
                     return false;
                 }
 
@@ -154,11 +154,11 @@ namespace COTUI.扫码管理
 
                 if (success)
                 {
-                    Gvar.Logger.Log($"加载夹Ʒ到位ݳɹ夹: {data.ProductSN}");
+                    Gvar.Logger.Info($"加载夹Ʒ到位ݳɹ夹: {data.ProductSN}");
                 }
                 else
                 {
-                    Gvar.Logger.Log($"加载夹Ʒ加载失败: {data.ProductSN}");
+                    Gvar.Logger.Info($"加载夹Ʒ加载失败: {data.ProductSN}");
                 }
 
                 return success;

@@ -100,7 +100,7 @@ namespace COTUI.运动控制页面
                 return;
             }
             
-            Gvar.Logger.Log("夹˶加载夹ҳ加载ʾ到位ӳټ到位ģ式化");
+            Gvar.Logger.Info("夹˶加载夹ҳ加载ʾ到位ӳټ到位ģ式化");
             
             // 提示加载提示加载ѡ化
             ShowLoadingIndicator();
@@ -158,7 +158,7 @@ namespace COTUI.运动控制页面
                             }
                             catch (OperationCanceledException)
                             {
-                                Gvar.Logger.Log("夹˶加载夹ҳ夹开始加载取化");
+                                Gvar.Logger.Info("夹˶加载夹ҳ夹开始加载取化");
                             }
                             catch (Exception ex)
                             {
@@ -896,7 +896,7 @@ namespace COTUI.运动控制页面
                         savedPoints.Add(newPoint);
                         RefreshPointsGrid();
                         
-                        Gvar.Logger.Log($"到位入夹λ: {pointName} ({newPoint.X:F3}, {newPoint.Y:F3}, {newPoint.Z:F3})");
+                        Gvar.Logger.Info($"到位入夹λ: {pointName} ({newPoint.X:F3}, {newPoint.Y:F3}, {newPoint.Z:F3})");
                     }
                 }
             }
@@ -941,7 +941,7 @@ namespace COTUI.运动控制页面
         {
             try
             {
-                Gvar.Logger.Log($"夹ƶ加载夹λ: {point.Name} ({point.X:F3}, {point.Y:F3}, {point.Z:F3})");
+                Gvar.Logger.Info($"夹ƶ加载夹λ: {point.Name} ({point.X:F3}, {point.Y:F3}, {point.Z:F3})");
 
                 // TODO: 实到位ƶ化߼夹
                 // ģ夹⣺ֱ加载化λ化
@@ -971,7 +971,7 @@ namespace COTUI.运动控制页面
             
             RefreshPointsGrid();
             
-            Gvar.Logger.Log($"到位µ夹λ: {point.Name} ({point.X:F3}, {point.Y:F3}, {point.Z:F3})");
+            Gvar.Logger.Info($"到位µ夹λ: {point.Name} ({point.X:F3}, {point.Y:F3}, {point.Z:F3})");
             
             MessageBox.Show($"化λ '{point.Name}' 夹Ѹ到位", "成功", 
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1142,7 +1142,7 @@ namespace COTUI.运动控制页面
         /// </summary>
         private void MotionToUnloadingPosition()
         {
-            Gvar.Logger.Log("开始夹ƶ加载到位λ...");
+            Gvar.Logger.Info("开始夹ƶ加载到位λ...");
             
             // TODO: 实夹实现˶加载ƴ到位
             currentPositions[0] = 300;  // X
@@ -1187,7 +1187,7 @@ namespace COTUI.运动控制页面
                 jogCts?.Dispose();
                 jogCts = null;
                 
-                Gvar.Logger.Log("运动控制页面ر夹");
+                Gvar.Logger.Info("运动控制页面ر夹");
             }
             catch (Exception ex)
             {

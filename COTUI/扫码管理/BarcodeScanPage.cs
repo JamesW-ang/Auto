@@ -220,7 +220,7 @@ namespace COTUI.扫码管理
                     AddLog($"   ? SN夹Ѵ加载加载ݿ夹");
                 }
 
-                Gvar.Logger.Log($"ɨ夹成功: {barcode}, 化式={isValid}, 夹ظ夹={exists}");
+                Gvar.Logger.Info($"ɨ夹成功: {barcode}, 化式={isValid}, 夹ظ夹={exists}");
             }
             catch (Exception ex)
             {

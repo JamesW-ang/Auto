@@ -343,7 +343,7 @@ namespace COTUI
                     }
                 });
 
-                Gvar.Logger.Log($"生产数据: {ringInfo}, 耗时: {testTime:F2}ms, 结果: {result}");
+                Gvar.Logger.Info($"生产数据: {ringInfo}, 耗时: {testTime:F2}ms, 结果: {result}");
             }
             catch (Exception ex)
             {
@@ -364,7 +364,7 @@ namespace COTUI
 
             logQueue.Clear();
             textBox1.Clear();
-            Gvar.Logger.Log("日志显示已清除");
+            Gvar.Logger.Info("日志显示已清除");
         }
 
         /// <summary>
@@ -524,7 +524,7 @@ namespace COTUI
             }
             else
             {
-                Gvar.Logger.Log("❌ MQTT已断开");
+                Gvar.Logger.Info("❌ MQTT已断开");
             }
         }
 
@@ -538,7 +538,7 @@ namespace COTUI
             Task.Run(async () =>
             {
                 await Task.Delay(1000);
-                Gvar.Logger.Log("初始化设备连接...");
+                Gvar.Logger.Info("初始化设备连接...");
                 
                 await Task.Delay(500);
                 SetAirPressureStatus(true, true);
@@ -546,15 +546,15 @@ namespace COTUI
                 
                 await Task.Delay(500);
                 SetSafetyDoorStatus(true);
-                Gvar.Logger.Log("检查安全门状态: 闭合");
+                Gvar.Logger.Info("检查安全门状态: 闭合");
                 
                 await Task.Delay(500);
                 SetMQTTStatus(true);
-                Gvar.Logger.Log("MQTT连接成功");
+                Gvar.Logger.Info("MQTT连接成功");
                 
                 await Task.Delay(500);
                 SetProductionMode(true);
-                Gvar.Logger.Log("系统就绪，进入生产模式");
+                Gvar.Logger.Info("系统就绪，进入生产模式");
             });
         }
 
@@ -615,7 +615,7 @@ namespace COTUI
                 
                 // 断开MQTT连接
                 Gvar.Mqtt.DisconnectAsync().Wait();
-                Gvar.Logger.Log("MQTT已断开");
+                Gvar.Logger.Info("MQTT已断开");
             }
             catch (Exception ex)
             {

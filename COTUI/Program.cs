@@ -47,7 +47,7 @@ namespace COTUI
                 Application.Run(Gvar.UI.MainForm = new Form1());
                 
                 // 5. 程序退出时清理
-                Gvar.Logger.Log("程序退出");
+                Gvar.Logger.Info("程序退出");
                 dbLogger.Shutdown();
                 Gvar.Logger.Shutdown();
             }

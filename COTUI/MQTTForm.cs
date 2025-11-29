@@ -67,7 +67,7 @@ namespace COTUI
                 tcpSocketService.TextReceived += TcpSocket_TextReceived;
                 tcpSocketService.ErrorOccurred += TcpSocket_ErrorOccurred;
                 
-                Gvar.Logger.Log("通讯服务初始化完成");
+                Gvar.Logger.Info("通讯服务初始化完成");
             }
             catch (Exception ex)
             {
@@ -91,7 +91,7 @@ namespace COTUI
                     // 显示配置文件信息（调试用）
                     Gvar.Logger.Info("=== 配置文件信息 ===");
                     Gvar.Logger.Log(Gvar.Config.GetConfigInfo());
-                    Gvar.Logger.Log("====================");
+                    Gvar.Logger.Info("====================");
                 }
                 catch (FileNotFoundException ex)
                 {
@@ -175,23 +175,23 @@ namespace COTUI
             
             if (mqttPort < MIN_PORT || mqttPort > MAX_PORT)
             {
-                Gvar.Logger.Log($"❌ MQTT端口号无效: {mqttPort}（有效范围：{MIN_PORT}-{MAX_PORT}）");
+                Gvar.Logger.Info($"❌ MQTT端口号无效: {mqttPort}（有效范围：{MIN_PORT}-{MAX_PORT}）");
                 isValid = false;
             }
             
             if (string.IsNullOrWhiteSpace(mqttClientId))
             {
-                Gvar.Logger.Log("❌ MQTT客户端ID为空");
+                Gvar.Logger.Info("❌ MQTT客户端ID为空");
                 isValid = false;
             }
             
             if (isValid)
             {
-                Gvar.Logger.Log($"✅ 配置验证通过: {mqttServer}:{mqttPort}");
+                Gvar.Logger.Info($"✅ 配置验证通过: {mqttServer}:{mqttPort}");
             }
             else
             {
-                Gvar.Logger.Log("⚠️ 配置验证失败，请检查Config.ini文件");
+                Gvar.Logger.Info("⚠️ 配置验证失败，请检查Config.ini文件");
             }
             
             return isValid;
@@ -225,8 +225,8 @@ namespace COTUI
                     tcpHeartbeatInterval = Gvar.Config.GetIntValue("TcpSocket", "HeartbeatInterval", 30000);
                     
                     Gvar.Logger.Info($"✅ 配置已从文件加载");
-                    Gvar.Logger.Log($"   MQTT: {mqttServer}:{mqttPort}");
-                    Gvar.Logger.Log($"   TCP: {tcpServerHost}:{tcpServerPort}");
+                    Gvar.Logger.Info($"   MQTT: {mqttServer}:{mqttPort}");
+                    Gvar.Logger.Info($"   TCP: {tcpServerHost}:{tcpServerPort}");
                 }
                 else
                 {
@@ -243,7 +243,7 @@ namespace COTUI
                     tcpEnableHeartbeat = true;
                     tcpHeartbeatInterval = 30000;
                     
-                    Gvar.Logger.Log("⚠️ 配置文件不可用，使用默认配置");
+                    Gvar.Logger.Info("⚠️ 配置文件不可用，使用默认配置");
                 }
             }
             catch (Exception ex)
@@ -360,7 +360,7 @@ namespace COTUI
                 }
                 else
                 {
-                    Gvar.Logger.Log($"⚠️ 配置已更新（仅内存，未保存到文件）");
+                    Gvar.Logger.Info($"⚠️ 配置已更新（仅内存，未保存到文件）");
                 }
             }
             catch (FormatException ex)

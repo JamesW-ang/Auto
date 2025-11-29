@@ -52,7 +52,7 @@ namespace COTUI.统计分析
             {
                 Gvar.Logger.Info("实时数据看板加载");
                 LoadDashboardData();
-                Gvar.Logger.Log("实时数据看板加载请求");
+                Gvar.Logger.Info("实时数据看板加载请求");
             }
             catch (Exception ex)
             {
@@ -111,7 +111,7 @@ namespace COTUI.统计分析
                 // 更新最近记录
                 UpdateRecentRecords(records);
 
-                Gvar.Logger.Log($"看板数据更新: 总产量：{totalCount}, 总产量：{okCount}, 不良：{ngCount}, 秒Ʒ总产量：{yieldRate:F2}%");
+                Gvar.Logger.Info($"看板数据更新: 总产量：{totalCount}, 总产量：{okCount}, 不良：{ngCount}, 秒Ʒ总产量：{yieldRate:F2}%");
             }
             catch (Exception ex)
             {

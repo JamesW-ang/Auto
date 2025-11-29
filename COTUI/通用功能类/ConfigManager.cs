@@ -57,7 +57,7 @@ namespace COTUI.通用功能类
             if (!File.Exists(configFilePath))
             {
                 Gvar.Logger.Info($"? 配置文件不存在: {configFilePath}");
-                Gvar.Logger.Log("请在解决方案根目录手动创建 Config.ini 文件！");
+                Gvar.Logger.Info("请在解决方案根目录手动创建 Config.ini 文件！");
                 
                 // 不自动创建，而是提示用户手动创建
                 throw new FileNotFoundException(
@@ -73,7 +73,7 @@ namespace COTUI.通用功能类
             LoadConfig();
             
             Gvar.Logger.Info($"? 配置文件已加载: {configFilePath}");
-            Gvar.Logger.Log($"   分组数量: {configData.Count}");
+            Gvar.Logger.Info($"   分组数量: {configData.Count}");
             
             // 控制台输出（方便调试）
             System.Diagnostics.Debug.WriteLine($"配置文件路径: {configFilePath}");
@@ -130,11 +130,11 @@ namespace COTUI.通用功能类
                     }
                     else if (equalIndex < 0 && !string.IsNullOrEmpty(trimmedLine))
                     {
-                        Gvar.Logger.Log($"配置文件第{lineNumber}行格式错误: {trimmedLine}");
+                        Gvar.Logger.Info($"配置文件第{lineNumber}行格式错误: {trimmedLine}");
                     }
                 }
 
-                Gvar.Logger.Log($"配置文件加载成功，共{configData.Count}个分组");
+                Gvar.Logger.Info($"配置文件加载成功，共{configData.Count}个分组");
             }
             catch (Exception ex)
             {
@@ -202,7 +202,7 @@ namespace COTUI.通用功能类
             }
             catch (Exception ex)
             {
-                Gvar.Logger.Log($"读取配置失败: [{section}] {key}, {ex.Message}");
+                Gvar.Logger.Info($"读取配置失败: [{section}] {key}, {ex.Message}");
             }
 
             return defaultValue;
@@ -259,7 +259,7 @@ namespace COTUI.通用功能类
                 }
 
                 configData[section][key] = value;
-                Gvar.Logger.Log($"配置已更新: [{section}] {key} = {value}");
+                Gvar.Logger.Info($"配置已更新: [{section}] {key} = {value}");
             }
             catch (Exception ex)
             {

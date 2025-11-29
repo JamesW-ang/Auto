@@ -354,7 +354,7 @@ namespace COTUI.统计分析
                 int okCount = testDataList.Count(d => d.OverallResult == "OK");
                 int ngCount = testDataList.Count(d => d.OverallResult == "NG");
                 
-                Gvar.Logger.Log($"测试数据生成完成: 共{testDataList.Count}条, OK:{okCount}条, NG:{ngCount}条");
+                Gvar.Logger.Info($"测试数据生成完成: 共{testDataList.Count}条, OK:{okCount}条, NG:{ngCount}条");
                 
                 MessageBox.Show(
                     $"✅ 测试数据生成完成！\n\n" +

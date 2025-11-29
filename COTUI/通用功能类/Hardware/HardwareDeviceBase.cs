@@ -61,7 +61,7 @@ namespace COTUI.通用功能类.Hardware
                     reconnectAttempts = 0;
                     StopReconnectTimer();
                     
-                    Gvar.Logger.Log($"[{DeviceName}] 连接成功");
+                    Gvar.Logger.Info($"[{DeviceName}] 连接成功");
                     ConnectionStatusChanged?.Invoke(this, true);
                 }
                 else
@@ -110,7 +110,7 @@ namespace COTUI.通用功能类.Hardware
 
         public virtual async Task ResetAsync()
         {
-            Gvar.Logger.Log($"[{DeviceName}] 重置设备");
+            Gvar.Logger.Info($"[{DeviceName}] 重置设备");
             await DisconnectAsync();
             await Task.Delay(1000);
             await ConnectAsync();
@@ -169,7 +169,7 @@ namespace COTUI.通用功能类.Hardware
             }
 
             reconnectAttempts++;
-            Gvar.Logger.Log($"[{DeviceName}] 尝试重连 (第 {reconnectAttempts}/{MaxReconnectAttempts} 次)");
+            Gvar.Logger.Info($"[{DeviceName}] 尝试重连 (第 {reconnectAttempts}/{MaxReconnectAttempts} 次)");
 
             bool success = await ConnectAsync();
             
@@ -184,7 +184,7 @@ namespace COTUI.通用功能类.Hardware
             if (isConnected)
             {
                 isConnected = false;
-                Gvar.Logger.Log($"[{DeviceName}] 连接丢失");
+                Gvar.Logger.Info($"[{DeviceName}] 连接丢失");
                 ConnectionStatusChanged?.Invoke(this, false);
                 
                 if (enableAutoReconnect)

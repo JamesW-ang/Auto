@@ -51,7 +51,7 @@ namespace COTUI.统计分析
             try
             {
                 Gvar.Logger.Info("SPC监控页面加载");
-                Gvar.Logger.Log("SPC监控页面加载完成");
+                Gvar.Logger.Info("SPC监控页面加载完成");
             }
             catch (Exception ex)
             {
@@ -166,11 +166,11 @@ namespace COTUI.统计分析
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error
                     );
-                    Gvar.Logger.Log($"规格限配置错误: {fieldName}, USL={usl}, LSL={lsl}");
+                    Gvar.Logger.Info($"规格限配置错误: {fieldName}, USL={usl}, LSL={lsl}");
                     return;
                 }
 
-                Gvar.Logger.Log($"从配置读取规格限: {fieldName}, USL={usl}, LSL={lsl}");
+                Gvar.Logger.Info($"从配置读取规格限: {fieldName}, USL={usl}, LSL={lsl}");
 
                 // 计算Cp和Cpk
                 double cp = (usl - lsl) / (6 * stdDev);
