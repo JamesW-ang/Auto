@@ -301,7 +301,7 @@ namespace COTUI
             /// <summary>
             /// 主窗体引用（按需设置）
             /// </summary>
-            public static MainForm MainForm { get; set; }
+            public static Form1 MainForm { get; set; }
 
             /// <summary>
             /// 当前激活的页面名称
