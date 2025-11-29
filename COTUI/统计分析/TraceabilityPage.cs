@@ -37,7 +37,7 @@ namespace COTUI.统计分析
         {
             InitializeComponent();
             InitializeObjectListView();  // ✅ 初始化 ObjectListView
-            Gvar.Logger.Log("产品追溯查询页面创建");
+            Gvar.Logger.Info("产品追溯查询页面创建");
         }
 
         #endregion
@@ -49,7 +49,7 @@ namespace COTUI.统计分析
             try
             {
                 txtSN.Focus();
-                Gvar.Logger.Log("产品追溯查询页面加载完成");
+                Gvar.Logger.Info("产品追溯查询页面加载完成");
             }
             catch (Exception ex)
             {
@@ -115,7 +115,7 @@ namespace COTUI.统计分析
                 currentRecord = record;
                 DisplayRecord(record);
 
-                Gvar.Logger.Log($"查询产品追溯: {sn}");
+                Gvar.Logger.Info($"查询产品追溯: {sn}");
             }
             catch (Exception ex)
             {
@@ -251,7 +251,7 @@ namespace COTUI.统计分析
             try
             {
                 Cursor = Cursors.WaitCursor;
-                Gvar.Logger.Log("开始生成测试数据...");
+                Gvar.Logger.Info("开始生成测试数据...");
 
                 Random rand = new Random();
                 List<ProductionDataModel> testDataList = new List<ProductionDataModel>();

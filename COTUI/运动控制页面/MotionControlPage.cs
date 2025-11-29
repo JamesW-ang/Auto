@@ -84,7 +84,7 @@ namespace COTUI.运动控制页面
             // 开始化状态ָʾ加载化
             axisStatusIndicators = new Dictionary<string, Dictionary<string, StatusIndicatorControl>>();
             
-            Gvar.Logger.Log("夹˶加载夹ҳ夹洴加载到位ٹ化죩");
+            Gvar.Logger.Info("夹˶加载夹ҳ夹洴加载到位ٹ化죩");
         }
 
         #endregion
@@ -96,7 +96,7 @@ namespace COTUI.运动控制页面
             // ===== ? 到位ٷ化أ加载到位UI =====
             if (isInitialized)
             {
-                Gvar.Logger.Log("夹˶加载夹ҳ到位ѳ夹ʼ加载加载");
+                Gvar.Logger.Info("夹˶加载夹ҳ到位ѳ夹ʼ加载加载");
                 return;
             }
             
@@ -122,7 +122,7 @@ namespace COTUI.运动控制页面
                         {
                             try
                             {
-                                Gvar.Logger.Log("开始夹첽开始到位ؼ夹...");
+                                Gvar.Logger.Info("开始夹첽开始到位ؼ夹...");
                                 
                                 // 1. 夹˶夹ģ式ѡ加载加载夹٣夹
                                 InitializeMotionModeSelector();
@@ -154,7 +154,7 @@ namespace COTUI.运动控制页面
                                 HideLoadingIndicator();
                                 
                                 isInitialized = true;
-                                Gvar.Logger.Log("夹˶加载夹ҳ夹开始加载ɣ化첽化");
+                                Gvar.Logger.Info("夹˶加载夹ҳ夹开始加载ɣ化첽化");
                             }
                             catch (OperationCanceledException)
                             {
@@ -260,7 +260,7 @@ namespace COTUI.运动控制页面
                 {
                     currentMode = MotionMode.Absolute;
                     UpdateModeDescription();
-                    Gvar.Logger.Log("夹л加载到位ģ式");
+                    Gvar.Logger.Info("夹л加载到位ģ式");
                 }
             };
 
@@ -271,7 +271,7 @@ namespace COTUI.运动控制页面
                 {
                     currentMode = MotionMode.Relative;
                     UpdateModeDescription();
-                    Gvar.Logger.Log("夹л加载化ģ式");
+                    Gvar.Logger.Info("夹л加载化ģ式");
                 }
             };
 
@@ -282,7 +282,7 @@ namespace COTUI.运动控制页面
                 {
                     currentMode = MotionMode.JOG;
                     UpdateModeDescription();
-                    Gvar.Logger.Log("夹л到位JOGģ式");
+                    Gvar.Logger.Info("夹л到位JOGģ式");
                 }
             };
 
@@ -393,7 +393,7 @@ namespace COTUI.运动控制页面
             currentJogDirection = direction;
             jogCts = new CancellationTokenSource();
             
-            Gvar.Logger.Log($"开始JOG夹˶夹: {direction}");
+            Gvar.Logger.Info($"开始JOG夹˶夹: {direction}");
 
             // 加载夹첽JOG加载
             Task.Run(async () =>
@@ -440,7 +440,7 @@ namespace COTUI.运动控制页面
 
             if (!string.IsNullOrEmpty(currentJogDirection))
             {
-                Gvar.Logger.Log("ֹͣJOG夹˶夹");
+                Gvar.Logger.Info("ֹͣJOG夹˶夹");
                 currentJogDirection = "";
             }
         }
@@ -458,7 +458,7 @@ namespace COTUI.运动控制页面
                 {
                     // 到位ģ式到位入夹前λ到位ƶ夹
                     UpdatePositionByDirection(direction, stepDistance);
-                    Gvar.Logger.Log($"加载ƶ夹 {direction}: {stepDistance}mm");
+                    Gvar.Logger.Info($"加载ƶ夹 {direction}: {stepDistance}mm");
                 }
                 else if (currentMode == MotionMode.Absolute)
                 {
@@ -639,7 +639,7 @@ namespace COTUI.运动控制页面
             catch (Exception ex)
             {
                 // 化错加载加载加载加载到位
-                Gvar.Logger.Log($"加载状态ָʾ化失败: {axisName}.{statusName} - {ex.Message}");
+                Gvar.Logger.Info($"加载状态ָʾ化失败: {axisName}.{statusName} - {ex.Message}");
             }
         }
 
@@ -702,7 +702,7 @@ namespace COTUI.运动控制页面
 
                 if (double.TryParse(targetTextBox.Text, out double targetPos))
                 {
-                    Gvar.Logger.Log($"{axisNames[axisIndex]} 夹ƶ夹: {currentPositions[axisIndex]:F3} -> {targetPos:F3}");
+                    Gvar.Logger.Info($"{axisNames[axisIndex]} 夹ƶ夹: {currentPositions[axisIndex]:F3} -> {targetPos:F3}");
 
                     // TODO: 实到位ƶ化߼夹
                     // ģ夹⣺ֱ加载化λ化
@@ -731,7 +731,7 @@ namespace COTUI.运动控制页面
         {
             try
             {
-                Gvar.Logger.Log($"{axisNames[axisIndex]} 开始化ԭ化");
+                Gvar.Logger.Info($"{axisNames[axisIndex]} 开始化ԭ化");
                 
                 // TODO: 实夹ʻ夹ԭ到位߼夹
                 // ģ夹⣺ֱ加载化为0
@@ -753,7 +753,7 @@ namespace COTUI.运动控制页面
         private void ClearError(int axisIndex)
         {
             // TODO: 实加载加载化߼夹
-            Gvar.Logger.Log($"{axisNames[axisIndex]} 加载到位");
+            Gvar.Logger.Info($"{axisNames[axisIndex]} 加载到位");
             MessageBox.Show($"{axisNames[axisIndex]} 加载加载夹", "成功", 
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -923,7 +923,7 @@ namespace COTUI.运动控制页面
                     {
                         savedPoints.RemoveAt(index);
                         RefreshPointsGrid();
-                        Gvar.Logger.Log($"ɾ加载λ: {point.Name}");
+                        Gvar.Logger.Info($"ɾ加载λ: {point.Name}");
                     }
                 }
             }
@@ -1003,7 +1003,7 @@ namespace COTUI.运动控制页面
             try
             {
                 // TODO: 实夹时间浽加载夹ļ加载化ݿ夹
-                Gvar.Logger.Log($"加载 {savedPoints.Count} 加载λ");
+                Gvar.Logger.Info($"加载 {savedPoints.Count} 加载λ");
                 MessageBox.Show($"夹ɹ加载夹 {savedPoints.Count} 加载λ", "成功", 
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -1030,7 +1030,7 @@ namespace COTUI.运动控制页面
                 }
                 
                 RefreshPointsGrid();
-                Gvar.Logger.Log($"加载 {savedPoints.Count} 加载λ");
+                Gvar.Logger.Info($"加载 {savedPoints.Count} 加载λ");
             }
             catch (Exception ex)
             {
@@ -1112,7 +1112,7 @@ namespace COTUI.运动控制页面
         /// </summary>
         private void MotionToLoadingPosition()
         {
-            Gvar.Logger.Log("开始夹ƶ加载到位λ...");
+            Gvar.Logger.Info("开始夹ƶ加载到位λ...");
             
             // TODO: 实夹实现˶加载ƴ到位
             // motionController.MoveAbsolute(0, 100, 0);  // X=100
@@ -1129,7 +1129,7 @@ namespace COTUI.运动控制页面
         /// </summary>
         private void MotionToInspectionPosition()
         {
-            Gvar.Logger.Log("开始夹ƶ加载化λ...");
+            Gvar.Logger.Info("开始夹ƶ加载化λ...");
             
             // TODO: 实夹实现˶加载ƴ到位
             currentPositions[0] = 200;  // X

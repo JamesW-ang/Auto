@@ -371,7 +371,7 @@ namespace COTUI.通用功能类
     /// 
     /// <para><b>功能：</b></para>
     /// - 自动记录日志到 Logger
-    /// - 无需手动调用 Gvar.Logger.Log()
+    /// - 无需手动调用 Gvar.Logger.Info()
     /// - 简化代码
     /// 
     /// <para><b>使用示例：</b></para>

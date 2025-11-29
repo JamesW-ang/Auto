@@ -39,7 +39,7 @@ namespace COTUI.统计分析
         public DashboardPage()
         {
             InitializeComponent();
-            Gvar.Logger.Log("实时数据看板创建");
+            Gvar.Logger.Info("实时数据看板创建");
         }
 
         #endregion
@@ -50,7 +50,7 @@ namespace COTUI.统计分析
         {
             try
             {
-                Gvar.Logger.Log("实时数据看板加载");
+                Gvar.Logger.Info("实时数据看板加载");
                 LoadDashboardData();
                 Gvar.Logger.Log("实时数据看板加载请求");
             }
@@ -74,7 +74,7 @@ namespace COTUI.统计分析
             try
             {
                 UpdateStatistics();
-                Gvar.Logger.Log("看板数据加载成功");
+                Gvar.Logger.Info("看板数据加载成功");
             }
             catch (Exception ex)
             {

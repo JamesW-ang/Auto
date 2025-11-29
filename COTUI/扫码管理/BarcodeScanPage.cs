@@ -36,7 +36,7 @@ namespace COTUI.扫码管理
             InitializeEvents();
             InitializeScanModes();
             
-            Gvar.Logger.Log("条码扫描页面创建完成");
+            Gvar.Logger.Info("条码扫描页面创建完成");
         }
 
         #endregion
@@ -91,7 +91,7 @@ namespace COTUI.扫码管理
                 AddLog("? 加载ɨ加载开始化成功");
                 AddLog("?? 提示加载到位Ϸ夹ѡ化ɨ化ģ式");
                 
-                Gvar.Logger.Log("加载ɨ化ҳ加载加载");
+                Gvar.Logger.Info("加载ɨ化ҳ加载加载");
             }
             catch (Exception ex)
             {
@@ -142,7 +142,7 @@ namespace COTUI.扫码管理
                 // 开始化ɨ加载
                 scanner.Initialize(mode);
                 
-                Gvar.Logger.Log($"ɨ化ģ式夹л夹: {mode}");
+                Gvar.Logger.Info($"ɨ化ģ式夹л夹: {mode}");
             }
             catch (Exception ex)
             {
@@ -242,7 +242,7 @@ namespace COTUI.扫码管理
                 }
 
                 AddLog($"? 加载: {error}");
-                Gvar.Logger.Log($"ɨ加载夹: {error}");
+                Gvar.Logger.Info($"ɨ加载夹: {error}");
             }
             catch { }
         }
@@ -318,7 +318,7 @@ namespace COTUI.扫码管理
                 txtManualInput.SelectAll();
 
                 AddLog($"?? 到位ɲ到位SN: {testSN}");
-                Gvar.Logger.Log($"到位ɲ到位SN: {testSN}");
+                Gvar.Logger.Info($"到位ɲ到位SN: {testSN}");
             }
             catch (Exception ex)
             {
@@ -407,7 +407,7 @@ namespace COTUI.扫码管理
                 scanner.OnBarcodeScanned -= Scanner_OnBarcodeScanned;
                 scanner.OnScanError -= Scanner_OnScanError;
 
-                Gvar.Logger.Log("加载ɨ化ҳ化ر夹");
+                Gvar.Logger.Info("加载ɨ化ҳ化ر夹");
             }
             catch (Exception ex)
             {

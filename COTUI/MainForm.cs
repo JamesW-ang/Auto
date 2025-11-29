@@ -76,7 +76,7 @@ namespace COTUI
             }
             catch (Exception ex)
             {
-                Gvar.Logger.Log($"初始化性能计数器失败: {ex.Message}");
+                Gvar.Logger.Info($"初始化性能计数器失败: {ex.Message}");
             }
         }
 
@@ -142,7 +142,7 @@ namespace COTUI
             catch (Exception ex)
             {
                 // 静默处理性能计数器异常
-                Gvar.Logger.Log($"更新状态信息失败: {ex.Message}");
+                Gvar.Logger.Info($"更新状态信息失败: {ex.Message}");
             }
         }
 
@@ -166,7 +166,7 @@ namespace COTUI
             }
             catch (Exception ex)
             {
-                Gvar.Logger.Log($"更新状态栏显示失败: {ex.Message}");
+                Gvar.Logger.Info($"更新状态栏显示失败: {ex.Message}");
             }
         }
         /// <summary>
@@ -256,7 +256,7 @@ namespace COTUI
             render.SetlabelColor("statusLabel", Color.Green);
             
             // 记录到运行日志
-            Gvar.Logger.Log("▶ 系统开始运行");
+            Gvar.Logger.Info("▶ 系统开始运行");
         }
 
         private async void toolStrip_pauseButton_Click(object sender, EventArgs e)
@@ -266,7 +266,7 @@ namespace COTUI
             render.SetlabelColor("statusLabel", Color.Orange);
             
             // 记录到运行日志
-            Gvar.Logger.Log("⏸ 系统暂停，等待上料");
+            Gvar.Logger.Info("⏸ 系统暂停，等待上料");
         }
 
         private async void toolStrip_stopButton_Click(object sender, EventArgs e)
@@ -276,7 +276,7 @@ namespace COTUI
             render.SetlabelColor("statusLabel", Color.Red);
             
             // 记录到运行日志
-            Gvar.Logger.Log("⏹ 系统停止运行");
+            Gvar.Logger.Info("⏹ 系统停止运行");
         }
 
         private void toolStrip_Admin_Click(object sender, EventArgs e)
@@ -487,7 +487,7 @@ namespace COTUI
             }
 
             ShowFormInPanel(motionControlPage);
-            Gvar.Logger.Log("打开运动控制页面");
+            Gvar.Logger.Info("打开运动控制页面");
         }
 
         /// <summary>
@@ -508,7 +508,7 @@ namespace COTUI
             }
 
             ShowFormInPanel(statisticsPage);
-            Gvar.Logger.Log("打开统计分析页面");
+            Gvar.Logger.Info("打开统计分析页面");
         }
 
     }

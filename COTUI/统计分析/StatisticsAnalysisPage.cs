@@ -40,7 +40,7 @@ namespace COTUI.统计分析
         public StatisticsAnalysisPage()
         {
             InitializeComponent();
-            Gvar.Logger.Log("统计分析页面创建");
+            Gvar.Logger.Info("统计分析页面创建");
             
             // ✅ 不再在构造函数中创建所有子窗体
             // 改为在标签页切换时按需加载
@@ -57,7 +57,7 @@ namespace COTUI.统计分析
                 // ✅ 只加载当前显示的标签页（默认是第一个）
                 LoadCurrentTabPage();
                 
-                Gvar.Logger.Log("统计分析页面加载完成");
+                Gvar.Logger.Info("统计分析页面加载完成");
             }
             catch (Exception ex)
             {
@@ -79,7 +79,7 @@ namespace COTUI.统计分析
             try
             {
                 int selectedIndex = tabControl1.SelectedIndex;
-                Gvar.Logger.Log($"切换到标签页: {selectedIndex}");
+                Gvar.Logger.Info($"切换到标签页: {selectedIndex}");
                 
                 // ✅ 只加载当前选中的标签页
                 LoadCurrentTabPage();
@@ -120,7 +120,7 @@ namespace COTUI.统计分析
         {
             if (isDashboardLoaded)
             {
-                Gvar.Logger.Log("实时数据看板已加载，跳过");
+                Gvar.Logger.Info("实时数据看板已加载，跳过");
                 return; // 已经加载过，直接返回
             }
             
@@ -132,7 +132,7 @@ namespace COTUI.统计分析
                 LoadFormIntoPanel(dashboardPage, panel_Dashboard);
                 
                 isDashboardLoaded = true;
-                Gvar.Logger.Log(" 实时数据看板加载完成");
+                Gvar.Logger.Info(" 实时数据看板加载完成");
             }
             catch (Exception ex)
             {
@@ -149,7 +149,7 @@ namespace COTUI.统计分析
         {
             if (isSPCLoaded)
             {
-                Gvar.Logger.Log("SPC过程监控已加载，跳过");
+                Gvar.Logger.Info("SPC过程监控已加载，跳过");
                 return; // 已经加载过，直接返回
             }
             
@@ -161,7 +161,7 @@ namespace COTUI.统计分析
                 LoadFormIntoPanel(spcMonitorPage, panel_SPC);
                 
                 isSPCLoaded = true;
-                Gvar.Logger.Log("SPC过程监控加载完成");
+                Gvar.Logger.Info("SPC过程监控加载完成");
             }
             catch (Exception ex)
             {
@@ -178,7 +178,7 @@ namespace COTUI.统计分析
         {
             if (isTraceabilityLoaded)
             {
-                Gvar.Logger.Log("产品追溯查询已加载，跳过");
+                Gvar.Logger.Info("产品追溯查询已加载，跳过");
                 return; // 已经加载过，直接返回
             }
             
@@ -190,7 +190,7 @@ namespace COTUI.统计分析
                 LoadFormIntoPanel(traceabilityPage, panel_Traceability);
                 
                 isTraceabilityLoaded = true;
-                Gvar.Logger.Log(" 产品追溯查询加载完成");
+                Gvar.Logger.Info(" 产品追溯查询加载完成");
             }
             catch (Exception ex)
             {
@@ -225,7 +225,7 @@ namespace COTUI.统计分析
                 if (isDashboardLoaded && dashboardPage != null)
                 {
                     dashboardPage.Close();
-                    Gvar.Logger.Log("实时数据看板已关闭");
+                    Gvar.Logger.Info("实时数据看板已关闭");
                 }
                 
                 if (isSPCLoaded && spcMonitorPage != null)

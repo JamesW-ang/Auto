@@ -34,7 +34,7 @@ namespace COTUI.统计分析
         public SPCMonitorPage()
         {
             InitializeComponent();
-            Gvar.Logger.Log("SPC监控页面创建");
+            Gvar.Logger.Info("SPC监控页面创建");
             
             // 设置默认选中项
             if (cmbMeasureType.Items.Count > 0)
@@ -51,7 +51,7 @@ namespace COTUI.统计分析
         {
             try
             {
-                Gvar.Logger.Log("SPC监控页面加载");
+                Gvar.Logger.Info("SPC监控页面加载");
                 Gvar.Logger.Log("SPC监控页面加载完成");
             }
             catch (Exception ex)
@@ -184,7 +184,7 @@ namespace COTUI.统计分析
                 UpdateDataGrid(records, fieldName, mean);
                 ShowControlChart(values);
 
-                Gvar.Logger.Log($"Cpk计算完成: {cpk:F3} (基于{values.Count}条数据)");
+                Gvar.Logger.Info($"Cpk计算完成: {cpk:F3} (基于{values.Count}条数据)");
             }
             catch (Exception ex)
             {

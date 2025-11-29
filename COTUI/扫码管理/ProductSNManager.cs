@@ -131,7 +131,7 @@ namespace COTUI.扫码管理
             {
                 if (data == null)
                 {
-                    Gvar.Logger.Log("化Ʒ加载为化");
+                    Gvar.Logger.Info("化Ʒ加载为化");
                     return false;
                 }
 

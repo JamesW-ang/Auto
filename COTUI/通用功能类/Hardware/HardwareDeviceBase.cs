@@ -51,7 +51,7 @@ namespace COTUI.通用功能类.Hardware
         {
             try
             {
-                Gvar.Logger.Log($"[{DeviceName}] 正在连接...");
+                Gvar.Logger.Info($"[{DeviceName}] 正在连接...");
                 
                 bool success = await ConnectDeviceAsync();
                 
@@ -66,7 +66,7 @@ namespace COTUI.通用功能类.Hardware
                 }
                 else
                 {
-                    Gvar.Logger.Log($"[{DeviceName}] 连接失败");
+                    Gvar.Logger.Info($"[{DeviceName}] 连接失败");
                 }
                 
                 return success;
@@ -87,12 +87,12 @@ namespace COTUI.通用功能类.Hardware
                 
                 if (isConnected)
                 {
-                    Gvar.Logger.Log($"[{DeviceName}] 正在断开连接...");
+                    Gvar.Logger.Info($"[{DeviceName}] 正在断开连接...");
                     await DisconnectDeviceAsync();
                     
                     isConnected = false;
                     ConnectionStatusChanged?.Invoke(this, false);
-                    Gvar.Logger.Log($"[{DeviceName}] 已断开连接");
+                    Gvar.Logger.Info($"[{DeviceName}] 已断开连接");
                 }
             }
             catch (Exception ex)
@@ -104,7 +104,7 @@ namespace COTUI.通用功能类.Hardware
 
         public virtual async Task<bool> InitializeAsync()
         {
-            Gvar.Logger.Log($"[{DeviceName}] 初始化设备");
+            Gvar.Logger.Info($"[{DeviceName}] 初始化设备");
             return await Task.FromResult(true);
         }
 
@@ -146,7 +146,7 @@ namespace COTUI.通用功能类.Hardware
                 ReconnectInterval,
                 Timeout.Infinite
             );
-            Gvar.Logger.Log($"[{DeviceName}] 将在 {ReconnectInterval / 1000} 秒后尝试重连");
+            Gvar.Logger.Info($"[{DeviceName}] 将在 {ReconnectInterval / 1000} 秒后尝试重连");
         }
 
         protected void StopReconnectTimer()
@@ -163,7 +163,7 @@ namespace COTUI.通用功能类.Hardware
 
             if (reconnectAttempts >= MaxReconnectAttempts)
             {
-                Gvar.Logger.Log($"[{DeviceName}] 已达到最大重连次数 ({MaxReconnectAttempts})");
+                Gvar.Logger.Info($"[{DeviceName}] 已达到最大重连次数 ({MaxReconnectAttempts})");
                 OnError($"重连失败，已尝试 {MaxReconnectAttempts} 次");
                 return;
             }
@@ -200,7 +200,7 @@ namespace COTUI.通用功能类.Hardware
 
         protected void OnError(string message)
         {
-            Gvar.Logger.Log($"[{DeviceName}] {message}");
+            Gvar.Logger.Info($"[{DeviceName}] {message}");
             ErrorOccurred?.Invoke(this, message);
         }
 

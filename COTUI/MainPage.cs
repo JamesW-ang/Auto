@@ -49,7 +49,7 @@ namespace COTUI
             Gvar.Logger.OnLogMessage += Logger_OnLogMessage;
             
             // 添加初始日志
-            Gvar.Logger.Log("主页面加载完成");
+            Gvar.Logger.Info("主页面加载完成");
         }
 
         /// <summary>
@@ -65,28 +65,28 @@ namespace COTUI
                 statusIndicatorControl1.IsActive = false;
                 statusIndicatorControl1.StatusChanged += (s, e) =>
                 {
-                    Gvar.Logger.Log($"生产模式: {(e.NewStatus ? "开启" : "关闭")}");
+                    Gvar.Logger.Info($"生产模式: {(e.NewStatus ? "开启" : "关闭")}");
                 };
 
                 // 2. 空跑模式
                 statusIndicatorControl2.IsActive = false;
                 statusIndicatorControl2.StatusChanged += (s, e) =>
                 {
-                    Gvar.Logger.Log($"空跑模式: {(e.NewStatus ? "开启" : "关闭")}");
+                    Gvar.Logger.Info($"空跑模式: {(e.NewStatus ? "开启" : "关闭")}");
                 };
 
                 // 3. 首件模式
                 statusIndicatorControl3.IsActive = false;
                 statusIndicatorControl3.StatusChanged += (s, e) =>
                 {
-                    Gvar.Logger.Log($"首件模式: {(e.NewStatus ? "开启" : "关闭")}");
+                    Gvar.Logger.Info($"首件模式: {(e.NewStatus ? "开启" : "关闭")}");
                 };
 
                 // 4. 返工模式
                 statusIndicatorControl4.IsActive = false;
                 statusIndicatorControl4.StatusChanged += (s, e) =>
                 {
-                    Gvar.Logger.Log($"返工模式: {(e.NewStatus ? "开启" : "关闭")}");
+                    Gvar.Logger.Info($"返工模式: {(e.NewStatus ? "开启" : "关闭")}");
                 };
 
                 // 5. 安全门闭合 - 默认激活（绿色表示正常）
@@ -95,12 +95,12 @@ namespace COTUI
                 {
                     if (!e.NewStatus)
                     {
-                        Gvar.Logger.Log("警告: 安全门打开");
+                        Gvar.Logger.Info("警告: 安全门打开");
                         AddAlarm("安全门打开", "警告", "ALARM_DOOR");
                     }
                     else
                     {
-                        Gvar.Logger.Log("安全门已闭合");
+                        Gvar.Logger.Info("安全门已闭合");
                     }
                 };
 
@@ -108,7 +108,7 @@ namespace COTUI
                 statusIndicatorControl6.IsActive = false;
                 statusIndicatorControl6.StatusChanged += (s, e) =>
                 {
-                    Gvar.Logger.Log($"机台照明: {(e.NewStatus ? "开启" : "关闭")}");
+                    Gvar.Logger.Info($"机台照明: {(e.NewStatus ? "开启" : "关闭")}");
                 };
 
                 // 7. MQTT在线
@@ -127,12 +127,12 @@ namespace COTUI
                 {
                     if (e.NewStatus)
                     {
-                        Gvar.Logger.Log("紧急停止: 急停按钮被按下");
+                        Gvar.Logger.Info("紧急停止: 急停按钮被按下");
                         AddAlarm("急停按钮被按下", "严重", "ALARM_ESTOP");
                     }
                     else
                     {
-                        Gvar.Logger.Log("急停按钮已复位");
+                        Gvar.Logger.Info("急停按钮已复位");
                     }
                 };
 
@@ -142,12 +142,12 @@ namespace COTUI
                 {
                     if (!e.NewStatus)
                     {
-                        Gvar.Logger.Log("错误: 正压气源异常");
+                        Gvar.Logger.Info("错误: 正压气源异常");
                         AddAlarm("正压气源异常", "严重", "ALARM_AIR_POS");
                     }
                     else
                     {
-                        Gvar.Logger.Log("正压气源正常");
+                        Gvar.Logger.Info("正压气源正常");
                     }
                 };
 
@@ -157,12 +157,12 @@ namespace COTUI
                 {
                     if (!e.NewStatus)
                     {
-                        Gvar.Logger.Log("错误: 负压气源异常");
+                        Gvar.Logger.Info("错误: 负压气源异常");
                         AddAlarm("负压气源异常", "严重", "ALARM_AIR_NEG");
                     }
                     else
                     {
-                        Gvar.Logger.Log("负压气源正常");
+                        Gvar.Logger.Info("负压气源正常");
                     }
                 };
 
@@ -174,7 +174,7 @@ namespace COTUI
                         $"MES连接: {(e.NewStatus ? "在线" : "离线")}");
                 };
 
-                Gvar.Logger.Log("状态指示器初始化完成");
+                Gvar.Logger.Info("状态指示器初始化完成");
             }
             catch (Exception ex)
             {
@@ -213,7 +213,7 @@ namespace COTUI
             }
             catch (Exception ex)
             {
-                Gvar.Logger.Log($"显示日志失败: {ex.Message}");
+                Gvar.Logger.Info($"显示日志失败: {ex.Message}");
             }
         }
 
@@ -276,7 +276,7 @@ namespace COTUI
             }
             catch (Exception ex)
             {
-                Gvar.Logger.Log($"添加报警失败: {ex.Message}");
+                Gvar.Logger.Info($"添加报警失败: {ex.Message}");
             }
         }
 
@@ -347,7 +347,7 @@ namespace COTUI
             }
             catch (Exception ex)
             {
-                Gvar.Logger.Log($"添加生产数据失败: {ex.Message}");
+                Gvar.Logger.Info($"添加生产数据失败: {ex.Message}");
             }
         }
 
@@ -378,7 +378,7 @@ namespace COTUI
                 dataGridView1.Rows.Clear();
                 
                 // 记录日志
-                Gvar.Logger.Log("报警信息已清除");
+                Gvar.Logger.Info("报警信息已清除");
                 
                 // 可选：显示提示
                 // MessageBox.Show("报警信息已清除", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -502,7 +502,7 @@ namespace COTUI
                 // 初始化状态显示
                 SetMQTTStatus(Gvar.Mqtt.IsConnected);
                 
-                Gvar.Logger.Log("已订阅MQTT状态监听");
+                Gvar.Logger.Info("已订阅MQTT状态监听");
             }
             catch (Exception ex)
             {
@@ -520,7 +520,7 @@ namespace COTUI
             
             if (isConnected)
             {
-                Gvar.Logger.Log("✅ MQTT已连接");
+                Gvar.Logger.Info("✅ MQTT已连接");
             }
             else
             {
@@ -542,7 +542,7 @@ namespace COTUI
                 
                 await Task.Delay(500);
                 SetAirPressureStatus(true, true);
-                Gvar.Logger.Log("检查气源状态: 正常");
+                Gvar.Logger.Info("检查气源状态: 正常");
                 
                 await Task.Delay(500);
                 SetSafetyDoorStatus(true);
@@ -588,7 +588,7 @@ namespace COTUI
                     }
                 }
                 
-                Gvar.Logger.Log("生产批次完成");
+                Gvar.Logger.Info("生产批次完成");
             });
         }
 

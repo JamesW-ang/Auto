@@ -127,7 +127,7 @@ namespace COTUI.通用功能类.Hardware
             try
             {
                 await stream.WriteAsync(data, 0, data.Length);
-                Gvar.Logger.Log($"[{DeviceName}] 发送 {data.Length} 字节");
+                Gvar.Logger.Info($"[{DeviceName}] 发送 {data.Length} 字节");
                 return true;
             }
             catch (Exception ex)
@@ -208,7 +208,7 @@ namespace COTUI.通用功能类.Hardware
                             string text = Encoding.ASCII.GetString(data);
                             TextReceived?.Invoke(this, text);
                             
-                            Gvar.Logger.Log($"[{DeviceName}] 接收 {bytesRead} 字节");
+                            Gvar.Logger.Info($"[{DeviceName}] 接收 {bytesRead} 字节");
                         }
                     }
                     
