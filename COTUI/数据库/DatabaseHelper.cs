@@ -412,5 +412,111 @@ namespace COTUI.数据库
                 Console.WriteLine($"优化数据库失败: {ex.Message}");
             }
         }
+
+        #region 生产统计方法（供全局变量调用）
+
+        /// <summary>
+        /// 获取今日总产量
+        /// </summary>
+        public int GetTodayTotalCount()
+        {
+            try
+            {
+                string today = DateTime.Now.ToString("yyyy-MM-dd");
+                string sql = "SELECT COUNT(*) FROM ProductionData WHERE date(ProductionTime) = @today";
+                object result = ExecuteScalar(sql, new SQLiteParameter("@today", today));
+                return result != null ? Convert.ToInt32(result) : 0;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"获取今日总产量失败: {ex.Message}");
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// 获取今日合格数
+        /// </summary>
+        public int GetTodayOkCount()
+        {
+            try
+            {
+                string today = DateTime.Now.ToString("yyyy-MM-dd");
+                string sql = "SELECT COUNT(*) FROM ProductionData WHERE date(ProductionTime) = @today AND Result = 'OK'";
+                object result = ExecuteScalar(sql, new SQLiteParameter("@today", today));
+                return result != null ? Convert.ToInt32(result) : 0;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"获取今日合格数失败: {ex.Message}");
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// 获取今日不良数
+        /// </summary>
+        public int GetTodayNgCount()
+        {
+            try
+            {
+                string today = DateTime.Now.ToString("yyyy-MM-dd");
+                string sql = "SELECT COUNT(*) FROM ProductionData WHERE date(ProductionTime) = @today AND Result = 'NG'";
+                object result = ExecuteScalar(sql, new SQLiteParameter("@today", today));
+                return result != null ? Convert.ToInt32(result) : 0;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"获取今日不良数失败: {ex.Message}");
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// 获取用户权限等级
+        /// </summary>
+        public int GetUserPermissionLevel(string username)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(username))
+                {
+                    return 0; // 未登录，最低权限
+                }
+
+                string sql = "SELECT Role FROM Users WHERE Username = @username AND IsEnabled = 1";
+                object result = ExecuteScalar(sql, new SQLiteParameter("@username", username));
+                
+                if (result == null)
+                {
+                    return 0; // 用户不存在或已禁用
+                }
+
+                string role = result.ToString();
+                // 根据角色返回权限等级
+                switch (role.ToLower())
+                {
+                    case "admin":
+                        return 10; // 管理员最高权限
+                    case "supervisor":
+                        return 7;  // 主管
+                    case "engineer":
+                        return 5;  // 工程师
+                    case "operator":
+                        return 3;  // 操作员
+                    case "user":
+                        return 1;  // 普通用户
+                    default:
+                        return 0;  // 未知角色
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"获取用户权限等级失败: {ex.Message}");
+                return 0;
+            }
+        }
+
+        #endregion
     }
 }
