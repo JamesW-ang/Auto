@@ -309,7 +309,7 @@ namespace COTUI.通用功能类
             logQuene.Add((level, logLine));
         }
 
-        public void Trace(LogLevel level, string message,
+        public void Trace(string message,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string filePath = "",
             [CallerLineNumber] int lineNumber = 0)
@@ -317,35 +317,35 @@ namespace COTUI.通用功能类
             Log(LogLevel.Trace, message, memberName, filePath, lineNumber);
         }
 
-        public void Debug(LogLevel level, string message,
+        public void Debug(string message,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string filePath = "",
             [CallerLineNumber] int lineNumber = 0)
         {
             Log(LogLevel.Debug, message, memberName, filePath, lineNumber);
         }
-        public void Info(LogLevel level, string message,
+        public void Info(string message,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string filePath = "",
             [CallerLineNumber] int lineNumber = 0)
         {
             Log(LogLevel.Info, message, memberName, filePath, lineNumber);
         }
-        public void Warn(LogLevel level, string message,
+        public void Warn(string message,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string filePath = "",
             [CallerLineNumber] int lineNumber = 0)
         {
             Log(LogLevel.Warn, message, memberName, filePath, lineNumber);
         }
-        public void Error(LogLevel level, string message,
+        public void Error(string message,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string filePath = "",
             [CallerLineNumber] int lineNumber = 0)
         {
             Log(LogLevel.Error, message, memberName, filePath, lineNumber);
         }
-        public void Fatal(LogLevel level, string message,
+        public void Fatal(string message,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string filePath = "",
             [CallerLineNumber] int lineNumber = 0)
