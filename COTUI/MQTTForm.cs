@@ -90,7 +90,7 @@ namespace COTUI
                     
                     // 显示配置文件信息（调试用）
                     Gvar.Logger.Info("=== 配置文件信息 ===");
-                    Gvar.Logger.Log(Gvar.Config.GetConfigInfo());
+                    Gvar.Logger.Info(Gvar.Config.GetConfigInfo());
                     Gvar.Logger.Info("====================");
                 }
                 catch (FileNotFoundException ex)

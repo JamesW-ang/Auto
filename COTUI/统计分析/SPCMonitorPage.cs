@@ -454,7 +454,7 @@ namespace COTUI.统计分析
                 // 添加到panel
                 panelChart.Controls.Add(formsPlot);
                 
-                Gvar.Logger.Log(string.Format("ScottPlot控制图绘制成功，数据点数：{0}", values.Count));
+                Gvar.Logger.Info(string.Format("ScottPlot控制图绘制成功，数据点数：{0}", values.Count));
             }
             catch (Exception ex)
             {
