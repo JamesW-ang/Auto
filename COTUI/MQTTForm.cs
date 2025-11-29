@@ -51,7 +51,7 @@ namespace COTUI
             // 初始化通讯服务
             InitializeCommunicationServices();
             
-            Gvar.Logger.Log(LogLevel.Info, "MQTT管理页面创建");
+            Gvar.Logger.Log("MQTT管理页面创建");
         }
         
         /// <summary>
@@ -67,7 +67,7 @@ namespace COTUI
                 tcpSocketService.TextReceived += TcpSocket_TextReceived;
                 tcpSocketService.ErrorOccurred += TcpSocket_ErrorOccurred;
                 
-                Gvar.Logger.Log(LogLevel.Info, "通讯服务初始化完成");
+                Gvar.Logger.Log("通讯服务初始化完成");
             }
             catch (Exception ex)
             {
@@ -89,9 +89,9 @@ namespace COTUI
                     config = Gvar.Config;
                     
                     // 显示配置文件信息（调试用）
-                    Gvar.Logger.Log(LogLevel.Info, "=== 配置文件信息 ===");
-                    Gvar.Logger.Log(LogLevel.Info, Gvar.Config.GetConfigInfo());
-                    Gvar.Logger.Log(LogLevel.Info, "====================");
+                    Gvar.Logger.Log("=== 配置文件信息 ===");
+                    Gvar.Logger.Log(Gvar.Config.GetConfigInfo());
+                    Gvar.Logger.Log("====================");
                 }
                 catch (FileNotFoundException ex)
                 {
@@ -150,7 +150,7 @@ namespace COTUI
                 // 更新初始状态
                 UpdateConnectionStatus(Gvar.Mqtt.IsConnected);
                 
-                Gvar.Logger.Log(LogLevel.Info, "MQTT管理页面加载完成");
+                Gvar.Logger.Log("MQTT管理页面加载完成");
             }
             catch (Exception ex)
             {
@@ -169,29 +169,29 @@ namespace COTUI
             
             if (string.IsNullOrWhiteSpace(mqttServer))
             {
-                Gvar.Logger.Log(LogLevel.Warn, "❌ MQTT服务器地址为空");
+                Gvar.Logger.Log("❌ MQTT服务器地址为空");
                 isValid = false;
             }
             
             if (mqttPort < MIN_PORT || mqttPort > MAX_PORT)
             {
-                Gvar.Logger.Log(LogLevel.Warn, $"❌ MQTT端口号无效: {mqttPort}（有效范围：{MIN_PORT}-{MAX_PORT}）");
+                Gvar.Logger.Log($"❌ MQTT端口号无效: {mqttPort}（有效范围：{MIN_PORT}-{MAX_PORT}）");
                 isValid = false;
             }
             
             if (string.IsNullOrWhiteSpace(mqttClientId))
             {
-                Gvar.Logger.Log(LogLevel.Warn, "❌ MQTT客户端ID为空");
+                Gvar.Logger.Log("❌ MQTT客户端ID为空");
                 isValid = false;
             }
             
             if (isValid)
             {
-                Gvar.Logger.Log(LogLevel.Info, $"✅ 配置验证通过: {mqttServer}:{mqttPort}");
+                Gvar.Logger.Log($"✅ 配置验证通过: {mqttServer}:{mqttPort}");
             }
             else
             {
-                Gvar.Logger.Log(LogLevel.Warn, "⚠️ 配置验证失败，请检查Config.ini文件");
+                Gvar.Logger.Log("⚠️ 配置验证失败，请检查Config.ini文件");
             }
             
             return isValid;
@@ -224,9 +224,9 @@ namespace COTUI
                     tcpEnableHeartbeat = Gvar.Config.GetBoolValue("TcpSocket", "EnableHeartbeat", true);
                     tcpHeartbeatInterval = Gvar.Config.GetIntValue("TcpSocket", "HeartbeatInterval", 30000);
                     
-                    Gvar.Logger.Log(LogLevel.Info, $"✅ 配置已从文件加载");
-                    Gvar.Logger.Log(LogLevel.Debug, $"   MQTT: {mqttServer}:{mqttPort}");
-                    Gvar.Logger.Log(LogLevel.Debug, $"   TCP: {tcpServerHost}:{tcpServerPort}");
+                    Gvar.Logger.Log($"✅ 配置已从文件加载");
+                    Gvar.Logger.Log($"   MQTT: {mqttServer}:{mqttPort}");
+                    Gvar.Logger.Log($"   TCP: {tcpServerHost}:{tcpServerPort}");
                 }
                 else
                 {
@@ -243,7 +243,7 @@ namespace COTUI
                     tcpEnableHeartbeat = true;
                     tcpHeartbeatInterval = 30000;
                     
-                    Gvar.Logger.Log(LogLevel.Warn, "⚠️ 配置文件不可用，使用默认配置");
+                    Gvar.Logger.Log("⚠️ 配置文件不可用，使用默认配置");
                 }
             }
             catch (Exception ex)
@@ -278,7 +278,7 @@ namespace COTUI
                 txtUsername.Text = mqttUsername;        // User
                 txtPassword.Text = mqttPassword;        // Password
                 
-                Gvar.Logger.Log(LogLevel.Debug, "配置信息已显示到界面");
+                Gvar.Logger.Log("配置信息已显示到界面");
             }
             catch (Exception ex)
             {
@@ -356,11 +356,11 @@ namespace COTUI
                     // 写入文件
                     Gvar.Config.SaveConfig();
                     
-                    Gvar.Logger.Log(LogLevel.Info, $"✅ MQTT配置已保存: {mqttServer}:{mqttPort}");
+                    Gvar.Logger.Log($"✅ MQTT配置已保存: {mqttServer}:{mqttPort}");
                 }
                 else
                 {
-                    Gvar.Logger.Log(LogLevel.Warn, $"⚠️ 配置已更新（仅内存，未保存到文件）");
+                    Gvar.Logger.Log($"⚠️ 配置已更新（仅内存，未保存到文件）");
                 }
             }
             catch (FormatException ex)
@@ -453,7 +453,7 @@ namespace COTUI
                 
                 Cursor = Cursors.WaitCursor;
 
-                Gvar.Logger.Log(LogLevel.Info, $"开始连接MQTT: {mqttServer}:{mqttPort} (ClientID: {mqttClientId})");
+                Gvar.Logger.Log($"开始连接MQTT: {mqttServer}:{mqttPort} (ClientID: {mqttClientId})");
 
                 // 连接MQTT
                 await Gvar.Mqtt.ConnectAsync(
@@ -464,7 +464,7 @@ namespace COTUI
                     mqttPassword
                 );
 
-                Gvar.Logger.Log(LogLevel.Info, "✅ MQTT连接成功");
+                Gvar.Logger.Log("✅ MQTT连接成功");
                 MessageBox.Show(
                     $"MQTT连接成功！\n\n" +
                     $"服务器: {mqttServer}:{mqttPort}\n" +
@@ -535,7 +535,7 @@ namespace COTUI
 
                 await Gvar.Mqtt.DisconnectAsync();
 
-                Gvar.Logger.Log(LogLevel.Info, "MQTT已断开");
+                Gvar.Logger.Log("MQTT已断开");
             }
             catch (Exception ex)
             {
@@ -586,7 +586,7 @@ namespace COTUI
                     mqttPassword
                 );
 
-                Gvar.Logger.Log(LogLevel.Info, "MQTT重连成功");
+                Gvar.Logger.Log("MQTT重连成功");
             }
             catch (Exception ex)
             {
@@ -697,7 +697,7 @@ namespace COTUI
                 string topic = $"{mqttTopicPrefix}/test";
                 await Gvar.Mqtt.PublishAsync(topic, json);
 
-                Gvar.Logger.Log(LogLevel.Info, $"✅ 测试消息已发送到主题: {topic}");
+                Gvar.Logger.Log($"✅ 测试消息已发送到主题: {topic}");
                 MessageBox.Show($"测试消息发送成功\n\n主题: {topic}\n\n内容:\n{json}", "成功", 
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -729,7 +729,7 @@ namespace COTUI
                     tcpSocketService.Dispose();
                 }
                 
-                Gvar.Logger.Log(LogLevel.Info, "MQTT管理页面关闭");
+                Gvar.Logger.Log("MQTT管理页面关闭");
             }
             catch (Exception ex)
             {
@@ -760,7 +760,7 @@ namespace COTUI
                 string host = tcpServerHost;
                 int port = tcpServerPort;
                 
-                Gvar.Logger.Log(LogLevel.Info, $"正在连接TCP服务器: {host}:{port}");
+                Gvar.Logger.Log($"正在连接TCP服务器: {host}:{port}");
                 
                 // 配置心跳
                 tcpSocketService.EnableHeartbeat = tcpEnableHeartbeat;
@@ -769,7 +769,7 @@ namespace COTUI
                 // 连接
                 await tcpSocketService.ConnectAsync(host, port);
                 
-                Gvar.Logger.Log(LogLevel.Info, $"✅ TCP连接成功: {host}:{port}");
+                Gvar.Logger.Log($"✅ TCP连接成功: {host}:{port}");
                 MessageBox.Show($"TCP连接成功！\n\n服务器: {host}:{port}\n心跳: {(tcpEnableHeartbeat ? "启用" : "禁用")}", 
                     "成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -795,7 +795,7 @@ namespace COTUI
                 }
                 
                 tcpSocketService.DisconnectClient();
-                Gvar.Logger.Log(LogLevel.Info, "TCP已断开");
+                Gvar.Logger.Log("TCP已断开");
             }
             catch (Exception ex)
             {
@@ -819,7 +819,7 @@ namespace COTUI
                 }
                 
                 await tcpSocketService.SendTextAsync(data);
-                Gvar.Logger.Log(LogLevel.Info, $"TCP已发送: {data}");
+                Gvar.Logger.Log($"TCP已发送: {data}");
             }
             catch (Exception ex)
             {
@@ -840,7 +840,7 @@ namespace COTUI
                 return;
             }
             
-            Gvar.Logger.Log(LogLevel.Info, $"TCP状态变化: {(isConnected ? "已连接" : "已断开")}");
+            Gvar.Logger.Log($"TCP状态变化: {(isConnected ? "已连接" : "已断开")}");
         }
         
         /// <summary>
@@ -854,7 +854,7 @@ namespace COTUI
                 return;
             }
             
-            Gvar.Logger.Log(LogLevel.Debug, $"TCP接收: {text}");
+            Gvar.Logger.Log($"TCP接收: {text}");
         }
         
         /// <summary>
@@ -868,7 +868,7 @@ namespace COTUI
                 return;
             }
             
-            Gvar.Logger.Log(LogLevel.Error, $"TCP错误: {error}");
+            Gvar.Logger.Log($"TCP错误: {error}");
         }
         
         #endregion

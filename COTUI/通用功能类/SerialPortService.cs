@@ -166,7 +166,7 @@ namespace COTUI.通用功能类
                     isConnected = true;
                     reconnectAttempts = 0;
 
-                    Gvar.Logger.Info(LogLevel.Info, $"串口已打开: {portName}, 波特率: {baudRate}");
+                    Gvar.Logger.Info($"串口已打开: {portName}, 波特率: {baudRate}");
                     ConnectionStatusChanged?.Invoke(this, true);
                 }
                 catch (Exception ex)
@@ -214,7 +214,7 @@ namespace COTUI.通用功能类
                     }
 
                     isConnected = false;
-                    Gvar.Logger.Info(LogLevel.Info, $"串口已关闭: {portName}");
+                    Gvar.Logger.Info($"串口已关闭: {portName}");
                     ConnectionStatusChanged?.Invoke(this, false);
                 }
                 catch (Exception ex)
@@ -251,7 +251,7 @@ namespace COTUI.通用功能类
             try
             {
                 serialPort.Write(data, 0, data.Length);
-                Gvar.Logger.Debug(LogLevel.Trace, $"串口发送 ({data.Length} 字节): {BitConverter.ToString(data)}");
+                Gvar.Logger.Debug($"串口发送 ({data.Length} 字节): {BitConverter.ToString(data)}");
             }
             catch (Exception ex)
             {
@@ -330,7 +330,7 @@ namespace COTUI.通用功能类
                     // 如果包含换行符，触发完整行事件
                     ProcessReceivedText();
 
-                    Gvar.Logger.Debug(LogLevel.Trace, $"串口接收 ({bytesRead} 字节): {text}");
+                    Gvar.Logger.Debug($"串口接收 ({bytesRead} 字节): {text}");
                 }
             }
             catch (Exception ex)
@@ -380,7 +380,7 @@ namespace COTUI.通用功能类
         private void SerialPort_ErrorReceived(object sender, SerialErrorReceivedEventArgs e)
         {
             string errorMsg = $"串口错误: {e.EventType}";
-            Gvar.Logger.Error(LogLevel.Error, errorMsg);
+            Gvar.Logger.Error(errorMsg);
             ErrorOccurred?.Invoke(this, errorMsg);
             
             // 某些错误需要重连
@@ -405,7 +405,7 @@ namespace COTUI.通用功能类
                     return;
 
                 isConnected = false;
-                Gvar.Logger.Warn(LogLevel.Warn, $"串口连接断开: {portName}");
+                Gvar.Logger.Warn($"串口连接断开: {portName}");
                 ConnectionStatusChanged?.Invoke(this, false);
 
                 if (enableAutoReconnect && reconnectAttempts < MaxReconnectAttempts)
@@ -422,7 +422,7 @@ namespace COTUI.通用功能类
         {
             StopReconnectTimer();
             reconnectTimer = new System.Threading.Timer(Reconnect, null, ReconnectInterval, Timeout.Infinite);
-            Gvar.Logger.Info(LogLevel.Debug, $"串口将在 {ReconnectInterval / 1000} 秒后尝试重连");
+            Gvar.Logger.Info($"串口将在 {ReconnectInterval / 1000} 秒后尝试重连");
         }
 
         /// <summary>
@@ -444,12 +444,12 @@ namespace COTUI.通用功能类
 
             if (reconnectAttempts >= MaxReconnectAttempts)
             {
-                Gvar.Logger.Error(LogLevel.Error, $"已达到最大重连尝试次数 ({MaxReconnectAttempts})，停止自动重连");
+                Gvar.Logger.Error($"已达到最大重连尝试次数 ({MaxReconnectAttempts})，停止自动重连");
                 return;
             }
 
             reconnectAttempts++;
-            Gvar.Logger.Info(LogLevel.Debug, $"尝试重连串口 (第 {reconnectAttempts} 次)");
+            Gvar.Logger.Info($"尝试重连串口 (第 {reconnectAttempts} 次)");
 
             try
             {

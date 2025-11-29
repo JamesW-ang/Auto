@@ -400,7 +400,7 @@ namespace COTUI.通用功能类
         public new void Start()
         {
             base.Start();
-            Gvar.Logger.Log(LogLevel.Info, $"⏱ 开始计时: {Name}");
+            Gvar.Logger.Log($"⏱ 开始计时: {Name}");
         }
         
         /// <summary>
@@ -411,7 +411,7 @@ namespace COTUI.通用功能类
             double elapsed = base.Mark(markName);
             
             // 自动记录日志
-            Gvar.Logger.Log(LogLevel.Info, $"✓ {markName} (耗时: {elapsed:F3}ms)");
+            Gvar.Logger.Log($"✓ {markName} (耗时: {elapsed:F3}ms)");
             
             return elapsed;
         }
@@ -424,7 +424,7 @@ namespace COTUI.通用功能类
             var result = base.Stop();
             
             // 自动记录总时间
-            Gvar.Logger.Log(LogLevel.Info, $"⏱ 总CT: {result.TotalMilliseconds:F3}ms");
+            Gvar.Logger.Log($"⏱ 总CT: {result.TotalMilliseconds:F3}ms");
             
             return result;
         }

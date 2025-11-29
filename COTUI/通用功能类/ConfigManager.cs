@@ -2,15 +2,15 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 
-namespace COTUI.Í¨ÓÃ¹¦ÄÜÀà
+namespace COTUI.é€šç”¨åŠŸèƒ½ç±»
 {
     /// <summary>
-    /// ÅäÖÃÎÄ¼ş¹ÜÀíÆ÷£¨INI¸ñÊ½£©
+    /// é…ç½®æ–‡ä»¶ç®¡ç†å™¨ï¼ˆINIæ ¼å¼ï¼‰
     /// 
-    /// <para><b>Ê¹ÓÃ·½Ê½£º</b></para>
-    /// 1. ÔÚ½â¾ö·½°¸¸ùÄ¿Â¼ÊÖ¶¯´´½¨ Config.ini
-    /// 2. ±à¼­ÅäÖÃ²ÎÊı
-    /// 3. ConfigManager ×Ô¶¯¶ÁÈ¡ÅäÖÃ
+    /// <para><b>ä½¿ç”¨æ–¹å¼ï¼š</b></para>
+    /// 1. åœ¨è§£å†³æ–¹æ¡ˆæ ¹ç›®å½•æ‰‹åŠ¨åˆ›å»º Config.ini
+    /// 2. ç¼–è¾‘é…ç½®å‚æ•°
+    /// 3. ConfigManager è‡ªåŠ¨è¯»å–é…ç½®
     /// </summary>
     public class ConfigManager
     {
@@ -22,14 +22,14 @@ namespace COTUI.Í¨ÓÃ¹¦ÄÜÀà
 
         private ConfigManager()
         {
-            // ÅäÖÃÎÄ¼şÂ·¾¶£º½â¾ö·½°¸¸ùÄ¿Â¼\Config.ini
+            // é…ç½®æ–‡ä»¶è·¯å¾„ï¼šè§£å†³æ–¹æ¡ˆæ ¹ç›®å½•\Config.ini
             string appPath = AppDomain.CurrentDomain.BaseDirectory;
             
-            // Èç¹ûÊÇDebug/ReleaseÄ£Ê½£¬ÏòÉÏÕÒµ½½â¾ö·½°¸Ä¿Â¼
-            // ÀıÈç£ºbin\Debug ¡ú ÍùÉÏ2²ã ¡ú ½â¾ö·½°¸Ä¿Â¼
+            // å¦‚æœæ˜¯Debug/Releaseæ¨¡å¼ï¼Œå‘ä¸Šæ‰¾åˆ°è§£å†³æ–¹æ¡ˆç›®å½•
+            // ä¾‹å¦‚ï¼šbin\Debug â†’ å¾€ä¸Š2å±‚ â†’ è§£å†³æ–¹æ¡ˆç›®å½•
             DirectoryInfo directory = new DirectoryInfo(appPath);
             
-            // ³¢ÊÔÏòÉÏ²éÕÒConfig.ini£¨×î¶àÏòÉÏ3²ã£©
+            // å°è¯•å‘ä¸ŠæŸ¥æ‰¾Config.iniï¼ˆæœ€å¤šå‘ä¸Š3å±‚ï¼‰
             for (int i = 0; i < 3; i++)
             {
                 string testPath = Path.Combine(directory.FullName, "Config.ini");
@@ -45,7 +45,7 @@ namespace COTUI.Í¨ÓÃ¹¦ÄÜÀà
                 }
             }
 
-            // Èç¹ûÕÒ²»µ½£¬Ê¹ÓÃexeÍ¬Ä¿Â¼
+            // å¦‚æœæ‰¾ä¸åˆ°ï¼Œä½¿ç”¨exeåŒç›®å½•
             if (string.IsNullOrEmpty(configFilePath))
             {
                 configFilePath = Path.Combine(appPath, "Config.ini");
@@ -53,31 +53,31 @@ namespace COTUI.Í¨ÓÃ¹¦ÄÜÀà
 
             configData = new Dictionary<string, Dictionary<string, string>>();
 
-            // ¼ì²éÅäÖÃÎÄ¼şÊÇ·ñ´æÔÚ
+            // æ£€æŸ¥é…ç½®æ–‡ä»¶æ˜¯å¦å­˜åœ¨
             if (!File.Exists(configFilePath))
             {
-                Gvar.Logger.Log(LogLevel.Error, $"? ÅäÖÃÎÄ¼ş²»´æÔÚ: {configFilePath}");
-                Gvar.Logger.Log(LogLevel.Error, "ÇëÔÚ½â¾ö·½°¸¸ùÄ¿Â¼ÊÖ¶¯´´½¨ Config.ini ÎÄ¼ş£¡");
+                Gvar.Logger.Log($"? é…ç½®æ–‡ä»¶ä¸å­˜åœ¨: {configFilePath}");
+                Gvar.Logger.Log("è¯·åœ¨è§£å†³æ–¹æ¡ˆæ ¹ç›®å½•æ‰‹åŠ¨åˆ›å»º Config.ini æ–‡ä»¶ï¼");
                 
-                // ²»×Ô¶¯´´½¨£¬¶øÊÇÌáÊ¾ÓÃ»§ÊÖ¶¯´´½¨
+                // ä¸è‡ªåŠ¨åˆ›å»ºï¼Œè€Œæ˜¯æç¤ºç”¨æˆ·æ‰‹åŠ¨åˆ›å»º
                 throw new FileNotFoundException(
-                    $"ÅäÖÃÎÄ¼ş²»´æÔÚ£¡\n" +
-                    $"ÇëÔÚÒÔÏÂÂ·¾¶ÊÖ¶¯´´½¨ Config.ini ÎÄ¼ş£º\n" +
+                    $"é…ç½®æ–‡ä»¶ä¸å­˜åœ¨ï¼\n" +
+                    $"è¯·åœ¨ä»¥ä¸‹è·¯å¾„æ‰‹åŠ¨åˆ›å»º Config.ini æ–‡ä»¶ï¼š\n" +
                     $"{configFilePath}\n\n" +
-                    $"²Î¿¼Ä£°åÇë²é¿´ÏîÄ¿ÎÄµµ.",
+                    $"å‚è€ƒæ¨¡æ¿è¯·æŸ¥çœ‹é¡¹ç›®æ–‡æ¡£.",
                     configFilePath
                 );
             }
 
-            // ¼ÓÔØÅäÖÃ
+            // åŠ è½½é…ç½®
             LoadConfig();
             
-            Gvar.Logger.Log(LogLevel.Info, $"? ÅäÖÃÎÄ¼şÒÑ¼ÓÔØ: {configFilePath}");
-            Gvar.Logger.Log(LogLevel.Info, $"   ·Ö×éÊıÁ¿: {configData.Count}");
+            Gvar.Logger.Log($"? é…ç½®æ–‡ä»¶å·²åŠ è½½: {configFilePath}");
+            Gvar.Logger.Log($"   åˆ†ç»„æ•°é‡: {configData.Count}");
             
-            // ¿ØÖÆÌ¨Êä³ö£¨·½±ãµ÷ÊÔ£©
-            System.Diagnostics.Debug.WriteLine($"ÅäÖÃÎÄ¼şÂ·¾¶: {configFilePath}");
-            System.Diagnostics.Debug.WriteLine($"ÅäÖÃ·Ö×éÊı: {configData.Count}");
+            // æ§åˆ¶å°è¾“å‡ºï¼ˆæ–¹ä¾¿è°ƒè¯•ï¼‰
+            System.Diagnostics.Debug.WriteLine($"é…ç½®æ–‡ä»¶è·¯å¾„: {configFilePath}");
+            System.Diagnostics.Debug.WriteLine($"é…ç½®åˆ†ç»„æ•°: {configData.Count}");
         }
 
         private void LoadConfig()
@@ -86,7 +86,7 @@ namespace COTUI.Í¨ÓÃ¹¦ÄÜÀà
             {
                 if (!File.Exists(configFilePath))
                 {
-                    throw new FileNotFoundException($"ÅäÖÃÎÄ¼ş²»´æÔÚ: {configFilePath}");
+                    throw new FileNotFoundException($"é…ç½®æ–‡ä»¶ä¸å­˜åœ¨: {configFilePath}");
                 }
 
                 configData.Clear();
@@ -98,7 +98,7 @@ namespace COTUI.Í¨ÓÃ¹¦ÄÜÀà
                     lineNumber++;
                     string trimmedLine = line.Trim();
 
-                    // Ìø¹ı¿ÕĞĞºÍ×¢ÊÍ
+                    // è·³è¿‡ç©ºè¡Œå’Œæ³¨é‡Š
                     if (string.IsNullOrEmpty(trimmedLine) || 
                         trimmedLine.StartsWith("#") || 
                         trimmedLine.StartsWith(";"))
@@ -106,7 +106,7 @@ namespace COTUI.Í¨ÓÃ¹¦ÄÜÀà
                         continue;
                     }
 
-                    // ½âÎö·Ö×é [Section]
+                    // è§£æåˆ†ç»„ [Section]
                     if (trimmedLine.StartsWith("[") && trimmedLine.EndsWith("]"))
                     {
                         currentSection = trimmedLine.Substring(1, trimmedLine.Length - 2);
@@ -117,7 +117,7 @@ namespace COTUI.Í¨ÓÃ¹¦ÄÜÀà
                         continue;
                     }
 
-                    // ½âÎö¼üÖµ¶Ô Key=Value
+                    // è§£æé”®å€¼å¯¹ Key=Value
                     int equalIndex = trimmedLine.IndexOf('=');
                     if (equalIndex > 0 && !string.IsNullOrEmpty(currentSection))
                     {
@@ -126,19 +126,19 @@ namespace COTUI.Í¨ÓÃ¹¦ÄÜÀà
                         
                         configData[currentSection][key] = value;
                         
-                        Gvar.Logger.Log(LogLevel.Debug, $"[{currentSection}] {key} = {value}");
+                        Gvar.Logger.Log($"[{currentSection}] {key} = {value}");
                     }
                     else if (equalIndex < 0 && !string.IsNullOrEmpty(trimmedLine))
                     {
-                        Gvar.Logger.Log(LogLevel.Warn, $"ÅäÖÃÎÄ¼şµÚ{lineNumber}ĞĞ¸ñÊ½´íÎó: {trimmedLine}");
+                        Gvar.Logger.Log($"é…ç½®æ–‡ä»¶ç¬¬{lineNumber}è¡Œæ ¼å¼é”™è¯¯: {trimmedLine}");
                     }
                 }
 
-                Gvar.Logger.Log(LogLevel.Debug, $"ÅäÖÃÎÄ¼ş¼ÓÔØ³É¹¦£¬¹²{configData.Count}¸ö·Ö×é");
+                Gvar.Logger.Log($"é…ç½®æ–‡ä»¶åŠ è½½æˆåŠŸï¼Œå…±{configData.Count}ä¸ªåˆ†ç»„");
             }
             catch (Exception ex)
             {
-                Gvar.Logger.ErrorException(ex, "¼ÓÔØÅäÖÃÎÄ¼şÊ§°Ü");
+                Gvar.Logger.ErrorException(ex, "åŠ è½½é…ç½®æ–‡ä»¶å¤±è´¥");
                 throw;
             }
         }
@@ -147,18 +147,18 @@ namespace COTUI.Í¨ÓÃ¹¦ÄÜÀà
         {
             try
             {
-                // ±¸·İÔ­ÅäÖÃÎÄ¼ş
+                // å¤‡ä»½åŸé…ç½®æ–‡ä»¶
                 if (File.Exists(configFilePath))
                 {
                     string backupPath = configFilePath + ".bak";
                     File.Copy(configFilePath, backupPath, true);
-                    Gvar.Logger.Log(LogLevel.Debug, $"ÅäÖÃÎÄ¼şÒÑ±¸·İ: {backupPath}");
+                    Gvar.Logger.Log($"é…ç½®æ–‡ä»¶å·²å¤‡ä»½: {backupPath}");
                 }
 
                 using (StreamWriter writer = new StreamWriter(configFilePath, false, System.Text.Encoding.UTF8))
                 {
-                    writer.WriteLine("# Éè±¸ÅäÖÃÎÄ¼ş");
-                    writer.WriteLine($"# ×îºóĞŞ¸Ä: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+                    writer.WriteLine("# è®¾å¤‡é…ç½®æ–‡ä»¶");
+                    writer.WriteLine($"# æœ€åä¿®æ”¹: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
                     writer.WriteLine();
 
                     foreach (var section in configData)
@@ -172,11 +172,11 @@ namespace COTUI.Í¨ÓÃ¹¦ÄÜÀà
                     }
                 }
 
-                Gvar.Logger.Log(LogLevel.Info, "ÅäÖÃÎÄ¼şÒÑ±£´æ");
+                Gvar.Logger.Log("é…ç½®æ–‡ä»¶å·²ä¿å­˜");
             }
             catch (Exception ex)
             {
-                Gvar.Logger.ErrorException(ex, "±£´æÅäÖÃÎÄ¼şÊ§°Ü");
+                Gvar.Logger.ErrorException(ex, "ä¿å­˜é…ç½®æ–‡ä»¶å¤±è´¥");
                 throw;
             }
         }
@@ -184,7 +184,7 @@ namespace COTUI.Í¨ÓÃ¹¦ÄÜÀà
         public void ReloadConfig()
         {
             LoadConfig();
-            Gvar.Logger.Log(LogLevel.Info, "ÅäÖÃÎÄ¼şÒÑÖØĞÂ¼ÓÔØ");
+            Gvar.Logger.Log("é…ç½®æ–‡ä»¶å·²é‡æ–°åŠ è½½");
         }
 
         public string GetValue(string section, string key, string defaultValue = "")
@@ -197,12 +197,12 @@ namespace COTUI.Í¨ÓÃ¹¦ÄÜÀà
                 }
                 else
                 {
-                    Gvar.Logger.Log(LogLevel.Warn, $"ÅäÖÃÏî²»´æÔÚ: [{section}] {key}£¬Ê¹ÓÃÄ¬ÈÏÖµ: {defaultValue}");
+                    Gvar.Logger.Log($"é…ç½®é¡¹ä¸å­˜åœ¨: [{section}] {key}ï¼Œä½¿ç”¨é»˜è®¤å€¼: {defaultValue}");
                 }
             }
             catch (Exception ex)
             {
-                Gvar.Logger.Log(LogLevel.Error, $"¶ÁÈ¡ÅäÖÃÊ§°Ü: [{section}] {key}, {ex.Message}");
+                Gvar.Logger.Log($"è¯»å–é…ç½®å¤±è´¥: [{section}] {key}, {ex.Message}");
             }
 
             return defaultValue;
@@ -216,7 +216,7 @@ namespace COTUI.Í¨ÓÃ¹¦ÄÜÀà
                 return result;
             }
             
-            Gvar.Logger.Log(LogLevel.Warn, $"ÅäÖÃÖµÎŞ·¨×ª»»ÎªÕûÊı: [{section}] {key} = {value}£¬Ê¹ÓÃÄ¬ÈÏÖµ: {defaultValue}");
+            Gvar.Logger.Log($"é…ç½®å€¼æ— æ³•è½¬æ¢ä¸ºæ•´æ•°: [{section}] {key} = {value}ï¼Œä½¿ç”¨é»˜è®¤å€¼: {defaultValue}");
             return defaultValue;
         }
 
@@ -232,7 +232,7 @@ namespace COTUI.Í¨ÓÃ¹¦ÄÜÀà
                 return false;
             }
             
-            Gvar.Logger.Log(LogLevel.Warn, $"ÅäÖÃÖµÎŞ·¨×ª»»Îª²¼¶ûÖµ: [{section}] {key} = {value}£¬Ê¹ÓÃÄ¬ÈÏÖµ: {defaultValue}");
+            Gvar.Logger.Log($"é…ç½®å€¼æ— æ³•è½¬æ¢ä¸ºå¸ƒå°”å€¼: [{section}] {key} = {value}ï¼Œä½¿ç”¨é»˜è®¤å€¼: {defaultValue}");
             return defaultValue;
         }
 
@@ -244,7 +244,7 @@ namespace COTUI.Í¨ÓÃ¹¦ÄÜÀà
                 return result;
             }
             
-            Gvar.Logger.Log(LogLevel.Warn, $"ÅäÖÃÖµÎŞ·¨×ª»»Îª¸¡µãÊı: [{section}] {key} = {value}£¬Ê¹ÓÃÄ¬ÈÏÖµ: {defaultValue}");
+            Gvar.Logger.Log($"é…ç½®å€¼æ— æ³•è½¬æ¢ä¸ºæµ®ç‚¹æ•°: [{section}] {key} = {value}ï¼Œä½¿ç”¨é»˜è®¤å€¼: {defaultValue}");
             return defaultValue;
         }
 
@@ -255,15 +255,15 @@ namespace COTUI.Í¨ÓÃ¹¦ÄÜÀà
                 if (!configData.ContainsKey(section))
                 {
                     configData[section] = new Dictionary<string, string>();
-                    Gvar.Logger.Log(LogLevel.Info, $"´´½¨ĞÂµÄÅäÖÃ·Ö×é: [{section}]");
+                    Gvar.Logger.Log($"åˆ›å»ºæ–°çš„é…ç½®åˆ†ç»„: [{section}]");
                 }
 
                 configData[section][key] = value;
-                Gvar.Logger.Log(LogLevel.Debug, $"ÅäÖÃÒÑ¸üĞÂ: [{section}] {key} = {value}");
+                Gvar.Logger.Log($"é…ç½®å·²æ›´æ–°: [{section}] {key} = {value}");
             }
             catch (Exception ex)
             {
-                Gvar.Logger.ErrorException(ex, $"ÉèÖÃÅäÖÃÖµÊ§°Ü: [{section}] {key}={value}");
+                Gvar.Logger.ErrorException(ex, $"è®¾ç½®é…ç½®å€¼å¤±è´¥: [{section}] {key}={value}");
             }
         }
 
@@ -294,11 +294,11 @@ namespace COTUI.Í¨ÓÃ¹¦ÄÜÀà
 
         public string GetConfigInfo()
         {
-            return $"ÅäÖÃÎÄ¼şÂ·¾¶: {configFilePath}\n" +
-                   $"ÎÄ¼ş´æÔÚ: {File.Exists(configFilePath)}\n" +
-                   $"·Ö×éÊıÁ¿: {configData.Count}\n" +
-                   $"ÎÄ¼ş´óĞ¡: {(File.Exists(configFilePath) ? new FileInfo(configFilePath).Length : 0)} ×Ö½Ú\n" +
-                   $"±àÂë: UTF-8";
+            return $"é…ç½®æ–‡ä»¶è·¯å¾„: {configFilePath}\n" +
+                   $"æ–‡ä»¶å­˜åœ¨: {File.Exists(configFilePath)}\n" +
+                   $"åˆ†ç»„æ•°é‡: {configData.Count}\n" +
+                   $"æ–‡ä»¶å¤§å°: {(File.Exists(configFilePath) ? new FileInfo(configFilePath).Length : 0)} å­—èŠ‚\n" +
+                   $"ç¼–ç : UTF-8";
         }
     }
 }

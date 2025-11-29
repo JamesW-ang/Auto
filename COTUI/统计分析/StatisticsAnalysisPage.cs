@@ -40,7 +40,7 @@ namespace COTUI.统计分析
         public StatisticsAnalysisPage()
         {
             InitializeComponent();
-            Gvar.Logger.Log(LogLevel.Info, "统计分析页面创建");
+            Gvar.Logger.Log("统计分析页面创建");
             
             // ✅ 不再在构造函数中创建所有子窗体
             // 改为在标签页切换时按需加载
@@ -57,7 +57,7 @@ namespace COTUI.统计分析
                 // ✅ 只加载当前显示的标签页（默认是第一个）
                 LoadCurrentTabPage();
                 
-                Gvar.Logger.Log(LogLevel.Info, "统计分析页面加载完成");
+                Gvar.Logger.Log("统计分析页面加载完成");
             }
             catch (Exception ex)
             {
@@ -79,7 +79,7 @@ namespace COTUI.统计分析
             try
             {
                 int selectedIndex = tabControl1.SelectedIndex;
-                Gvar.Logger.Log(LogLevel.Debug, $"切换到标签页: {selectedIndex}");
+                Gvar.Logger.Log($"切换到标签页: {selectedIndex}");
                 
                 // ✅ 只加载当前选中的标签页
                 LoadCurrentTabPage();
@@ -120,19 +120,19 @@ namespace COTUI.统计分析
         {
             if (isDashboardLoaded)
             {
-                Gvar.Logger.Log(LogLevel.Debug, "实时数据看板已加载，跳过");
+                Gvar.Logger.Log("实时数据看板已加载，跳过");
                 return; // 已经加载过，直接返回
             }
             
             try
             {
-                Gvar.Logger.Log(LogLevel.Info, "开始加载实时数据看板...");
+                Gvar.Logger.Log("开始加载实时数据看板...");
                 
                 dashboardPage = new DashboardPage();
                 LoadFormIntoPanel(dashboardPage, panel_Dashboard);
                 
                 isDashboardLoaded = true;
-                Gvar.Logger.Log(LogLevel.Info, " 实时数据看板加载完成");
+                Gvar.Logger.Log(" 实时数据看板加载完成");
             }
             catch (Exception ex)
             {
@@ -149,19 +149,19 @@ namespace COTUI.统计分析
         {
             if (isSPCLoaded)
             {
-                Gvar.Logger.Log(LogLevel.Debug, "SPC过程监控已加载，跳过");
+                Gvar.Logger.Log("SPC过程监控已加载，跳过");
                 return; // 已经加载过，直接返回
             }
             
             try
             {
-                Gvar.Logger.Log(LogLevel.Info, "开始加载SPC过程监控...");
+                Gvar.Logger.Log("开始加载SPC过程监控...");
                 
                 spcMonitorPage = new SPCMonitorPage();
                 LoadFormIntoPanel(spcMonitorPage, panel_SPC);
                 
                 isSPCLoaded = true;
-                Gvar.Logger.Log(LogLevel.Info, "SPC过程监控加载完成");
+                Gvar.Logger.Log("SPC过程监控加载完成");
             }
             catch (Exception ex)
             {
@@ -178,19 +178,19 @@ namespace COTUI.统计分析
         {
             if (isTraceabilityLoaded)
             {
-                Gvar.Logger.Log(LogLevel.Debug, "产品追溯查询已加载，跳过");
+                Gvar.Logger.Log("产品追溯查询已加载，跳过");
                 return; // 已经加载过，直接返回
             }
             
             try
             {
-                Gvar.Logger.Log(LogLevel.Info, "开始加载产品追溯查询...");
+                Gvar.Logger.Log("开始加载产品追溯查询...");
                 
                 traceabilityPage = new TraceabilityPage();
                 LoadFormIntoPanel(traceabilityPage, panel_Traceability);
                 
                 isTraceabilityLoaded = true;
-                Gvar.Logger.Log(LogLevel.Info, " 产品追溯查询加载完成");
+                Gvar.Logger.Log(" 产品追溯查询加载完成");
             }
             catch (Exception ex)
             {
@@ -225,22 +225,22 @@ namespace COTUI.统计分析
                 if (isDashboardLoaded && dashboardPage != null)
                 {
                     dashboardPage.Close();
-                    Gvar.Logger.Log(LogLevel.Debug, "实时数据看板已关闭");
+                    Gvar.Logger.Log("实时数据看板已关闭");
                 }
                 
                 if (isSPCLoaded && spcMonitorPage != null)
                 {
                     spcMonitorPage.Close();
-                    Gvar.Logger.Log(LogLevel.Debug, "SPC过程监控已关闭");
+                    Gvar.Logger.Log("SPC过程监控已关闭");
                 }
                 
                 if (isTraceabilityLoaded && traceabilityPage != null)
                 {
                     traceabilityPage.Close();
-                    Gvar.Logger.Log(LogLevel.Debug, "产品追溯查询已关闭");
+                    Gvar.Logger.Log("产品追溯查询已关闭");
                 }
 
-                Gvar.Logger.Log(LogLevel.Info, "统计分析页面关闭");
+                Gvar.Logger.Log("统计分析页面关闭");
             }
             catch (Exception ex)
             {

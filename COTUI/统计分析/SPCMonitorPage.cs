@@ -34,7 +34,7 @@ namespace COTUI.统计分析
         public SPCMonitorPage()
         {
             InitializeComponent();
-            Gvar.Logger.Log(LogLevel.Info, "SPC监控页面创建");
+            Gvar.Logger.Log("SPC监控页面创建");
             
             // 设置默认选中项
             if (cmbMeasureType.Items.Count > 0)
@@ -51,8 +51,8 @@ namespace COTUI.统计分析
         {
             try
             {
-                Gvar.Logger.Log(LogLevel.Info, "SPC监控页面加载");
-                Gvar.Logger.Log(LogLevel.Info, "SPC监控页面加载完成");
+                Gvar.Logger.Log("SPC监控页面加载");
+                Gvar.Logger.Log("SPC监控页面加载完成");
             }
             catch (Exception ex)
             {
@@ -167,11 +167,11 @@ namespace COTUI.统计分析
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error
                     );
-                    Gvar.Logger.Log(LogLevel.Error, $"规格限配置错误: {fieldName}, USL={usl}, LSL={lsl}");
+                    Gvar.Logger.Log($"规格限配置错误: {fieldName}, USL={usl}, LSL={lsl}");
                     return;
                 }
 
-                Gvar.Logger.Log(LogLevel.Info, $"从配置读取规格限: {fieldName}, USL={usl}, LSL={lsl}");
+                Gvar.Logger.Log($"从配置读取规格限: {fieldName}, USL={usl}, LSL={lsl}");
 
                 // 计算Cp和Cpk
                 double cp = (usl - lsl) / (6 * stdDev);
@@ -184,7 +184,7 @@ namespace COTUI.统计分析
                 UpdateDataGrid(records, fieldName, mean);
                 ShowControlChart(values);
 
-                Gvar.Logger.Log(LogLevel.Info, $"Cpk计算完成: {cpk:F3} (基于{values.Count}条数据)");
+                Gvar.Logger.Log($"Cpk计算完成: {cpk:F3} (基于{values.Count}条数据)");
             }
             catch (Exception ex)
             {
@@ -455,7 +455,7 @@ namespace COTUI.统计分析
                 // 添加到panel
                 panelChart.Controls.Add(formsPlot);
                 
-                Gvar.Logger.Log(LogLevel.Info, string.Format("ScottPlot控制图绘制成功，数据点数：{0}", values.Count));
+                Gvar.Logger.Log(string.Format("ScottPlot控制图绘制成功，数据点数：{0}", values.Count));
             }
             catch (Exception ex)
             {

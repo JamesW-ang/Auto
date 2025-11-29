@@ -50,20 +50,20 @@ namespace COTUI.权限管理
                     if (user != null && user.IsEnabled)
                     {
                         Gvar.User = username;
-                        Gvar.Logger.Log(LogLevel.Info, $"用户 {username} ({user.RealName}) 登录成功");
+                        Gvar.Logger.Log($"用户 {username} ({user.RealName}) 登录成功");
                         MessageBox.Show($"欢迎，{user.RealName ?? username}！", "登录成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.Close();
                     }
                     else
                     {
                         MessageBox.Show("用户已被禁用，请联系管理员！", "登录失败", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        Gvar.Logger.Log(LogLevel.Warn, $"用户 {username} 尝试登录失败：账户已禁用");
+                        Gvar.Logger.Log($"用户 {username} 尝试登录失败：账户已禁用");
                     }
                 }
                 else
                 {
                     MessageBox.Show("用户名或密码错误！", "登录失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Gvar.Logger.Log(LogLevel.Warn, $"用户 {username} 登录失败：密码错误");
+                    Gvar.Logger.Log($"用户 {username} 登录失败：密码错误");
                 }
             }
             catch (Exception ex)

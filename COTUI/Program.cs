@@ -40,14 +40,14 @@ namespace COTUI
                 var dbLogger = DatabaseLoggerExtension.Instance;
                 dbLogger.Initialize();
                 
-                Gvar.Logger.Info(LogLevel.Debug, "[Program] 数据库日志系统已启动");
-                Gvar.Logger.Log(LogLevel.Info, "程序启动");
+                Gvar.Logger.Info("[Program] 数据库日志系统已启动");
+                Gvar.Logger.Log("程序启动");
                 
                 // 4. 运行主窗体（设置全局引用）
                 Application.Run(Gvar.UI.MainForm = new Form1());
                 
                 // 5. 程序退出时清理
-                Gvar.Logger.Log(LogLevel.Info, "程序退出");
+                Gvar.Logger.Log("程序退出");
                 dbLogger.Shutdown();
                 Gvar.Logger.Shutdown();
             }

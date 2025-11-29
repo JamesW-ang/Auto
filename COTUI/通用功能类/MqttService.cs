@@ -110,7 +110,7 @@ namespace COTUI.通用功能类
             reconnectAttempts = 0;
             StopReconnectTimer();
 
-            Logger.GetInstance().Info(LogLevel.Info, "MQTT已连接");
+            Gvar.Logger.Info("MQTT已连接");
             ConnectionStatusChanged?.Invoke(this, true);
             
             await ResubscribeAllTopics();
@@ -122,7 +122,7 @@ namespace COTUI.通用功能类
             connected = false;
 
             // 使用 GetInstance() 方法
-            Logger.GetInstance().Warn(LogLevel.Warn, "MQTT已断开连接");
+            Gvar.Logger.Warn("MQTT已断开连接");
             ConnectionStatusChanged?.Invoke(this, false);
 
             if (options != null && reconnectAttempts < MaxReconnectAttempts)
@@ -149,7 +149,7 @@ namespace COTUI.通用功能类
             }
 
             // 使用 GetInstance() 方法
-            Logger.GetInstance().Debug(LogLevel.Debug,$"收到MQTT消息 - 主题: {topic}, 内容: {payload}");
+            Gvar.Logger.Debug($"收到MQTT消息 - 主题: {topic}, 内容: {payload}");
 
             if (messageHander.TryGetValue(topic, out var handler))
             {
@@ -159,7 +159,7 @@ namespace COTUI.通用功能类
                 }
                 catch (Exception ex)
                 {
-                    Logger.GetInstance().Error(LogLevel.Error, $"处理MQTT消息失败: {topic} - {ex.Message}");
+                    Gvar.Logger.Error($"处理MQTT消息失败: {topic} - {ex.Message}");
                 }
             }
 
@@ -194,14 +194,14 @@ namespace COTUI.通用功能类
 
             try
             {
-                Logger.GetInstance().Info(LogLevel.Info, $"正在连接到 MQTT 服务器 {server}:{port}...");
+                Gvar.Logger.Info($"正在连接到 MQTT 服务器 {server}:{port}...");
                 connected = true;
                 await mqttClient.ConnectAsync(options, CancellationToken.None);
             }
             catch (Exception ex)
             {
                 connected = false;
-                Logger.GetInstance().ErrorException(ex, $"MQTT连接异常: {ex.Message}");
+                Gvar.Logger.ErrorException(ex, $"MQTT连接异常: {ex.Message}");
                 throw;
             }
         }
@@ -213,7 +213,7 @@ namespace COTUI.通用功能类
 
             if (isConnected)
             {
-                Logger.GetInstance().Info(LogLevel.Info, "正在断开MQTT连接...");
+                Gvar.Logger.Info("正在断开MQTT连接...");
                 var disconnectOptions = new MqttClientDisconnectOptionsBuilder()
                     .WithReason(MqttClientDisconnectOptionsReason.NormalDisconnection)
                     .Build();
@@ -231,7 +231,7 @@ namespace COTUI.通用功能类
         {
             StopReconnectTimer();
             reconnectTimer = new System.Threading.Timer(async (state) => await Reconnect(), null, ReconnectInterval, System.Threading.Timeout.Infinite);
-            Logger.GetInstance().Info(LogLevel.Info, $"MQTT将在 {ReconnectInterval / 1000} 秒后尝试重连");
+            Gvar.Logger.Info($"MQTT将在 {ReconnectInterval / 1000} 秒后尝试重连");
         }
 
         private async Task Reconnect()
@@ -241,12 +241,12 @@ namespace COTUI.通用功能类
 
             if (reconnectAttempts >= MaxReconnectAttempts)
             {
-                Logger.GetInstance().Error(LogLevel.Error, $"已达到最大重连尝试次数 ({MaxReconnectAttempts})，停止自动重连");
+                Gvar.Logger.Error($"已达到最大重连尝试次数 ({MaxReconnectAttempts})，停止自动重连");
                 return;
             }
 
             reconnectAttempts++;
-            Logger.GetInstance().Info(LogLevel.Info, $"尝试重连 (第 {reconnectAttempts} 次)");
+            Gvar.Logger.Info($"尝试重连 (第 {reconnectAttempts} 次)");
 
             try
             {
@@ -256,7 +256,7 @@ namespace COTUI.通用功能类
             catch (Exception ex)
             {
                 connected = false;
-                Logger.GetInstance().ErrorException(ex, $"重连失败: {ex.Message}");
+                Gvar.Logger.ErrorException(ex, $"重连失败: {ex.Message}");
 
                 if (reconnectAttempts < MaxReconnectAttempts)
                 {
@@ -284,7 +284,7 @@ namespace COTUI.通用功能类
         {
             if (isConnected)
             {
-                Logger.GetInstance().Info(LogLevel.Info, $"正在订阅主题: {topic}");
+                Gvar.Logger.Info($"正在订阅主题: {topic}");
                 var subscribeOptions = new MqttClientSubscribeOptionsBuilder()
                     .WithTopicFilter(topic)
                     .Build();
@@ -297,7 +297,7 @@ namespace COTUI.通用功能类
         {
             if (isConnected)
             {
-                Logger.GetInstance().Info(LogLevel.Info, $"正在发布消息 - 主题: {topic}");
+                Gvar.Logger.Info($"正在发布消息 - 主题: {topic}");
                 var message = new MqttApplicationMessageBuilder()
                     .WithTopic(topic)
                     .WithPayload(Encoding.UTF8.GetBytes(payload))
@@ -317,7 +317,7 @@ namespace COTUI.通用功能类
         {
             if (isConnected)
             {
-                Logger.GetInstance().Info(LogLevel.Info, $"正在取消订阅主题: {topic}");
+                Gvar.Logger.Info($"正在取消订阅主题: {topic}");
                 var unsubscribeOptions = new MqttClientUnsubscribeOptionsBuilder()
                     .WithTopicFilter(topic)
                     .Build();
@@ -336,11 +336,11 @@ namespace COTUI.通用功能类
                         .WithTopicFilter(topic)
                         .Build();
                     await mqttClient.SubscribeAsync(subscribeOptions, CancellationToken.None);
-                    Logger.GetInstance().Debug(LogLevel.Debug, $"重新订阅主题: {topic}");
+                    Gvar.Logger.Debug($"重新订阅主题: {topic}");
                 }
                 catch (Exception ex)
                 {
-                    Logger.GetInstance().ErrorException(ex, $"重新订阅主题失败: {topic} - {ex.Message}");
+                    Gvar.Logger.ErrorException(ex, $"重新订阅主题失败: {topic} - {ex.Message}");
                 }
             }
         }
@@ -369,16 +369,16 @@ namespace COTUI.通用功能类
         {
             try
             {
-                Logger.GetInstance().Info(LogLevel.Info, "正在启动MQTT自动连接...");
+                Gvar.Logger.Info("正在启动MQTT自动连接...");
                 
                 // 使用配置的参数连接
                 await ConnectAsync(mqttServer, mqttPort, mqttClientId, mqttUsername, mqttPassword);
                 
-                Logger.GetInstance().Info(LogLevel.Info, "✅ MQTT自动连接成功");
+                Gvar.Logger.Info("✅ MQTT自动连接成功");
             }
             catch (Exception ex)
             {
-                Logger.GetInstance().ErrorException(ex, "MQTT自动连接失败，稍后将自动重试");
+                Gvar.Logger.ErrorException(ex, "MQTT自动连接失败，稍后将自动重试");
                 // 不抛出异常，让程序继续运行
             }
         }
@@ -392,7 +392,7 @@ namespace COTUI.通用功能类
             {
                 if (!isConnected)
                 {
-                    Logger.GetInstance().Warn(LogLevel.Warn, "MQTT未连接，跳过报工");
+                    Gvar.Logger.Warn("MQTT未连接，跳过报工");
                     return;
                 }
 
@@ -439,11 +439,11 @@ namespace COTUI.通用功能类
                 // 发布到MQTT
                 await PublishAsync(workReportTopic, json);
 
-                Logger.GetInstance().Info(LogLevel.Info, $"✅ 报工成功: {data.ProductSN}");
+                Gvar.Logger.Info($"✅ 报工成功: {data.ProductSN}");
             }
             catch (Exception ex)
             {
-                Logger.GetInstance().ErrorException(ex, $"报工失败: {data.ProductSN}");
+                Gvar.Logger.ErrorException(ex, $"报工失败: {data.ProductSN}");
             }
         }
 

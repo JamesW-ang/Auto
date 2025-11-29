@@ -218,7 +218,7 @@ namespace COTUI.通用功能类
                 // 关闭旧连接
                 DisconnectClient();
 
-                Gvar.Logger.Info(LogLevel.Info, $"正在连接到 TCP 服务器 {host}:{port}...");
+                Gvar.Logger.Info($"正在连接到 TCP 服务器 {host}:{port}...");
 
                 // 创建TCP客户端
                 tcpClient = new TcpClient();
@@ -228,7 +228,7 @@ namespace COTUI.通用功能类
                 isConnected = true;
                 reconnectAttempts = 0;
 
-                Gvar.Logger.Info(LogLevel.Info, $"✅ TCP 连接成功: {host}:{port}");
+                Gvar.Logger.Info($"✅ TCP 连接成功: {host}:{port}");
                 ConnectionStatusChanged?.Invoke(this, true);
 
                 // 启动接收数据
@@ -284,7 +284,7 @@ namespace COTUI.通用功能类
                     if (isConnected)
                     {
                         isConnected = false;
-                        Gvar.Logger.Info(LogLevel.Info, $"TCP 连接已断开: {remoteHost}:{remotePort}");
+                        Gvar.Logger.Info($"TCP 连接已断开: {remoteHost}:{remotePort}");
                         ConnectionStatusChanged?.Invoke(this, false);
                     }
                 }
@@ -320,7 +320,7 @@ namespace COTUI.通用功能类
                 // 停止旧监听
                 StopServer();
 
-                Gvar.Logger.Info(LogLevel.Info, $"正在启动 TCP 服务端，端口: {port}...");
+                Gvar.Logger.Info($"正在启动 TCP 服务端，端口: {port}...");
 
                 // 创建监听器
                 IPAddress listenAddress = ipAddress ?? IPAddress.Any;
@@ -328,7 +328,7 @@ namespace COTUI.通用功能类
                 tcpListener.Start();
                 isListening = true;
 
-                Gvar.Logger.Info(LogLevel.Info, $"✅ TCP 服务端已启动: {listenAddress}:{port}");
+                Gvar.Logger.Info($"✅ TCP 服务端已启动: {listenAddress}:{port}");
 
                 // 异步接受客户端连接
                 _ = Task.Run(AcceptClientsAsync);
@@ -369,7 +369,7 @@ namespace COTUI.通用功能类
                     tcpListener = null;
                 }
 
-                Gvar.Logger.Info(LogLevel.Info, $"TCP 服务端已停止: {localPort}");
+                Gvar.Logger.Info($"TCP 服务端已停止: {localPort}");
             }
             catch (Exception ex)
             {
@@ -393,7 +393,7 @@ namespace COTUI.通用功能类
                     connectedClients[clientId] = client;
 
                     string clientEndpoint = client.Client.RemoteEndPoint?.ToString() ?? "Unknown";
-                    Gvar.Logger.Info(LogLevel.Debug, $"客户端已连接: {clientEndpoint} (ID: {clientId})");
+                    Gvar.Logger.Info($"客户端已连接: {clientEndpoint} (ID: {clientId})");
                     ClientConnected?.Invoke(this, clientId);
 
                     // 异步处理客户端数据
@@ -421,7 +421,7 @@ namespace COTUI.通用功能类
                 try
                 {
                     client.Close();
-                    Gvar.Logger.Info(LogLevel.Debug, $"客户端已断开: {clientId}");
+                    Gvar.Logger.Info($"客户端已断开: {clientId}");
                     ClientDisconnected?.Invoke(this, clientId);
                 }
                 catch (Exception ex)
@@ -458,7 +458,7 @@ namespace COTUI.通用功能类
             {
                 await networkStream.WriteAsync(data, 0, data.Length);
                 await networkStream.FlushAsync();
-                Gvar.Logger.Debug(LogLevel.Trace, $"TCP 发送 ({data.Length} 字节)");
+                Gvar.Logger.Debug($"TCP 发送 ({data.Length} 字节)");
             }
             catch (Exception ex)
             {
@@ -503,7 +503,7 @@ namespace COTUI.通用功能类
                 NetworkStream stream = client.GetStream();
                 await stream.WriteAsync(data, 0, data.Length);
                 await stream.FlushAsync();
-                Gvar.Logger.Debug(LogLevel.Trace, $"TCP 发送到客户端 {clientId} ({data.Length} 字节)");
+                Gvar.Logger.Debug($"TCP 发送到客户端 {clientId} ({data.Length} 字节)");
             }
             catch (Exception ex)
             {
@@ -573,7 +573,7 @@ namespace COTUI.通用功能类
                     if (bytesRead == 0)
                     {
                         // 连接已关闭
-                        Gvar.Logger.Warn(LogLevel.Warn, "TCP 连接已被远程主机关闭");
+                        Gvar.Logger.Warn("TCP 连接已被远程主机关闭");
                         HandleDisconnection();
                         break;
                     }
@@ -588,7 +588,7 @@ namespace COTUI.通用功能类
                     string text = Encoding.UTF8.GetString(data);
                     TextReceived?.Invoke(this, text);
 
-                    Gvar.Logger.Debug(LogLevel.Trace, $"TCP 接收 ({bytesRead} 字节)");
+                    Gvar.Logger.Debug($"TCP 接收 ({bytesRead} 字节)");
                 }
                 catch (Exception ex)
                 {
@@ -620,7 +620,7 @@ namespace COTUI.通用功能类
                     if (bytesRead == 0)
                     {
                         // 客户端断开
-                        Gvar.Logger.Info(LogLevel.Info, $"客户端断开连接: {clientId}");
+                        Gvar.Logger.Info($"客户端断开连接: {clientId}");
                         DisconnectClient(clientId);
                         break;
                     }
@@ -635,7 +635,7 @@ namespace COTUI.通用功能类
                     string text = Encoding.UTF8.GetString(data);
                     ServerTextReceived?.Invoke(this, (clientId, text));
 
-                    Gvar.Logger.Debug(LogLevel.Debug, $"从客户端 {clientId} 接收 ({bytesRead} 字节)");
+                    Gvar.Logger.Debug($"从客户端 {clientId} 接收 ({bytesRead} 字节)");
                 }
                 catch (Exception ex)
                 {
@@ -679,7 +679,7 @@ namespace COTUI.通用功能类
         {
             StopReconnectTimer();
             reconnectTimer = new System.Threading.Timer(async (state) => await Reconnect(), null, ReconnectInterval, Timeout.Infinite);
-            Gvar.Logger.Info(LogLevel.Info, $"TCP 将在 {ReconnectInterval / 1000} 秒后尝试重连");
+            Gvar.Logger.Info($"TCP 将在 {ReconnectInterval / 1000} 秒后尝试重连");
         }
 
         /// <summary>
@@ -701,12 +701,12 @@ namespace COTUI.通用功能类
 
             if (reconnectAttempts >= MaxReconnectAttempts)
             {
-                Gvar.Logger.Error(LogLevel.Error, $"已达到最大重连尝试次数 ({MaxReconnectAttempts})，停止自动重连");
+                Gvar.Logger.Error($"已达到最大重连尝试次数 ({MaxReconnectAttempts})，停止自动重连");
                 return;
             }
 
             reconnectAttempts++;
-            Gvar.Logger.Info(LogLevel.Info, $"尝试重连 TCP 服务器 (第 {reconnectAttempts} 次)");
+            Gvar.Logger.Info($"尝试重连 TCP 服务器 (第 {reconnectAttempts} 次)");
 
             try
             {
@@ -745,7 +745,7 @@ namespace COTUI.通用功能类
 
             StopHeartbeat();
             heartbeatTimer = new System.Threading.Timer(async (state) => await SendHeartbeat(), null, heartbeatInterval, heartbeatInterval);
-            Gvar.Logger.Debug(LogLevel.Debug, $"心跳检测已启动，间隔: {heartbeatInterval}ms");
+            Gvar.Logger.Debug($"心跳检测已启动，间隔: {heartbeatInterval}ms");
         }
 
         /// <summary>
@@ -767,12 +767,12 @@ namespace COTUI.通用功能类
                 if (mode == TcpMode.Client && isConnected)
                 {
                     await SendBytesAsync(heartbeatData);
-                    Gvar.Logger.Debug(LogLevel.Debug, "心跳包已发送");
+                    Gvar.Logger.Debug("心跳包已发送");
                 }
             }
             catch (Exception ex)
             {
-                Gvar.Logger.Debug(LogLevel.Debug, $"发送心跳包失败: {ex.Message}");
+                Gvar.Logger.Debug($"发送心跳包失败: {ex.Message}");
             }
         }
 
