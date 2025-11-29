@@ -1,0 +1,27 @@
+{
+  "FormattingOptions": {
+    "EnableEditorConfigSupport": true,
+    "OrganizeImports": false
+  },
+  "RoslynExtensionsOptions": {
+    "EnableAnalyzersSupport": true,
+    "EnableImportCompletion": true,
+    "EnableDecompilationSupport": false
+  },
+  "FileOptions": {
+    "SystemExcludeSearchPatterns": [
+      "**/node_modules/**/*",
+      "**/bin/**/*",
+      "**/obj/**/*",
+      "**/.git/**/*"
+    ],
+    "ExcludeSearchPatterns": []
+  },
+  "Sdk": {
+    "IncludePrereleases": false
+  },
+  "MsBuild": {
+    "UseLegacySdkResolver": false,
+    "LoadProjectsOnDemand": false
+  }
+}
