@@ -52,18 +52,18 @@ namespace COTUI.数据库
                 databasePath = Path.Combine(dataDirectory, "COTUI.db");
                 connectionString = $"Data Source={databasePath};Version=3;";
 
-                Logger.GetInstance().Info(LogLevel.Debug, $"[数据库] 数据库路径: {databasePath}");
-                Logger.GetInstance().Info(LogLevel.Debug, $"[数据库] 文件存在: {File.Exists(databasePath)}");
+                Gvar.Logger.Info(LogLevel.Debug, $"[数据库] 数据库路径: {databasePath}");
+                Gvar.Logger.Info(LogLevel.Debug, $"[数据库] 文件存在: {File.Exists(databasePath)}");
 
                 // 确保表结构存在
                 EnsureTablesExist();
                 
-                Logger.GetInstance().Info(LogLevel.Debug, "[数据库] 数据库初始化成功");
+                Gvar.Logger.Info(LogLevel.Debug, "[数据库] 数据库初始化成功");
             }
             catch (Exception ex)
             {
-                Logger.GetInstance().Error(LogLevel.Error, $"[数据库] 初始化失败: {ex.Message}");
-                Logger.GetInstance().Error(LogLevel.Debug, $"[数据库] 堆栈: {ex.StackTrace}");
+                Gvar.Logger.Error(LogLevel.Error, $"[数据库] 初始化失败: {ex.Message}");
+                Gvar.Logger.Error(LogLevel.Debug, $"[数据库] 堆栈: {ex.StackTrace}");
                 throw;
             }
         }
@@ -86,14 +86,14 @@ namespace COTUI.数据库
                 // 如果数据库文件不存在，先创建
                 if (!File.Exists(databasePath))
                 {
-                    Logger.GetInstance().Info(LogLevel.Debug, "[数据库] 正在创建数据库文件");
+                    Gvar.Logger.Info(LogLevel.Debug, "[数据库] 正在创建数据库文件");
                     SQLiteConnection.CreateFile(databasePath);
                 }
 
                 using (var conn = GetConnection())
                 {
                     conn.Open();
-                    Logger.GetInstance().Info(LogLevel.Debug, "[数据库] 数据库连接成功");
+                    Gvar.Logger.Info(LogLevel.Debug, "[数据库] 数据库连接成功");
 
                     // 创建所有表
                     CreateTables(conn);
@@ -102,12 +102,12 @@ namespace COTUI.数据库
                     InsertDefaultUsers(conn);
                     InsertDefaultConfig(conn);
                     
-                    Logger.GetInstance().Info(LogLevel.Debug, "[数据库] 表结构验证完成");
+                    Gvar.Logger.Info(LogLevel.Debug, "[数据库] 表结构验证完成");
                 }
             }
             catch (Exception ex)
             {
-                Logger.GetInstance().Error(LogLevel.Error, $"[数据库] 确保表结构失败: {ex.Message}");
+                Gvar.Logger.Error(LogLevel.Error, $"[数据库] 确保表结构失败: {ex.Message}");
                 throw;
             }
         }
@@ -197,21 +197,21 @@ namespace COTUI.数据库
                 UNIQUE(ConfigGroup, ConfigKey)
             );";
 
-            Logger.GetInstance().Info(LogLevel.Trace, "[数据库] 初始化表结构...");
+            Gvar.Logger.Info(LogLevel.Trace, "[数据库] 初始化表结构...");
             ExecuteNonQuery(conn, createUsersTable);
-            Logger.GetInstance().Info(LogLevel.Trace, "[数据库] Users 表已创建");
+            Gvar.Logger.Info(LogLevel.Trace, "[数据库] Users 表已创建");
             
             ExecuteNonQuery(conn, createLogsTable);
-            Logger.GetInstance().Info(LogLevel.Trace, "[数据库] Logs 表已创建");
+            Gvar.Logger.Info(LogLevel.Trace, "[数据库] Logs 表已创建");
             
             ExecuteNonQuery(conn, createAlarmsTable);
-            Logger.GetInstance().Info(LogLevel.Trace, "[数据库] Alarms 表已创建");
+            Gvar.Logger.Info(LogLevel.Trace, "[数据库] Alarms 表已创建");
             
             ExecuteNonQuery(conn, createProductionTable);
-            Logger.GetInstance().Info(LogLevel.Trace, "[数据库] ProductionData 表已创建");
+            Gvar.Logger.Info(LogLevel.Trace, "[数据库] ProductionData 表已创建");
             
             ExecuteNonQuery(conn, createConfigTable);
-            Logger.GetInstance().Info(LogLevel.Trace, "[数据库] SystemConfig 表已创建");
+            Gvar.Logger.Info(LogLevel.Trace, "[数据库] SystemConfig 表已创建");
         }
 
         /// <summary>
@@ -232,12 +232,12 @@ namespace COTUI.数据库
                 {
                     cmd.Parameters.AddWithValue("@time", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                     int affected = cmd.ExecuteNonQuery();
-                    Logger.GetInstance().Info(LogLevel.Trace, $"[数据库] 插入默认用户: {affected} 条");
+                    Gvar.Logger.Info(LogLevel.Trace, $"[数据库] 插入默认用户: {affected} 条");
                 }
             }
             catch (Exception ex)
             {
-                Logger.GetInstance().Error(LogLevel.Error, $"[数据库] 插入默认用户失败: {ex.Message}");
+                Gvar.Logger.Error(LogLevel.Error, $"[数据库] 插入默认用户失败: {ex.Message}");
             }
         }
 
@@ -261,12 +261,12 @@ namespace COTUI.数据库
                 {
                     cmd.Parameters.AddWithValue("@time", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                     int affected = cmd.ExecuteNonQuery();
-                    Logger.GetInstance().Info(LogLevel.Trace, $"[数据库] 插入默认配置: {affected} 条");
+                    Gvar.Logger.Info(LogLevel.Trace, $"[数据库] 插入默认配置: {affected} 条");
                 }
             }
             catch (Exception ex)
             {
-                Logger.GetInstance().Error(LogLevel.Error, $"[数据库] 插入默认配置失败: {ex.Message}");
+                Gvar.Logger.Error(LogLevel.Error, $"[数据库] 插入默认配置失败: {ex.Message}");
             }
         }
 
@@ -366,7 +366,7 @@ namespace COTUI.数据库
             }
             catch (Exception ex)
             {
-                Logger.GetInstance().Error(LogLevel.Error, $"[数据库] 清理旧日志失败: {ex.Message}");
+                Gvar.Logger.Error(LogLevel.Error, $"[数据库] 清理旧日志失败: {ex.Message}");
             }
         }
 
@@ -392,7 +392,7 @@ namespace COTUI.数据库
             }
             catch (Exception ex)
             {
-                Logger.GetInstance().Error(LogLevel.Error, $"[数据库] 备份数据库失败: {ex.Message}");
+                Gvar.Logger.Error(LogLevel.Error, $"[数据库] 备份数据库失败: {ex.Message}");
                 return false;
             }
         }

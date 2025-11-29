@@ -43,7 +43,6 @@ namespace COTUI.扫码管理
 
         private ProductSNManager()
         {
-            logger = Logger.GetInstance();
             productionService = new ProductionDataService();
         }
 
@@ -51,7 +50,6 @@ namespace COTUI.扫码管理
 
         #region 字段
 
-        private Logger logger;
         private ProductionDataService productionService;
 
         #endregion

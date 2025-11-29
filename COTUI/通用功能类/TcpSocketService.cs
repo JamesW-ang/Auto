@@ -620,7 +620,7 @@ namespace COTUI.通用功能类
                     if (bytesRead == 0)
                     {
                         // 客户端断开
-                        Logger.GetInstance().Info(LogLevel.Info, $"客户端断开连接: {clientId}");
+                        Gvar.Logger.Info(LogLevel.Info, $"客户端断开连接: {clientId}");
                         DisconnectClient(clientId);
                         break;
                     }
@@ -635,13 +635,13 @@ namespace COTUI.通用功能类
                     string text = Encoding.UTF8.GetString(data);
                     ServerTextReceived?.Invoke(this, (clientId, text));
 
-                    Logger.GetInstance().Debug(LogLevel.Debug, $"从客户端 {clientId} 接收 ({bytesRead} 字节)");
+                    Gvar.Logger.Debug(LogLevel.Debug, $"从客户端 {clientId} 接收 ({bytesRead} 字节)");
                 }
                 catch (Exception ex)
                 {
                     if (connectedClients.ContainsKey(clientId))
                     {
-                        Logger.GetInstance().ErrorException(ex, $"从客户端接收数据失败: {clientId}");
+                        Gvar.Logger.ErrorException(ex, $"从客户端接收数据失败: {clientId}");
                         DisconnectClient(clientId);
                     }
                     break;
@@ -679,7 +679,7 @@ namespace COTUI.通用功能类
         {
             StopReconnectTimer();
             reconnectTimer = new System.Threading.Timer(async (state) => await Reconnect(), null, ReconnectInterval, Timeout.Infinite);
-            Logger.GetInstance().Info(LogLevel.Info, $"TCP 将在 {ReconnectInterval / 1000} 秒后尝试重连");
+            Gvar.Logger.Info(LogLevel.Info, $"TCP 将在 {ReconnectInterval / 1000} 秒后尝试重连");
         }
 
         /// <summary>
@@ -701,12 +701,12 @@ namespace COTUI.通用功能类
 
             if (reconnectAttempts >= MaxReconnectAttempts)
             {
-                Logger.GetInstance().Error(LogLevel.Error, $"已达到最大重连尝试次数 ({MaxReconnectAttempts})，停止自动重连");
+                Gvar.Logger.Error(LogLevel.Error, $"已达到最大重连尝试次数 ({MaxReconnectAttempts})，停止自动重连");
                 return;
             }
 
             reconnectAttempts++;
-            Logger.GetInstance().Info(LogLevel.Info, $"尝试重连 TCP 服务器 (第 {reconnectAttempts} 次)");
+            Gvar.Logger.Info(LogLevel.Info, $"尝试重连 TCP 服务器 (第 {reconnectAttempts} 次)");
 
             try
             {
@@ -714,7 +714,7 @@ namespace COTUI.通用功能类
             }
             catch (Exception ex)
             {
-                Logger.GetInstance().ErrorException(ex, $"TCP 重连失败: {ex.Message}");
+                Gvar.Logger.ErrorException(ex, $"TCP 重连失败: {ex.Message}");
 
                 if (reconnectAttempts < MaxReconnectAttempts)
                 {
@@ -745,7 +745,7 @@ namespace COTUI.通用功能类
 
             StopHeartbeat();
             heartbeatTimer = new System.Threading.Timer(async (state) => await SendHeartbeat(), null, heartbeatInterval, heartbeatInterval);
-            Logger.GetInstance().Debug(LogLevel.Debug, $"心跳检测已启动，间隔: {heartbeatInterval}ms");
+            Gvar.Logger.Debug(LogLevel.Debug, $"心跳检测已启动，间隔: {heartbeatInterval}ms");
         }
 
         /// <summary>
@@ -767,12 +767,12 @@ namespace COTUI.通用功能类
                 if (mode == TcpMode.Client && isConnected)
                 {
                     await SendBytesAsync(heartbeatData);
-                    Logger.GetInstance().Debug(LogLevel.Debug, "心跳包已发送");
+                    Gvar.Logger.Debug(LogLevel.Debug, "心跳包已发送");
                 }
             }
             catch (Exception ex)
             {
-                Logger.GetInstance().Debug(LogLevel.Debug, $"发送心跳包失败: {ex.Message}");
+                Gvar.Logger.Debug(LogLevel.Debug, $"发送心跳包失败: {ex.Message}");
             }
         }
 

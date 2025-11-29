@@ -500,7 +500,7 @@ namespace COTUI
                 Gvar.Mqtt.ConnectionStatusChanged += MqttService_ConnectionStatusChanged;
                 
                 // 初始化状态显示
-                SetMQTTStatus(mqttService.IsConnected);
+                SetMQTTStatus(Gvar.Mqtt.IsConnected);
                 
                 Gvar.Logger.Log(LogLevel.Debug, "已订阅MQTT状态监听");
             }

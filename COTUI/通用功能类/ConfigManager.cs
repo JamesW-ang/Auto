@@ -17,7 +17,6 @@ namespace COTUI.通用功能类
         private static readonly Lazy<ConfigManager> instance = new Lazy<ConfigManager>(() => new ConfigManager());
         public static ConfigManager Instance => instance.Value;
 
-        private Logger logger = Logger.GetInstance();
         private readonly string configFilePath;
         private Dictionary<string, Dictionary<string, string>> configData;
 

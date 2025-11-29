@@ -26,11 +26,10 @@ namespace COTUI.统计分析
     {
         #region 字段
 
-        private Logger logger = Logger.GetInstance();
         private ProductionDataService productionService = new ProductionDataService();
 
         // 自动刷新
-        private CancellationTokenSource refreshCts;
+        private CancellationTokenSource refreshCts = new CancellationTokenSource();
         private const int REFRESH_INTERVAL = 5000; // 5秒刷新一次
 
         #endregion

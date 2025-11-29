@@ -390,11 +390,8 @@ namespace COTUI.通用功能类
     /// </summary>
     public class LoggingCycleTimer : CycleTimer
     {
-        private readonly Logger logger;
-        
         public LoggingCycleTimer(string name = "生产周期") : base(name)
         {
-            this.logger = Logger.GetInstance();
         }
         
         /// <summary>

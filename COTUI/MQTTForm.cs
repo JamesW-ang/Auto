@@ -148,7 +148,7 @@ namespace COTUI
                 Gvar.Mqtt.ConnectionStatusChanged += MqttService_ConnectionStatusChanged;
                 
                 // 更新初始状态
-                UpdateConnectionStatus(mqttService.IsConnected);
+                UpdateConnectionStatus(Gvar.Mqtt.IsConnected);
                 
                 Gvar.Logger.Log(LogLevel.Info, "MQTT管理页面加载完成");
             }
@@ -397,7 +397,7 @@ namespace COTUI
         {
             try
             {
-                if (mqttService.IsConnected)
+                if (Gvar.Mqtt.IsConnected)
                 {
                     MessageBox.Show("MQTT已连接", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
@@ -520,7 +520,7 @@ namespace COTUI
         {
             try
             {
-                if (!mqttService.IsConnected)
+                if (!Gvar.Mqtt.IsConnected)
                 {
                     MessageBox.Show("MQTT未连接", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
@@ -568,7 +568,7 @@ namespace COTUI
                 Cursor = Cursors.WaitCursor;
 
                 // 先断开
-                if (mqttService.IsConnected)
+                if (Gvar.Mqtt.IsConnected)
                 {
                     await Gvar.Mqtt.DisconnectAsync();
                     await Task.Delay(500);
@@ -664,7 +664,7 @@ namespace COTUI
         {
             try
             {
-                if (!mqttService.IsConnected)
+                if (!Gvar.Mqtt.IsConnected)
                 {
                     MessageBox.Show("MQTT未连接，无法发送", "提示", 
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);

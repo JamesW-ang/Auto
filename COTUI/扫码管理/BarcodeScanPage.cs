@@ -20,7 +20,6 @@ namespace COTUI.扫码管理
     {
         #region 字段
 
-        private Logger logger = Logger.GetInstance();
         private BarcodeScanner scanner = BarcodeScanner.Instance;
         private ProductSNManager snManager = ProductSNManager.Instance;
 

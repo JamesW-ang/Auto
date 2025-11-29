@@ -74,7 +74,7 @@ namespace COTUI.运动控制页面
         private CancellationTokenSource statusUpdateCts;
 
         // ===== ? CT 最后加载Ƕ到位˶加载ƣ夹=====
-        private CycleTimer currentCycleTimer;
+        private CycleTimer currentCycleTimer = null;
 
         #endregion
 
